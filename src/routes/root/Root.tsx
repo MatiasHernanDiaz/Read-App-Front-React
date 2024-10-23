@@ -10,6 +10,8 @@ export default function Root() {
 
     const userState = useState<User | null>( null )
     const [ user, setUser ] = userState
+
+    setUser(null) // TODO: Eliminar. Sólo lo uso para que no llore el transpilador
    
     return (
         <sessionContext.Provider value={{ userState }}>

@@ -1,0 +1,1 @@
+{"root":["./src/main.tsx","./src/error/errorscreen.tsx","./src/model/user.ts","./src/routes/app/app.tsx","./src/routes/login/loginscreen.tsx","./src/routes/root/root.tsx"],"errors":true,"version":"5.6.3"}
