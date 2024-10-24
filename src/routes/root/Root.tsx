@@ -6,6 +6,7 @@ export const sessionContext = createContext({} as {
     userState: [User | null, React.Dispatch<React.SetStateAction<User | null>>]
 })
 
+
 export default function Root() {
 
     const userState = useState<User | null>( null )
