@@ -4,6 +4,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import ErrorScreen from './error/ErrorScreen'
 import Root from './routes/root/Root'
 import App from './routes/app/App'
+import LoginScreen from './routes/login/LoginScreen'
 
 
 const router = createBrowserRouter([
@@ -14,6 +15,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: 'login',
+        element: <LoginScreen />
       },
       {
         id: 'app',

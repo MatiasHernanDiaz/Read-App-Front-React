@@ -1,5 +1,7 @@
 import { useContext } from "react";
 import { sessionContext } from "../root/Root";
+import { User } from "../../model/User";
+import Dummy from "../../components/Dummy/Dummy";
 
 
 export default function LoginScreen() {
@@ -7,7 +9,15 @@ export default function LoginScreen() {
     const { userState } = useContext( sessionContext )
     const [ user, setUser ] = userState
 
-    setUser(null) // TODO: Eliminar. Sólo lo uso para que no llore el transpilador
 
-    return <p>El usuario logueado es { user ? user.displayName : 'nadie' }</p>
+    return (
+        <>
+        <Dummy user={ user } />
+        <button 
+            onClick={ () => setUser( 
+                new User( 1, "Simpson", "Homero", "hsimpson", new Date(1981, 4, 4), "homer@simps.com" )
+            ) }
+        >Loguearse</button>
+        </>
+    )
 }

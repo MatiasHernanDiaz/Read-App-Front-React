@@ -1,9 +1,19 @@
+import { useContext } from "react"
+import { sessionContext } from "../root/Root"
+import Dummy from "../../components/Dummy/Dummy"
 
 export default function App() {
+
+    const { userState } = useContext( sessionContext )
+    const [ user, setUser ] = userState
+
     return (
         <>
         <h1>Layout general</h1>
-        <p>Acá iría solamente la barra de navegación inferior</p>
+        <Dummy user={ user } />
+        <button 
+            onClick={ () => setUser( null ) }
+        >Logout</button>
         </>
     )
 }
