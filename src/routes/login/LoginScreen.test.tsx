@@ -14,7 +14,7 @@ describe( "Root", () => {
                 userState: [ null, vi.fn() ]
             })),
             useContext: vi.fn( ( context: unknown ) => ({
-                userState: [ null, vi.fn() ]
+                userState: [ null, vi.fn( () => context ) ]
             })),
             useState: vi.fn( () => ([ null, vi.fn() ] ))
         }
