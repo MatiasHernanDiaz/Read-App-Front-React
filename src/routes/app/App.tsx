@@ -1,15 +1,9 @@
 import { useContext } from "react"
 import { sessionContext } from "../root/Root"
-import { Apple, Book, Dashboard, Logout, People } from "@mui/icons-material"
-import { AppBar, Box, Button, ButtonGroup, Stack, Toolbar, Typography } from "@mui/material"
+import { Book, Dashboard, Logout, People } from "@mui/icons-material"
+import { AppBar, Avatar, Box, Button, ButtonGroup, Stack, Toolbar, Typography } from "@mui/material"
 import { Link, Outlet, useLocation } from "react-router-dom"
 
-
-const titlesByURL = {
-    ['dashboard']: 'Dashboard',
-    ['books']: 'Libros',
-    ['authors']: 'Autores',
-}
 
 export default function App() {
 
@@ -26,7 +20,10 @@ export default function App() {
             <AppBar
                 sx={{ padding: '10px' }}
             >
-                <Typography variant="h5">ReadApp - { location.state.title }</Typography>
+                <Toolbar sx={{ justifyContent: "space-between", padding: 0 }}>
+                    <Typography variant="h5">ReadApp - { location.state.title }</Typography>
+                    <Avatar src={ user?.avatar } />
+                </Toolbar>
             </AppBar>
             <Box><Outlet /></Box>
 
