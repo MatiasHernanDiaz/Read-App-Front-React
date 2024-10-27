@@ -18,7 +18,7 @@ export default function Root() {
         <Outlet />
         {
             user ? 
-            <Navigate to='app/dashboard' replace={ true } /> :
+            <Navigate to='app/dashboard' replace={ true } state={{ title: 'Dashboard' }} /> :
             <Navigate to='login' replace={ true } />
         }
         </sessionContext.Provider>
