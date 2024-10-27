@@ -1,0 +1,90 @@
+.bookImage{
+    margin-bottom: 0.8rem;
+}
+.autor{
+    font-size:0.9rem
+}
+
+.images{
+    display: flex;
+    text-align: right;
+    justify-content: right;
+}
+
+.Card{
+    border : 2px solid var(--secundary-color);
+    width: 13rem;
+    height: 22rem;
+    
+    border-radius: 1.2rem;
+    padding: 1rem;
+    background-color: var(--card-background);
+    box-shadow: 0 0.55rem 0.3rem rgba(0, 0, 0, 0.1);
+    align-items: center;
+}
+.imageText{
+    height: 1.5rem;
+    display: flex;
+    line-height: 1.5rem;
+}
+
+.icon-select:hover {
+  transform: scale(1.2);
+}
+
+.icon-select{
+  display: flex;
+  justify-content: center;
+  transition: transform 0.2s ease;
+  background-color: transparent;
+}
+
+.card-header{
+    display: flex;
+    height: 2rem;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    margin: 0;
+    margin-bottom:0.5rem
+  }
+.comments{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: auto auto;
+}
+.comment{
+    font-size: 0.8rem;
+    height: 1.8rem;
+    display: flex;
+    justify-content: left;
+    margin-top: 0.3rem;
+}
+
+.image-center{
+    display: flex;
+    justify-content: center;
+}
+.favorite-icon{
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+@media (max-width:480px ) {
+    article.card{
+        text-align:left;
+
+    }
+}
+@media (min-width: 481px) and (max-width:768px ) {
+    article.card{
+        display: block;
+    }
+}
