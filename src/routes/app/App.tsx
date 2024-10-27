@@ -1,17 +1,23 @@
-import { useContext } from "react"
-import { sessionContext } from "../root/Root"
 import { Book, Dashboard, Logout, People } from "@mui/icons-material"
 import { AppBar, Avatar, Box, Button, ButtonGroup, Stack, Toolbar, Typography } from "@mui/material"
-import { Link, Outlet, useLocation } from "react-router-dom"
+import { Form, Link, Outlet, redirect, useLocation, useOutletContext } from "react-router-dom"
+import { User } from "../../model/User"
+
+
+export async function action () {
+    await fetch('http://localhost:9000/auth/logout')
+
+    return redirect( '/login' )
+}
 
 
 export default function App() {
 
     const location = useLocation()
-    const { userState } = useContext( sessionContext )
-    const [ user, setUser ] = userState
+    
+    const user = useOutletContext() as User
 
-
+    
     return (
         <Stack
             height="100%"
@@ -21,7 +27,7 @@ export default function App() {
                 sx={{ padding: '10px' }}
             >
                 <Toolbar sx={{ justifyContent: "space-between", padding: 0 }}>
-                    <Typography variant="h5">ReadApp - { location.state.title }</Typography>
+                    <Typography variant="h5">ReadApp</Typography>
                     <Avatar src={ user?.avatar } />
                 </Toolbar>
             </AppBar>
@@ -59,11 +65,13 @@ export default function App() {
                         title: "Autores"
                     }}
                 ><People /></Button>
-                <Button
-                    variant="contained"
-                    sx={{ borderRadius: 0 }}
-                    onClick={ () => {setUser( null )} }
-                ><Logout /></Button>
+                <Form method="post">
+                    <Button
+                        type="submit"
+                        variant="contained"
+                        sx={{ borderRadius: 0 }}
+                    ><Logout /></Button>
+                </Form>
             </ButtonGroup>
         </Stack>
     )
