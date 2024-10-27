@@ -1,6 +1,7 @@
 import { useContext } from "react"
 import { sessionContext } from "../root/Root"
 import Dummy from "../../components/Dummy/Dummy"
+import { Outlet } from "react-router-dom"
 
 export default function App() {
 
@@ -14,6 +15,7 @@ export default function App() {
         <button 
             onClick={ () => setUser( null ) }
         >Logout</button>
+        <Outlet></Outlet>
         </>
     )
 }

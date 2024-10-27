@@ -12,7 +12,7 @@ export default function Root() {
     const userState = useState<User | null>( null )
     const [ user, _ ] = userState
 
-   
+
     return (
         <sessionContext.Provider value={{ userState }}>
         <Outlet />
