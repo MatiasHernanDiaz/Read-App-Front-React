@@ -2,10 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import ErrorScreen from './error/ErrorScreen'
+import Dashboard from './routes/app/dashboard/Dashboard'
 import Root, { loader as userLoader } from './routes/root/Root'
 import App, { action as logoutAction } from './routes/app/App'
 import LoginScreen, { action as loginAction } from './routes/login/LoginScreen'
-
 
 const router = createBrowserRouter([
   {
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: 'dashboard',
-            element: <p>Dashboard</p>
+            element: <Dashboard/>
           },
           {
             path: 'authors',
@@ -54,7 +54,7 @@ const router = createBrowserRouter([
 ])
 
 
-ReactDOM.createRoot( document.getElementById('root')!! ).render(
+ReactDOM.createRoot( document.getElementById('root')! ).render(
   <React.StrictMode>
     <RouterProvider router={ router } />
   </React.StrictMode>

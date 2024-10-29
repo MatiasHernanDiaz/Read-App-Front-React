@@ -10,7 +10,6 @@ export async function action () {
     return redirect( '/login' )
 }
 
-
 export default function App() {
 
     const location = useLocation()
@@ -19,6 +18,7 @@ export default function App() {
 
     
     return (
+
         <Stack
             height="100%"
             justifyContent="space-between"

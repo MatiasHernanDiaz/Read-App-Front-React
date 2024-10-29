@@ -18,7 +18,7 @@ export default function Root() {
     const userState = useState<User | null>( signedUser )
     const [ user, _ ] = userState
 
-   
+
     return (
         <>
         <Outlet context={ user } />
