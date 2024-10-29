@@ -3,29 +3,14 @@ import { cleanup, render, RenderResult } from "@testing-library/react"
 import LoginScreen from "./LoginScreen"
 
 
-describe( "Root", () => {
+describe( "LoginScreen", () => {
 
-    vi.mock( import( 'react'), ( importOriginal ) => {
+    vi.mock( import('react-router-dom'), ( importOriginal ) => {
+        
         const mod = importOriginal()
-
         return { 
             ...mod, 
-            createContext: vi.fn( () => ({
-                userState: [ null, vi.fn() ]
-            })),
-            useContext: vi.fn( ( context: unknown ) => ({
-                userState: [ null, vi.fn( () => context ) ]
-            })),
-            useState: vi.fn( () => ([ null, vi.fn() ] ))
-        }
-    })
-    
-    vi.mock( import( '../root/Root'), ( importOriginal ) => {
-        const mod = importOriginal()
-
-        return { 
-            ...mod, 
-            sessionContext: vi.fn()
+            Form: vi.fn(({ children }) => <form>{children}</form>)
         }
     })
 
