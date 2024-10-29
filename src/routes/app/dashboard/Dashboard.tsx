@@ -4,7 +4,7 @@ import PeopleIcon from '@mui/icons-material/People'
 import StorefrontIcon from '@mui/icons-material/Storefront'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium'
-import './Dashboard.css'
+// import './Dashboard.css'
 import { useLoaderData } from "react-router-dom"
 
 
@@ -16,33 +16,25 @@ export async function loader() {
             method: 'get'
         }
     )
-
     return await data.json()
 }
 
 export default function Dashboard () {
 
-    const indicators = useLoaderData() as indicator[]
-
-    console.log("indicadores -> ", indicators)
-
-    const icons = [
-        <WorkspacePremiumIcon fontSize="large"/>, 
-        <AutoStoriesIcon fontSize="large"/>, 
-        <PeopleIcon fontSize="large"/>, 
-        <StorefrontIcon fontSize="large"/>]
+    const indicators = useLoaderData() as DashboardData
 
     return (
-        <Stack className="dashboard-container">
-            <h1>Indicadores</h1>
-            <ul className="indicator-list">
-                {indicators.map( (indi : indicator, index: number) =>
-                <li className="itemList" key={index}>
-                    <Inicator title={indi.title} icon={icons[index] } value={indi.total} ></Inicator>
-                </li>
-            )}
-            </ul>
-            <Divider className="divider" variant="middle" sx={{ borderColor: 'black', borderWidth: 1 }} ></Divider>
+        <Stack  alignItems={"center"} >
+            <Typography variant="h4" marginBottom={2}>
+                    Indicadores
+                </Typography>
+            <Stack spacing={2}>
+                    <Inicator title={"Recomendaciones"} icon={<WorkspacePremiumIcon fontSize="large"/>} value={indicators.recoms.amount} ></Inicator>
+                    <Inicator title={"Libros en sistema"} icon={<AutoStoriesIcon fontSize="large"/>} value={indicators.books.amount} ></Inicator>
+                    <Inicator title={"Usuarios"} icon={<PeopleIcon fontSize="large"/>} value={indicators.users.amount} ></Inicator>
+                    <Inicator title={"Centros de lectura"} icon={<StorefrontIcon fontSize="large"/>} value={indicators.readingCenter.amount} ></Inicator>
+            </Stack>
+            <Divider variant="middle" sx={{ borderColor: 'black', borderWidth: 1, width:"70%", margin:3 }} ></Divider>
             <Stack gap={2} width={"70%"} marginBottom={2}>
                 <Typography variant="h6">
                     Acciones
@@ -55,4 +47,4 @@ export default function Dashboard () {
 }
 
 
-export type indicator = {title:string, total: number}
+export type DashboardData = Record<string, {amount:number}>
