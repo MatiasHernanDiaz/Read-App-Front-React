@@ -1,23 +1,37 @@
-import { useContext } from "react";
-import { sessionContext } from "../root/Root";
-import { User } from "../../model/User";
-import Dummy from "../../components/Dummy/Dummy";
 
+import { Form, redirect } from "react-router-dom";
+
+
+export async function action () {
+    await fetch(
+        'http://localhost:9000/auth/login',
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: "marge@simps.com",
+                password: "mandarina"
+            }),
+            credentials: 'include',
+            mode: 'cors'
+        }
+    )
+
+    return redirect('/app')
+}
 
 export default function LoginScreen() {
-
-    const { userState } = useContext( sessionContext )
-    const [ user, setUser ] = userState
-
-
+    
     return (
         <>
-        <Dummy user={ user } />
-        <button 
-            onClick={ () => setUser( 
-                new User( 1, "Simpson", "Homero", "hsimpson", new Date(1981, 4, 4), "homer@simps.com" )
-            ) }
-        >Loguearse</button>
+            <h1>Login</h1>
+            <Form method='post'>
+                <button 
+                    type="submit"
+                >Loguearse</button>
+            </Form>
         </>
     )
 }

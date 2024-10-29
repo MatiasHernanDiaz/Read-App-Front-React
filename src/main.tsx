@@ -2,26 +2,28 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import ErrorScreen from './error/ErrorScreen'
-import Root from './routes/root/Root'
-import App from './routes/app/App'
-import LoginScreen from './routes/login/LoginScreen'
 import Dashboard from './routes/app/dashboard/Dashboard'
-
+import Root, { loader as userLoader } from './routes/root/Root'
+import App, { action as logoutAction } from './routes/app/App'
+import LoginScreen, { action as loginAction } from './routes/login/LoginScreen'
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
+    loader: userLoader,
     errorElement: <ErrorScreen />,
     children: [
       {
         path: 'login',
-        element: <LoginScreen />
+        element: <LoginScreen />,
+        action: loginAction
       },
       {
         id: 'app',
         path: 'app',
         element: <App />,
+        action: logoutAction,
         children: [
           {
             path: 'dashboard',
@@ -29,6 +31,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'authors',
+            element: <p>Autores</p>,
             children: [
               {
                 path: ':authorId'
@@ -37,6 +40,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'books',
+            element: <p>Libros</p>,
             children: [
               {
                 path: ':bookId'
