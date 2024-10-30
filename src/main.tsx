@@ -6,6 +6,7 @@ import Dashboard from './routes/app/dashboard/Dashboard'
 import Root, { loader as userLoader } from './routes/root/Root'
 import App, { action as logoutAction } from './routes/app/App'
 import LoginScreen, { action as loginAction } from './routes/login/LoginScreen'
+import Author from "./routes/app/author/Author"
 
 const router = createBrowserRouter([
   {
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'authors',
-            element: <p>Autores</p>,
+            element: <Author/>,
             children: [
               {
                 path: ':authorId'
