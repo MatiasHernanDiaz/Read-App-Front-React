@@ -1,0 +1,29 @@
+.dashboard-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.indicator-list{
+    margin: 0;
+    padding: 0;
+}
+
+.itemList{
+    list-style: none;
+    margin-bottom: 1rem;
+}
+
+.btn-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-container Button{
+    margin-bottom: 1rem;
+    cursor: pointer;
+}
+
+.divider{
+    width: 100%;
+}
