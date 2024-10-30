@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { sessionContext } from "../root/Root"
 import Dummy from "../../components/Dummy/Dummy"
-import BookComponent from "../book/BookComponent"
+import BookContainer from "../bookContainer/BookContainer"
 
 export default function App() {
 
@@ -15,7 +15,7 @@ export default function App() {
         <button 
             onClick={ () => setUser( null ) }
         >Logout</button>
-        <BookComponent></BookComponent>
+        <BookContainer/>
         </>
     )
 }
