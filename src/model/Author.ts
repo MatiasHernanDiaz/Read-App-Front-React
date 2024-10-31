@@ -1,8 +1,8 @@
 export class Author {
-    id: number
-    lastName: string
-    firstName: string
-    nativeLanguage: Language
+    id: number;
+    lastName: string;
+    firstName: string;
+    nativeLanguage: Language;
 
     constructor(
         id: number,
@@ -10,12 +10,20 @@ export class Author {
         firstName: string,
         nativeLanguage: Language = Language.SPANISH
     ) {
-        this.id = id
-        this.lastName = lastName
-        this.firstName = firstName
-        this.nativeLanguage = nativeLanguage
+        this.id = id;
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.nativeLanguage = nativeLanguage;
     }
 
+    static fromJSON(json: { id: number; lastName: string; firstName: string; nativeLanguage: Language }): Author {
+        return new Author(
+            json.id,
+            json.lastName,
+            json.firstName,
+            json.nativeLanguage
+        );
+    }
 }
 
 export enum Language {
