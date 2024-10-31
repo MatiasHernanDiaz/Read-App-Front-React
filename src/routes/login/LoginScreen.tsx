@@ -40,14 +40,13 @@ export default function LoginScreen() {
         justifyContent="center"
         sx={{ 
             height: '100vh',
-            backgroundImage: `url(${fondo})`, // URL de tu imagen
-            backgroundSize: 'cover', // Ajusta la imagen para cubrir toda la pantalla
+            backgroundImage: `url(${fondo})`,
+            backgroundSize: 'cover'
     }}
     >
         <h1
             style={{
-                
-                fontSize: "4rem" // Ajustar el tamaño de la fuente (puedes usar px, em, rem, etc.)
+                fontSize: "4rem" 
             }}
         >ReadApp</h1>
 
@@ -67,6 +66,16 @@ export default function LoginScreen() {
                 name="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                sx={{
+                     '& .MuiOutlinedInput-root': {
+                        '&.Mui-focused fieldset': {
+                            borderColor: 'rgb(242, 93, 11)'
+                        },
+                     },
+                     '& .MuiInputLabel-root.Mui-focused': {
+                        color: 'black'
+                    },
+                }}
             />
 
             <TextField
@@ -86,11 +95,25 @@ export default function LoginScreen() {
                             </InputAdornment>
                         )
                     }}
+                    sx={{
+                     '& .MuiOutlinedInput-root': {
+                        '&.Mui-focused fieldset': {
+                            borderColor: 'rgb(242, 93, 11)'
+                        },
+                     },
+                     '& .MuiInputLabel-root.Mui-focused': {
+                        color: 'black'
+                    },
+                }}
             />
             
             <Button 
                     type="submit"
-                    variant="contained"         
+                    variant="contained"   
+                    sx={{
+                         backgroundColor: 'rgb(242, 93, 11)', 
+                         
+                        }}      
                 >Ingresar</Button>
             </Form>
     </Stack>
