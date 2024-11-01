@@ -1,38 +1,41 @@
-import { Form, redirect } from "react-router-dom";
+import { Form } from "react-router-dom";
 import { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 import { Stack, TextField, Button, IconButton, InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import fondo from './loginFondo.png';
+import LoginService from '../../service/LoginService';
 
 
-
+// sin este export no funciona ni siquiera me muestra algo. 
 export async function action () {
     await fetch(
-        'http://localhost:9000/auth/login',
-        {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: "marge@simps.com",
-                password: "mandarina"
-            }),
-            credentials: 'include',
-            mode: 'cors'
-        }
+        'http://localhost:9000/auth/login'  
     )
-
-    return redirect('/app')
-}
+  }
 
 export default function LoginScreen() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
 
     const handleClickShowPassword = () => setShowPassword(!showPassword);
     
+    const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault(); 
+        try {
+            await LoginService.login(email, password)
+            console.log("login exitoso",  LoginService.login(email, password ))
+            navigate('/app/dashboard');
+        } catch (error) {
+            console.error('Error durante el inicio de sesión:', error)
+        }
+
+        // estoy agarrando el error aca y en el loginService, 
+        //yo creo que es mejor agarrarlo solo aca pero por ahora no pude conseguirlo.
+    }
+
     return (
     <Stack
         spacing={10}
@@ -51,7 +54,8 @@ export default function LoginScreen() {
         >ReadApp</h1>
 
         <Form 
-            method='post'
+            //method='post' esto creo que ya no lo necesito 
+            onSubmit={handleLogin}
             style={{
                 width: '80%', 
                 display: 'flex', 
