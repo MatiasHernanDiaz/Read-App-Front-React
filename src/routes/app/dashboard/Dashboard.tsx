@@ -4,24 +4,52 @@ import PeopleIcon from '@mui/icons-material/People'
 import StorefrontIcon from '@mui/icons-material/Storefront'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium'
-// import './Dashboard.css'
 import { useLoaderData } from "react-router-dom"
+import { dashService } from "../../../services/dashService"
+import { useState } from "react"
 
-
+export type DashboardData = Record<string, {amount:number}>
 
 export async function loader() {
-    const data = await fetch(
-        'http://localhost:9000/dashboard',
-        {
-            method: 'get'
-        }
-    )
-    return await data.json()
+    try{
+        const data = dashService.getDataDash()
+        return data
+    }
+    catch{
+        console.info('No cargo la data desde loader')
+    }
 }
 
 export default function Dashboard () {
 
-    const indicators = useLoaderData() as DashboardData
+    const data = useLoaderData() as DashboardData
+    const [indicators, setIndicators] = useState(data) 
+    
+    const delteUser = async () => {
+        try{
+            const data = await dashService.delteUser()
+            setIndicators(data)
+        }
+        catch{
+            console.info('No cargo la data desde delete user')
+        }
+        finally{
+            console.info('en el finally de deleteUser')
+        }
+    }
+    
+    const deleteCenter = async () =>{
+        try{
+            const data = await dashService.delteCenter()
+            setIndicators(data)
+        }
+        catch{
+            console.info('No cargo la data desde delete center')
+        }
+        finally{
+            console.info('en el finally de center')
+        }
+    }
 
     return (
         <Stack  alignItems={"center"} >
@@ -39,12 +67,14 @@ export default function Dashboard () {
                 <Typography variant="h6">
                     Acciones
                 </Typography>
-                <Button variant="contained" sx={{fontSize:12}}>Borrar usuarios inactivos</Button>
-                <Button variant="contained" sx={{fontSize:12}}>Borrar centros inactivos</Button>
+                <Button variant="contained" sx={{fontSize:12}} onClick={() => delteUser(setIndicators)}>Borrar usuarios inactivos</Button>
+                <Button variant="contained" sx={{fontSize:12}} onClick={() => deleteCenter()}>Borrar centros inactivos</Button>
             </Stack>
         </Stack>
     )
 }
 
 
-export type DashboardData = Record<string, {amount:number}>
+
+
+
