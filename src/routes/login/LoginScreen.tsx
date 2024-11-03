@@ -1,10 +1,11 @@
 import { Form } from "react-router-dom";
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
-import { Stack, TextField, Button, IconButton, InputAdornment } from '@mui/material';
+import { Stack, TextField, Button, IconButton, InputAdornment, FormHelperText} from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import fondo from './loginFondo.png';
 import LoginService from '../../service/LoginService';
+
 
 
 // sin este export no funciona ni siquiera me muestra algo. 
@@ -15,21 +16,39 @@ export async function action () {
   }
 
 export default function LoginScreen() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [showPassword, setShowPassword] = useState(false);
-    const navigate = useNavigate();
-
-    const handleClickShowPassword = () => setShowPassword(!showPassword);
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
+    const [showPassword, setShowPassword] = useState(false)
+    const [emailError, setEmailError] = useState("")
+    const [passwordError, setPasswordError] = useState("")
+    const navigate = useNavigate()
+    const handleClickShowPassword = () => setShowPassword(!showPassword)
     
     const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault(); 
+        event.preventDefault()
+        let hasError = false
+
+        setEmailError("")
+        setPasswordError("")
+
+        if (!email) {
+            setEmailError("El usuario es obligatorio.")
+            hasError = true
+        }
+        if (!password) {
+            setPasswordError("La contraseña es obligatoria.")
+            hasError = true
+        }
+
+        if (hasError) return
+
         try {
             await LoginService.login(email, password)
             console.log("login exitoso",  LoginService.login(email, password ))
-            navigate('/app/dashboard');
+            navigate('/app/dashboard')
         } catch (error) {
             console.error('Error durante el inicio de sesión:', error)
+            setPasswordError("Credenciales invalidas.")
         }
 
         // estoy agarrando el error aca y en el loginService, 
@@ -44,7 +63,8 @@ export default function LoginScreen() {
         sx={{ 
             height: '100vh',
             backgroundImage: `url(${fondo})`,
-            backgroundSize: 'cover'
+            backgroundSize: 'cover',
+            backgroundPosition:'center' // solo para que se vea mejor, hay que elegir otra imagen.  
     }}
     >
         <h1
@@ -70,6 +90,8 @@ export default function LoginScreen() {
                 name="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                error={!!emailError}
+                helperText={emailError}
                 sx={{
                      '& .MuiOutlinedInput-root': {
                         '&.Mui-focused fieldset': {
@@ -90,6 +112,8 @@ export default function LoginScreen() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     fullWidth
+                    error={!!passwordError}
+                    helperText={passwordError}
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position="end">
@@ -109,8 +133,7 @@ export default function LoginScreen() {
                         color: 'black'
                     },
                 }}
-            />
-            
+            />          
             <Button 
                     type="submit"
                     variant="contained"   
