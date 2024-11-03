@@ -7,6 +7,8 @@ import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium'
 import { useLoaderData } from "react-router-dom"
 import { dashService } from "../../../services/dashService"
 import { useState } from "react"
+import BtnDelete from "../../../components/BtnDelete/BtnDelete"
+
 
 export type DashboardData = Record<string, {amount:number}>
 
@@ -23,19 +25,32 @@ export async function loader() {
 export default function Dashboard () {
 
     const data = useLoaderData() as DashboardData
-    const [indicators, setIndicators] = useState(data) 
+    const [indicators, setIndicators] = useState(data)
+    //const [action, setAction] = useState(false)
     
+    const inputBtnUser = {
+        btnTitle : "Borrar usuarios inactivos",
+        title: "¿Seguro que desea eliminar usuarios inactivos?",
+        description: "Se eliminaran todos los usuarios inactivos sin posivilidad de revertir los cambios"
+    }
+
+    const inputBtnCenter = {
+        btnTitle : "Borrar centros inactivos",
+        title: "¿Seguro que desea eliminar centros inactivos?",
+        description: "Se eliminaran todos los centros inactivos sin posivilidad de revertir los cambios"
+    }
+
     const delteUser = async () => {
-        try{
-            const data = await dashService.delteUser()
-            setIndicators(data)
-        }
-        catch{
-            console.info('No cargo la data desde delete user')
-        }
-        finally{
-            console.info('en el finally de deleteUser')
-        }
+            try{
+                const data = await dashService.delteUser()
+                setIndicators(data)
+            }
+            catch{
+                console.info('No cargo la data desde delete user')
+            }
+            finally{
+                console.info('en el finally de deleteUser')
+            }
     }
     
     const deleteCenter = async () =>{
@@ -51,6 +66,10 @@ export default function Dashboard () {
         }
     }
 
+    const openDialog = () => {
+        console.log('abro dialogo');
+    }
+    
     return (
         <Stack  alignItems={"center"} >
             <Typography variant="h4" marginBottom={2}>
@@ -67,8 +86,16 @@ export default function Dashboard () {
                 <Typography variant="h6">
                     Acciones
                 </Typography>
-                <Button variant="contained" sx={{fontSize:12}} onClick={() => delteUser(setIndicators)}>Borrar usuarios inactivos</Button>
-                <Button variant="contained" sx={{fontSize:12}} onClick={() => deleteCenter()}>Borrar centros inactivos</Button>
+                <BtnDelete 
+                btnTitle={inputBtnUser.btnTitle} 
+                title={inputBtnUser.title} 
+                description={inputBtnUser.description} 
+                setAction={() => delteUser()}/>
+                <BtnDelete 
+                btnTitle={inputBtnCenter.btnTitle} 
+                title={inputBtnCenter.title} 
+                description={inputBtnCenter.description} 
+                setAction={() => deleteCenter()}/>
             </Stack>
         </Stack>
     )
