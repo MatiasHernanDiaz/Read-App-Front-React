@@ -1,4 +1,4 @@
-import { Button, Divider, Stack, Typography } from "@mui/material"
+import { Alert, AlertTitle, Divider, Stack, Typography } from "@mui/material"
 import Inicator from "../../../components/indicator/indicator"
 import PeopleIcon from '@mui/icons-material/People'
 import StorefrontIcon from '@mui/icons-material/Storefront'
@@ -26,7 +26,7 @@ export default function Dashboard () {
 
     const data = useLoaderData() as DashboardData
     const [indicators, setIndicators] = useState(data)
-    //const [action, setAction] = useState(false)
+    const [showMessage, setShowMessage] = useState('')
     
     const inputBtnUser = {
         btnTitle : "Borrar usuarios inactivos",
@@ -40,39 +40,54 @@ export default function Dashboard () {
         description: "Se eliminaran todos los centros inactivos sin posibilidad de revertir los cambios"
     }
 
+                
     const delteUser = async () => {
             try{
+                let conditionMsj = 'true'
                 const data = await dashService.delteUser()
                 setIndicators(data)
+                if(data.users.amount === indicators.users.amount){
+                    conditionMsj = 'equals'
+                }
+                setShowMessage(conditionMsj)
+                setTimeout(()=>{
+                    setShowMessage('')
+                },3000)
             }
-            catch{
-                console.info('No cargo la data desde delete user')
-            }
-            finally{
-                console.info('en el finally de deleteUser')
+            catch(e){
+                console.info(e)
+                setShowMessage('false')
+                setTimeout(()=>{
+                    setShowMessage('')
+                },3000)
             }
     }
     
     const deleteCenter = async () =>{
         try{
+            let conditionMsj = 'true'
             const data = await dashService.delteCenter()
             setIndicators(data)
+            if(data.readingCenter.amount === indicators.readingCenter.amount){
+                conditionMsj = 'equals'
+            }
+            setShowMessage(conditionMsj)
+                setTimeout(()=>{
+                    setShowMessage('')
+                },3000)
         }
-        catch{
-            console.info('No cargo la data desde delete center')
+        catch(e){
+            console.info(e)
+            setShowMessage('false')
+            setTimeout(()=>{
+                setShowMessage('')
+            },3000)
         }
-        finally{
-            console.info('en el finally de center')
-        }
-    }
-
-    const openDialog = () => {
-        console.log('abro dialogo');
     }
     
     return (
         <Stack  alignItems={"center"} >
-            <Typography variant="h4" marginBottom={2}>
+            <Typography variant="h4" marginBottom={2} >
                     Indicadores
                 </Typography>
             <Stack spacing={2}>
@@ -97,6 +112,26 @@ export default function Dashboard () {
                 description={inputBtnCenter.description} 
                 setAction={() => deleteCenter()}/>
             </Stack>
+            {
+            showMessage === 'true' && <Alert variant="filled" severity="success" sx={{position:"absolute"}}>
+                <AlertTitle>Success</AlertTitle>
+                <strong>Se han eliminado correctamente</strong> 
+                    </Alert>  
+            }
+            {
+            showMessage === 'false' && <Alert variant="filled" severity="error" sx={{position:"absolute"}}>
+                    <AlertTitle>Error</AlertTitle>
+                        <strong>Error al intentar eliminar</strong>
+                </Alert>
+            }
+            {
+            showMessage === 'equals' && <Alert variant="filled" severity="warning" sx={{position:"absolute"}}>
+                    <AlertTitle>Warning</AlertTitle>
+                        <strong>Ya esta actualizada la base</strong>
+                </Alert>
+            }
+            
+
         </Stack>
     )
 }
