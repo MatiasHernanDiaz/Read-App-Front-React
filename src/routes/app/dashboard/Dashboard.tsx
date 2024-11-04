@@ -31,13 +31,13 @@ export default function Dashboard () {
     const inputBtnUser = {
         btnTitle : "Borrar usuarios inactivos",
         title: "¿Seguro que desea eliminar usuarios inactivos?",
-        description: "Se eliminaran todos los usuarios inactivos sin posivilidad de revertir los cambios"
+        description: "Se eliminaran todos los usuarios inactivos sin posibilidad de revertir los cambios"
     }
 
     const inputBtnCenter = {
         btnTitle : "Borrar centros inactivos",
         title: "¿Seguro que desea eliminar centros inactivos?",
-        description: "Se eliminaran todos los centros inactivos sin posivilidad de revertir los cambios"
+        description: "Se eliminaran todos los centros inactivos sin posibilidad de revertir los cambios"
     }
 
     const delteUser = async () => {
