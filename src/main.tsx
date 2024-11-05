@@ -6,6 +6,7 @@ import Dashboard from './routes/app/dashboard/Dashboard'
 import Root, { loader as userLoader } from './routes/root/Root'
 import App, { action as logoutAction } from './routes/app/App'
 import LoginScreen, { action as loginAction } from './routes/login/LoginScreen'
+import BookContainer from './routes/bookContainer/BookContainer'
 
 const router = createBrowserRouter([
   {
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'books',
-            element: <p>Libros</p>,
+            element: <BookContainer/>,
             children: [
               {
                 path: ':bookId'
