@@ -1,6 +1,5 @@
 import { Book } from "../../model/Book";
 import { IconButton, List, ListItem, Card } from '@mui/material';
-import { bookService } from "../../services/bookService"
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import TranslateIcon from '@mui/icons-material/Translate'
@@ -10,10 +9,6 @@ import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import EditIcon from '@mui/icons-material/Edit';
 import "./BookComponent.css"
 
-
-function removeBook(book:Book): void {
-    bookService.deleteBook(book.id)
-}
 
 export default function BookComponent({book}:{book:Book}) {    
 
