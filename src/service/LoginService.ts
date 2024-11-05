@@ -8,12 +8,12 @@ const LoginService = {
             body: JSON.stringify({ email, password }),
             credentials: 'include',
             mode: 'cors'
-        });
+        })
     
         if (!response.ok) {
             throw new Error('Credenciales incorrectas');
         }
-    
+
         return response.json();
     }
 };

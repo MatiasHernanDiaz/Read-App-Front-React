@@ -15,8 +15,7 @@ export default function App() {
     const location = useLocation()
     
     const user = useOutletContext() as User
-
-    
+   
     return (
 
         <Stack

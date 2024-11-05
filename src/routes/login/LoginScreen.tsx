@@ -1,18 +1,17 @@
-import { Form } from "react-router-dom";
-import { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import { Form,  useFetcher } from "react-router-dom";
+import { FormEventHandler, useState } from 'react';
 import { Stack, TextField, Button, IconButton, InputAdornment} from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import fondo from './loginFondo.png';
 import LoginService from '../../service/LoginService';
 
 
-
-// sin este export no funciona ni siquiera me muestra algo. 
-export async function action () {
-    await fetch(
-        'http://localhost:9000/auth/login'  
-    )
+export async function action ({request}:{request:Request}) {
+    const credentials = await request.json() as {email:string, password:string}
+    console.log("credenciales",credentials)
+    await LoginService.login(credentials.email,credentials.password)
+    
+    return null
   }
 
 export default function LoginScreen() {
@@ -21,10 +20,12 @@ export default function LoginScreen() {
     const [showPassword, setShowPassword] = useState(false)
     const [emailError, setEmailError] = useState("")
     const [passwordError, setPasswordError] = useState("")
-    const navigate = useNavigate()
     const handleClickShowPassword = () => setShowPassword(!showPassword)
-    
-    const handleLogin = async () => {
+    const fetcher = useFetcher()
+
+
+    const handleLogin = async (event:SubmitEvent) => {
+        event.preventDefault()
         let hasError = false
 
         setEmailError("")
@@ -41,17 +42,12 @@ export default function LoginScreen() {
 
         if (hasError) return
 
-        try {
-            await LoginService.login(email, password)
-            console.log("login exitoso",  LoginService.login(email, password ))
-            navigate('/app/dashboard')
-        } catch (error) {
-            console.error('Error durante el inicio de sesión:', error)
-            setPasswordError("Credenciales invalidas.")
-        }
+        console.log("email",email)
+        fetcher.submit({ email, password },{
+            method: 'post',
+            encType: "application/json",
+        })
 
-        // estoy agarrando el error aca y en el loginService, 
-        //yo creo que es mejor agarrarlo solo aca pero por ahora no pude conseguirlo.
     }
 
     return (
@@ -63,7 +59,7 @@ export default function LoginScreen() {
             height: '100vh',
             backgroundImage: `url(${fondo})`,
             backgroundSize: 'cover',
-            backgroundPosition:'center' // solo para que se vea mejor, hay que elegir otra imagen.  
+            backgroundPosition:'center'  
     }}
     >
         <h1
@@ -73,8 +69,8 @@ export default function LoginScreen() {
         >ReadApp</h1>
 
         <Form 
-            //method='post' esto creo que ya no lo necesito 
-            onSubmit={handleLogin}
+            method='post' 
+            onSubmit={handleLogin as unknown as FormEventHandler<HTMLFormElement>}
             style={{
                 width: '80%', 
                 display: 'flex', 
@@ -132,7 +128,7 @@ export default function LoginScreen() {
                         color: 'black'
                     },
                 }}
-            />          
+            />       
             <Button 
                     type="submit"
                     variant="contained"   
