@@ -31,7 +31,7 @@ export default function App() {
                     <Avatar src={ user?.avatar } />
                 </Toolbar>
             </AppBar>
-            <Box sx={{marginTop: 10}}><Outlet /></Box>
+            <Box sx={{marginTop: 10, overflowY: "auto"}}><Outlet /></Box>
 
             <ButtonGroup
                 fullWidth
