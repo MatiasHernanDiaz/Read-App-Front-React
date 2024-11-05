@@ -27,11 +27,11 @@ export default function BookComponent({book}:{book:Book}) {
                 <div className="card-header">
                     <h2>{book.title}</h2>
                     <List sx={{display: "flex", width: "30%"}}>
-                        <IconButton size="small">
+                        <IconButton size="small" color="primary">
                         <EditIcon/>
                         </IconButton>
 
-                        <IconButton size="small">
+                        <IconButton size="small" color="primary">
                         <DeleteOutlinedIcon/>
                         </IconButton>
                     </List>
