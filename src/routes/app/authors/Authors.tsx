@@ -34,11 +34,9 @@ export default function Authors () {
         
         } catch (error) {
             console.log("Error al eliminar el autor:", error)
-        
-        }
-    };
 
-    useInitialize(getAuthors);
+        }
+    }
 
     const deleteInput = {
         btnTitle: "Eliminar autor",
@@ -52,7 +50,6 @@ useInitialize(getAuthors)
 
 return (
     <>
-    
     <List>  {/* componente que muestra en forma vertical */}
         {authors.map((author) => (
             <Card key={author.id} variant="outlined" 
