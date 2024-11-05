@@ -1,11 +1,11 @@
 import { Alert, AlertTitle, Divider, Stack, Typography } from "@mui/material"
-import Inicator from "../../../components/indicator/indicator"
+import Inicator from "../../../components/Indicator/Indicator"
 import PeopleIcon from '@mui/icons-material/People'
 import StorefrontIcon from '@mui/icons-material/Storefront'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories'
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium'
 import { useLoaderData } from "react-router-dom"
-import { dashService } from "../../../services/dashService"
+import { dashService } from "../../../services/DashService"
 import { useState } from "react"
 import BtnDelete from "../../../components/BtnDelete/BtnDelete"
 
