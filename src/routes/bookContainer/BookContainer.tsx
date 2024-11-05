@@ -13,7 +13,7 @@ const books: Book[] = [
 
 export default function BookContainer() { 
     return(
-        <Stack sx={{gap: "2rem"}}>
+        <Stack sx={{gap:"1rem", alignItems:"center"}}>
             {books.map((book) => (
                 <BookComponent book={book}/>
             ))}
