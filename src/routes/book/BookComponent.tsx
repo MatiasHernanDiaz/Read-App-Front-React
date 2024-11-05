@@ -6,24 +6,23 @@ import TranslateIcon from '@mui/icons-material/Translate'
 import TitleIcon from '@mui/icons-material/Title';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-
 import "./BookComponent.css"
 
 
-const book: Book = new Book(1200, "el libro de bill", "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.mercadolibre.com.ar%2Fel-libro-de-bill-de-alex-hirsch-editorial-planeta-tapa-blanda%2Fp%2FMLA38346131&psig=AOvVaw2dN81UFGXdqRU55jLeH5Ka&ust=1730077753380000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCKjH54CwrYkDFQAAAAAdAAAAABAE", "alex hirsch", 300, new Date(1,2,2003), "español",30000,1)
+const book: Book = new Book(1200, "el libro de bill", "https://http2.mlstatic.com/D_NQ_NP_729185-MLU77759079789_072024-O.webp", "alex hirsch", 300, new Date(1,2,2003), "español",30000,1)
 
 
 //function removeBook(): void {
  //   onDeleteBook.emit(this.book)
 //}
 
-export default function BookComponent() {    
+export default function BookComponent({book}:{book:Book}) {    
 
 
     return (
         <Card className="card">
-            <div className="image-center">
-                <img src={book.imageURL} alt="Portada de libro"/>
+            <div>
+                <img src={book.imageURL} className="img" alt="Portada de libro"/>
             </div>
             <div className="content">
                 <div className="card-header">

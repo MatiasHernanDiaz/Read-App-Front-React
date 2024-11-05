@@ -14,10 +14,10 @@
     display: block;
 }
 
-.imageText{
-    height: 1.5rem;
-    display: flex;
-    line-height: 1.5rem;
+.img{
+    height: 10rem;
+    width: 6rem;
+    margin-right: 1rem;
 }
 
 .icon-select{
