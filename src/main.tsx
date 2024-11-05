@@ -8,6 +8,7 @@ import App, { action as logoutAction } from './routes/app/App'
 import LoginScreen, { action as loginAction } from './routes/login/LoginScreen'
 import Authors from "./routes/app/authors/Authors"
 
+import BookContainer from './routes/bookContainer/BookContainer'
 
 const router = createBrowserRouter([
   {
@@ -43,7 +44,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'books',
-            element: <p>Libros</p>,
+            element: <BookContainer/>,
             children: [
               {
                 path: ':bookId'

@@ -1,0 +1,59 @@
+.card {
+    display:flex;
+    width: 20rem;
+    height: 10rem;
+    
+    border-radius: 1.2rem;
+    padding: 1rem;
+    background-color: var(--card-background);
+    box-shadow: 0 0.55rem 0.3rem rgba(0, 0, 0, 0.1);
+    align-items: center;
+}
+.content{
+    display: block;
+}
+
+.img{
+    height: 10rem;
+    width: 6rem;
+    margin-right: 1rem;
+}
+
+.icon-select{
+  display: flex;
+  justify-content: center;
+  transition: transform 0.2s ease;
+  background-color: transparent;
+}
+
+.card-header{
+    display: flex;
+    height: 2rem;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1rem;
+    margin: 0;
+}
+
+.comments{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: auto auto;
+}
+.comment{
+    font-size: 0.8rem;
+    height: 1.8rem;
+    display: flex;
+    justify-content: left;
+    margin-top: 0.15rem;
+}
+
+.image-center{
+    display: flex;
+    justify-content: center;
+}
