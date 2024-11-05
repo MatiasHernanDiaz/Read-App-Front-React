@@ -2,8 +2,7 @@ import { useState } from "react"
 import { Navigate, Outlet, useLoaderData } from "react-router-dom"
 import { User } from "../../model/User"
 
-
-export async function loader() {
+export async function loader() { 
     const res = await fetch('http://localhost:9000/auth/login')
 
     const { user } = await res.json()

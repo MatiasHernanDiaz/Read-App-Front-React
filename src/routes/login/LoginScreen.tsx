@@ -24,8 +24,7 @@ export default function LoginScreen() {
     const navigate = useNavigate()
     const handleClickShowPassword = () => setShowPassword(!showPassword)
     
-    const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault()
+    const handleLogin = async () => {
         let hasError = false
 
         setEmailError("")
@@ -60,7 +59,7 @@ export default function LoginScreen() {
         spacing={10}
         alignItems="center"
         justifyContent="center"
-        sx={{ 
+        sx={{
             height: '100vh',
             backgroundImage: `url(${fondo})`,
             backgroundSize: 'cover',
