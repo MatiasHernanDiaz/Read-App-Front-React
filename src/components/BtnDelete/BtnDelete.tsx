@@ -5,7 +5,8 @@ export type propsBtnDelete = {
     title:string,
     btnTitle: string,
     description: string,
-    setAction: () => Promise<void>
+    icon?: React.ReactNode
+    setAction: () => Promise<void>,
 }
 
 export default function AlertDialog(input : propsBtnDelete) {
@@ -27,7 +28,7 @@ export default function AlertDialog(input : propsBtnDelete) {
     return (
         <div>
             <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-                {input.btnTitle}
+                {input.icon || input.btnTitle} {/* Muestra icono sise define , sino texto */}
             </Button>
             <Dialog
                 open={open}

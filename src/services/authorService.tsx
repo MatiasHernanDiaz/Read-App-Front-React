@@ -8,6 +8,10 @@ class AuthorService {
     const authors = authorJSON$.data.map((authorJSON: Author) => Author.fromJSON(authorJSON))
     return authors
   }
+
+  async deleteAuthor(authorId: number): Promise<void> {
+      await axios.delete(`${URL}/authors/${authorId}`)
+  }
 }
 
 export const authorService = new AuthorService()
