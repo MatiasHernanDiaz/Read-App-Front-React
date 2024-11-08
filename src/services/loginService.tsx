@@ -21,6 +21,12 @@ class LoginService {
 
         return res.data.user
     }
+
+    async logout() {
+        const response = await axios.get( this.baseUrl + 'logout' )
+
+        return response
+    }
 }
 
 export const loginService = new LoginService()

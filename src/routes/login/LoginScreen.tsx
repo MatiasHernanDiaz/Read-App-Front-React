@@ -1,10 +1,11 @@
-import { Form, useOutletContext } from "react-router-dom";
-import { FormEventHandler, useState } from 'react';
+import { useOutletContext } from "react-router-dom";
+import { MouseEvent, useState } from 'react';
 import { Stack, TextField, Button, IconButton, InputAdornment} from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import fondo from './loginFondo.png';
 import { User } from "../../model/User";
 import { loginService } from "../../services/loginService";
+import { AxiosError } from "axios";
 
 
 // export async function action ({request}:{request:Request}) {
@@ -28,8 +29,8 @@ export default function LoginScreen() {
     const handleClickShowPassword = () => setShowPassword(!showPassword)
     
 
-    const handleLogin = async (event:SubmitEvent) => {
-        event.preventDefault()
+    const handleLogin = async () => {
+    
         let hasError = false
 
         setEmailError("")
@@ -56,8 +57,13 @@ export default function LoginScreen() {
 
             setUser( res.user )
 
-        } catch {
-            console.log('Y ahora qué hacemossss??')
+        } catch ( error: unknown ){
+            console.error( error )
+            if( (error as AxiosError).status === 403 ) {
+                setPasswordError("Credenciales inválidas.")
+            }
+            
+            setPasswordError("Credenciales inválidas.")
         }
     }
 
@@ -79,9 +85,10 @@ export default function LoginScreen() {
             }}
         >ReadApp</h1>
 
-        <Form 
-            method='post' 
-            onSubmit={handleLogin as unknown as FormEventHandler<HTMLFormElement>}
+        <Stack 
+            // method='post' 
+            // onSubmit={handleLogin as unknown as FormEventHandler<HTMLFormElement>}
+            onKeyDown={ e => e.key === 'Enter' && handleLogin() }
             style={{
                 width: '80%', 
                 display: 'flex', 
@@ -140,15 +147,16 @@ export default function LoginScreen() {
                     },
                 }}
             />       
-            <Button 
-                    type="submit"
-                    variant="contained"   
-                    sx={{
-                         backgroundColor: 'rgb(242, 93, 11)', 
-                         
-                        }}      
-                >Ingresar</Button>
-            </Form>
+            <Button
+                // type="submit"
+                variant="contained"   
+                sx={{
+                        backgroundColor: 'rgb(242, 93, 11)', 
+                        
+                    }}      
+                onClick={ handleLogin }
+            >Ingresar</Button>
+            </Stack>
     </Stack>
     )
 }

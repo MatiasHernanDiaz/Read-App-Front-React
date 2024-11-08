@@ -18,12 +18,13 @@ export default function Root() {
         setUser( newUser )
     })
 
+
     return (
         <>
         <Outlet context={ loginState } />
         {
             user ? 
-            <Navigate to='app/dashboard' replace={ true } /> :
+            <Navigate to='app/books' replace={ true } /> :
             <Navigate to='login' replace={ true } />
         }
         </>

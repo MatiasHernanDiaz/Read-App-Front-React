@@ -1,15 +1,30 @@
 import { Book, Dashboard, Logout, People } from "@mui/icons-material"
 import { AppBar, Avatar, Box, Button, ButtonGroup, Stack, Toolbar, Typography } from "@mui/material"
-import { Form, Link, Outlet, useLocation, useOutletContext } from "react-router-dom"
+import { Link, Outlet, useLocation, useOutletContext } from "react-router-dom"
 import { User } from "../../model/User"
+import { loginService } from "../../services/loginService"
 
 
 export default function MainFrame() {
 
     const location = useLocation()
     
-    const user = useOutletContext() as User
+    const [ user, setUser ] = useOutletContext() as [ 
+        User | null, React.Dispatch<React.SetStateAction<User | null>>]
+
+
+    const handleLogout = async () => {
+
+        try {
+            await loginService.logout()
+            setUser( null )
+        } catch {
+            console.log('Logout fallido')
+        }
+
+    }
    
+    
     return (
 
         <Stack
@@ -38,33 +53,24 @@ export default function MainFrame() {
                     sx={{ borderRadius: 0 }}
                     component={ Link }
                     to='dashboard'
-                    state={{
-                        title: "Dashboard"
-                    }}
                 ><Dashboard /></Button>
                 <Button
                     variant={ location.pathname.includes( 'books' ) ? 'outlined' : 'contained' }
                     component={ Link }
                     to='books'
-                    state={{
-                        title: "Libros"
-                    }}
                 ><Book /></Button>
                 <Button
                     variant={ location.pathname.includes( 'authors' ) ? 'outlined' : 'contained' }
                     component={ Link }
                     to='authors'
-                    state={{
-                        title: "Autores"
-                    }}
                 ><People /></Button>
-                <Form method="post">
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        sx={{ borderRadius: 0 }}
-                    ><Logout /></Button>
-                </Form>
+                
+                <Button
+                    type="submit"
+                    variant="contained"
+                    sx={{ borderRadius: 0 }}
+                    onClick={ handleLogout }
+                ><Logout /></Button>
             </ButtonGroup>
         </Stack>
     )
