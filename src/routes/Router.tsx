@@ -1,5 +1,5 @@
 
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, createBrowserRouter, createRoutesFromElements, Route, Routes } from "react-router-dom";
 import Root from "./root/Root";
 import LoginScreen from "./login/LoginScreen";
 import MainFrame from "./app/MainFrame";
@@ -8,9 +8,8 @@ import Authors from "./app/authors/Authors";
 import BookContainer from "./bookContainer/BookContainer";
 
 
-export const Router = () => 
-  <BrowserRouter>
-    <Routes>
+export const Router = createBrowserRouter(
+  createRoutesFromElements(
       <Route path='/' element={ <Root /> }>
         <Route path='login' element={ <LoginScreen /> } />
 
@@ -25,7 +24,6 @@ export const Router = () =>
             <Route path=':bookId' element={ <h2>book X</h2>} />
           </Route>
         </Route>
-      
       </Route>
-    </Routes>
-  </BrowserRouter>
+  )
+) 
