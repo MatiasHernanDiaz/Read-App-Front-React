@@ -1,16 +1,16 @@
 import { Book, Dashboard, Logout, People } from "@mui/icons-material"
 import { AppBar, Avatar, Box, Button, ButtonGroup, Stack, Toolbar, Typography } from "@mui/material"
-import { Link, Outlet, useLocation, useOutletContext } from "react-router-dom"
-import { User } from "../../model/User"
+import { Link, Outlet, useLocation } from "react-router-dom"
 import { loginService } from "../../services/loginService"
+import { useContext } from "react"
+import { sessionContext } from "../root/Root"
 
 
 export default function MainFrame() {
 
     const location = useLocation()
     
-    const [ user, setUser ] = useOutletContext() as [ 
-        User | null, React.Dispatch<React.SetStateAction<User | null>>]
+    const [ user, setUser ] = useContext( sessionContext )
 
 
     const handleLogout = async () => {

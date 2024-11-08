@@ -4,7 +4,10 @@ import { createContext, useState } from "react"
 import { useInitialize } from "../../hooks/useInitialize"
 import { loginService } from "../../services/loginService"
 
-// export const sessionContext = createContext( {} as User )
+
+type LoginState = [ User | null, React.Dispatch<React.SetStateAction<User | null>>]
+export const sessionContext = createContext( {} as LoginState )
+
 
 export default function Root() {
     const loginState = useState<User | null>(null)
@@ -20,13 +23,13 @@ export default function Root() {
 
 
     return (
-        <>
-        <Outlet context={ loginState } />
+        <sessionContext.Provider value={ loginState }>
+        <Outlet />
         {
             user ? 
-            <Navigate to='app/books' replace={ true } /> :
+            <Navigate to='app/dashboard' replace={ true } /> :
             <Navigate to='login' replace={ true } />
         }
-        </>
+        </sessionContext.Provider>
     )
 }

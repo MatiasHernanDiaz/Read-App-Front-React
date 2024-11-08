@@ -1,25 +1,15 @@
-import { useOutletContext } from "react-router-dom";
-import { MouseEvent, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Stack, TextField, Button, IconButton, InputAdornment} from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import fondo from './loginFondo.png';
-import { User } from "../../model/User";
 import { loginService } from "../../services/loginService";
 import { AxiosError } from "axios";
+import { sessionContext } from "../root/Root";
 
-
-// export async function action ({request}:{request:Request}) {
-//     const credentials = await request.json() as {email:string, password:string}
-//     console.log("credenciales",credentials)
-//     await LoginService.login(credentials.email,credentials.password)
-    
-//     return null
-//   }
 
 export default function LoginScreen() {
 
-    const [ user, setUser ] = useOutletContext() as [ 
-        User | null, React.Dispatch<React.SetStateAction<User | null>>]
+    const [ user, setUser ] = useContext( sessionContext )
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
