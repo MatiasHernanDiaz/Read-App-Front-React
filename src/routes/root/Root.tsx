@@ -1,23 +1,28 @@
-import { Navigate, Outlet, useLoaderData } from "react-router-dom"
+import { Navigate, Outlet } from "react-router-dom"
 import { User } from "../../model/User"
+import { createContext, useState } from "react"
+import { useInitialize } from "../../hooks/useInitialize"
+import { loginService } from "../../services/loginService"
 
-export async function loader() { 
-    const res = await fetch('http://localhost:9000/auth/login')
-
-    const { user } = await res.json()
-
-    return user
-}
-
+// export const sessionContext = createContext( {} as User )
 
 export default function Root() {
-    const signedUser = useLoaderData() as User | null
+    const loginState = useState<User | null>(null)
+
+    const [ user, setUser ] = loginState
+
+
+    useInitialize( async () => {
+        const newUser = await loginService.getSignedUser()
+
+        setUser( newUser )
+    })
 
     return (
         <>
-        <Outlet context={ signedUser } />
+        <Outlet context={ loginState } />
         {
-            signedUser ? 
+            user ? 
             <Navigate to='app/dashboard' replace={ true } /> :
             <Navigate to='login' replace={ true } />
         }

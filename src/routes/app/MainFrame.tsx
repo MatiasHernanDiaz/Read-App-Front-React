@@ -1,16 +1,10 @@
 import { Book, Dashboard, Logout, People } from "@mui/icons-material"
 import { AppBar, Avatar, Box, Button, ButtonGroup, Stack, Toolbar, Typography } from "@mui/material"
-import { Form, Link, Outlet, redirect, useLocation, useOutletContext } from "react-router-dom"
+import { Form, Link, Outlet, useLocation, useOutletContext } from "react-router-dom"
 import { User } from "../../model/User"
 
 
-export async function action () {
-    await fetch('http://localhost:9000/auth/logout')
-
-    return redirect( '/login' )
-}
-
-export default function App() {
+export default function MainFrame() {
 
     const location = useLocation()
     

@@ -1,28 +1,32 @@
-import { Form,  useFetcher } from "react-router-dom";
+import { Form, useOutletContext } from "react-router-dom";
 import { FormEventHandler, useState } from 'react';
 import { Stack, TextField, Button, IconButton, InputAdornment} from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import fondo from './loginFondo.png';
-import LoginService from '../../service/LoginService';
+import { User } from "../../model/User";
+import { loginService } from "../../services/loginService";
 
 
-export async function action ({request}:{request:Request}) {
-    const credentials = await request.json() as {email:string, password:string}
-    console.log("credenciales",credentials)
-    await LoginService.login(credentials.email,credentials.password)
+// export async function action ({request}:{request:Request}) {
+//     const credentials = await request.json() as {email:string, password:string}
+//     console.log("credenciales",credentials)
+//     await LoginService.login(credentials.email,credentials.password)
     
-    return null
-  }
+//     return null
+//   }
 
 export default function LoginScreen() {
+
+    const [ user, setUser ] = useOutletContext() as [ 
+        User | null, React.Dispatch<React.SetStateAction<User | null>>]
+
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
     const [emailError, setEmailError] = useState("")
     const [passwordError, setPasswordError] = useState("")
     const handleClickShowPassword = () => setShowPassword(!showPassword)
-    const fetcher = useFetcher()
-
+    
 
     const handleLogin = async (event:SubmitEvent) => {
         event.preventDefault()
@@ -42,12 +46,19 @@ export default function LoginScreen() {
 
         if (hasError) return
 
-        console.log("email",email)
-        fetcher.submit({ email, password },{
-            method: 'post',
-            encType: "application/json",
-        })
+        try {
+            const res = await loginService.login( email, password )
 
+            if( !res.login ) {
+                setPasswordError("Credenciales inválidas.")
+                hasError = true
+            }
+
+            setUser( res.user )
+
+        } catch {
+            console.log('Y ahora qué hacemossss??')
+        }
     }
 
     return (
