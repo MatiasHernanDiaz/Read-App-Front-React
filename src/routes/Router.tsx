@@ -5,6 +5,7 @@ import LoginScreen from "./login/LoginScreen";
 import MainFrame from "./app/MainFrame";
 import Dashboard from "./app/dashboard/Dashboard";
 import Authors from "./app/authors/Authors";
+import AuthorEdit from "./app/authors/AuthorEdit";
 import BookContainer from "./bookContainer/BookContainer";
 
 
@@ -16,9 +17,10 @@ export const Router = createBrowserRouter(
         <Route path='app' element={ <MainFrame /> } >
           <Route path='dashboard' element={ <h2>Dashboard</h2> } />
 
-          <Route path='authors' element={ <h2>Authors</h2> }>
-            <Route path=':authorId' element={ <h2>author X</h2>} />
+          <Route path='authors' element={ <Authors />}>
+            <Route path=':authorId' element={ <AuthorEdit/>} />
           </Route>
+          
 
           <Route path='books' element={ <h2>Books</h2> }>
             <Route path=':bookId' element={ <h2>book X</h2>} />
