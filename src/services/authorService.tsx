@@ -12,6 +12,15 @@ class AuthorService {
   async deleteAuthor(authorId: number): Promise<void> {
       await axios.delete(`${URL}/authors/${authorId}`)
   }
+  async getAuthorById(id: number): Promise<Author> {
+    const authorJSON$ = await axios.get<Author>(`${URL}/authors/${id}`)
+    return Author.fromJSON(authorJSON$.data)
+  }
+  async updateAuthor(id: number, updatedAuthor: Author): Promise<Author> {
+    const authorJSON$ = await axios.put<Author>(`${URL}/authors/${id}`, updatedAuthor)
+    return Author.fromJSON(authorJSON$.data)
+  }
+
 }
 
 export const authorService = new AuthorService()
