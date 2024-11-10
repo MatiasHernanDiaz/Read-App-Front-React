@@ -17,11 +17,9 @@ export const Router = createBrowserRouter(
         <Route path='app' element={ <MainFrame /> } >
           <Route path='dashboard' element={ <h2>Dashboard</h2> } />
 
-          <Route path='authors' element={ <Authors />}>
-            <Route path=':authorId' element={ <AuthorEdit/>} />
-          </Route>
+          <Route path="/app/authors/:id" element={<AuthorEdit />} />
+          <Route path="/app/authors" element={<Authors />} />
           
-
           <Route path='books' element={ <h2>Books</h2> }>
             <Route path=':bookId' element={ <h2>book X</h2>} />
           </Route>
