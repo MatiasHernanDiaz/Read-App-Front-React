@@ -2,8 +2,17 @@ import { Book, Dashboard, Logout, People } from "@mui/icons-material"
 import { AppBar, Avatar, Box, Button, ButtonGroup, Stack, Toolbar, Typography } from "@mui/material"
 import { Link, Outlet, useLocation } from "react-router-dom"
 import { loginService } from "../../services/loginService"
-import { useContext } from "react"
+import { createContext, useContext, useState } from "react"
 import { sessionContext } from "../root/Root"
+import Message from "../../components/Message/Message"
+
+
+export const msjContext = createContext({} as {setMessage: React.Dispatch<React.SetStateAction<msj>>})
+
+export type msj = {
+    message: string,
+    statusSeverity: "success" | "error" | "warning"
+}
 
 
 export default function MainFrame() {
@@ -12,6 +21,7 @@ export default function MainFrame() {
     
     const [ user, setUser ] = useContext( sessionContext )
 
+    const [message, setMessage] = useState<msj>({message:'', statusSeverity:'success'})
 
     const handleLogout = async () => {
 
@@ -23,10 +33,8 @@ export default function MainFrame() {
         }
 
     }
-   
-    
     return (
-
+        
         <Stack
             height="100%"
             justifyContent="space-between"
@@ -39,7 +47,12 @@ export default function MainFrame() {
                     <Avatar src={ user?.avatar } />
                 </Toolbar>
             </AppBar>
-            <Box sx={{marginTop: 10, overflowY: "auto"}}><Outlet /></Box>
+            <Box sx={{marginTop: 10, overflowY: "auto"}}>
+                <Message message={message}/>
+                <msjContext.Provider value={{setMessage}}>
+                    <Outlet />
+                </msjContext.Provider>
+            </Box>
 
             <ButtonGroup
                 fullWidth
