@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { Author } from '../model/Author';
+import { msj } from '../routes/app/MainFrame';
 
 const URL: string = "http://localhost:9000"
 class AuthorService {
@@ -9,8 +10,9 @@ class AuthorService {
     return authors
   }
 
-  async deleteAuthor(authorId: number): Promise<void> {
-      await axios.delete(`${URL}/authors/${authorId}`)
+  async deleteAuthor(authorId: number): Promise<msj> {
+      const res = await axios.delete<msj>(`${URL}/authors/${authorId}`)
+      return res.data
   }
   async getAuthorById(id: number): Promise<Author> {
     const authorJSON$ = await axios.get<Author>(`${URL}/authors/${id}`)

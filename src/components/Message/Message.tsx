@@ -10,7 +10,7 @@ export default function Message({message} : {message:msj}){
     return(
         <>
             {message.message && 
-                <Alert  variant="filled" severity={message.statusSeverity} sx={{position:"absolute", width:"80%", marginLeft:"5%"}}>
+                <Alert  variant="filled" severity={message.statusSeverity} sx={{position:"absolute", width:"80%", marginLeft:"5%",zIndex:50}}>
                         <AlertTitle>{message.statusSeverity}</AlertTitle>
                         <strong>{message.message}</strong> 
                 </Alert>

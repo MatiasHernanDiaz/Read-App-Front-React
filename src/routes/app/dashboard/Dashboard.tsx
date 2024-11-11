@@ -8,7 +8,7 @@ import { dashService } from "../../../services/DashService"
 import { useContext, useState } from "react"
 import BtnDelete from "../../../components/BtnDelete/BtnDelete"
 import { useInitialize } from "../../../hooks/useInitialize"
-import { msj, msjContext } from "../MainFrame"
+import { msjContext } from "../MainFrame"
 
 
 export type DashboardData = Record<string, {amount:number}>
@@ -17,7 +17,7 @@ export type DashboardData = Record<string, {amount:number}>
 export default function Dashboard () {
     
     const [indicators, setIndicators] = useState<DashboardData>()
-    const {setMessage} = useContext(msjContext)
+    const {showMessage} = useContext(msjContext)
     
     const inputBtnUser = {
         btnTitle : "Borrar usuarios inactivos",
@@ -37,35 +37,27 @@ export default function Dashboard () {
             setIndicators(data)
         }
         catch(error){
-            setMessage({message:(error as Error).message, statusSeverity:'error'})
+            showMessage({message:(error as Error).message, statusSeverity:'error'})
         }
-    }
-
-    const showMessage = (data: msj) =>{
-        getDash()
-        setMessage(data)
-        setTimeout(()=>{
-            setMessage({message:'', statusSeverity:'success'})
-        },3000)
     }
 
     const deleteUser = async () => {
                 try{
                     const data = await dashService.deleteUser()
-                    showMessage(data)
+                    showMessage(data,getDash)
                 }
                 catch(error){
-                    setMessage({message:(error as Error).message, statusSeverity:'error'})
+                    showMessage({message:(error as Error).message, statusSeverity:'error'})
                 }
     }
     
     const deleteCenter = async () =>{
             try{
                 const data = await dashService.delteCenter()
-                showMessage(data)
+                showMessage(data,getDash)
             }
             catch(error){
-                setMessage({message:(error as Error).message, statusSeverity:'error'})
+                showMessage({message:(error as Error).message, statusSeverity:'error'})
             }
     }
 

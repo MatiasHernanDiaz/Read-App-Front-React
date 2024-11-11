@@ -1,13 +1,15 @@
 import { Button, Card, CardContent, InputAdornment, List, ListItem, ListItemText, TextField, Typography } from "@mui/material"
 import { useInitialize } from "../../../hooks/useInitialize"
 import { authorService } from "../../../services/authorService"
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { Author } from "../../../model/Author"
 import EditIcon from '@mui/icons-material/Edit'
 import BtnDelete from "../../../components/BtnDelete/BtnDelete"
 import DeleteIcon from '@mui/icons-material/Delete'
 import { Search } from "@mui/icons-material"
 import { useNavigate } from 'react-router-dom'
+import { msjContext } from "../MainFrame"
+import { AxiosError } from "axios"
 
 
 
@@ -17,6 +19,7 @@ export default function Authors () {
 
     const [authors, setAuthors] = useState<Author[]>([]) 
     const [text, setText] = useState<string>("")
+    const {showMessage} = useContext(msjContext)
 
     const getAuthors= async () => {
         try {
@@ -25,20 +28,19 @@ export default function Authors () {
           })
           setAuthors(author)
         } catch (error) {
-    console.log("error",error)
+            showMessage({message:(error as Error).message, statusSeverity:'error'})
         }
       }
-
+      
       const deleteAuthor = async (authorId: number) => {
         try {
-            await authorService.deleteAuthor(authorId)// Implementa la función de eliminación en authorService
-            setAuthors(authors.filter((author) => author.id !== authorId))
-        
+          const data = await authorService.deleteAuthor(authorId)// Implementa la función de eliminación en authorService
+          showMessage(data,getAuthors)
         } catch (error) {
-            console.log("Error al eliminar el autor:", error)
-
+            showMessage({message:(error as {response:{data:{message:string}}})?.response.data.message, statusSeverity:'error'})
         }
     }
+
     const deleteInput = {
         btnTitle: "Eliminar autor",
         title: "¿Seguro que desea eliminar este autor?",
