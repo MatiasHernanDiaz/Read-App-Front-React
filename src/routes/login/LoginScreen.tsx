@@ -1,31 +1,26 @@
-import { Form,  useFetcher } from "react-router-dom";
-import { FormEventHandler, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Stack, TextField, Button, IconButton, InputAdornment} from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import fondo from './loginFondo.png';
-import LoginService from '../../service/LoginService';
+import { loginService } from "../../services/loginService";
+import { AxiosError } from "axios";
+import { sessionContext } from "../root/Root";
 
-
-export async function action ({request}:{request:Request}) {
-    const credentials = await request.json() as {email:string, password:string}
-    console.log("credenciales",credentials)
-    await LoginService.login(credentials.email,credentials.password)
-    
-    return null
-  }
 
 export default function LoginScreen() {
+
+    const [ user, setUser ] = useContext( sessionContext )
+
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
     const [emailError, setEmailError] = useState("")
     const [passwordError, setPasswordError] = useState("")
     const handleClickShowPassword = () => setShowPassword(!showPassword)
-    const fetcher = useFetcher()
+    
 
-
-    const handleLogin = async (event:SubmitEvent) => {
-        event.preventDefault()
+    const handleLogin = async () => {
+    
         let hasError = false
 
         setEmailError("")
@@ -42,12 +37,24 @@ export default function LoginScreen() {
 
         if (hasError) return
 
-        console.log("email",email)
-        fetcher.submit({ email, password },{
-            method: 'post',
-            encType: "application/json",
-        })
+        try {
+            const res = await loginService.login( email, password )
 
+            if( !res.login ) {
+                setPasswordError("Credenciales inválidas.")
+                hasError = true
+            }
+
+            setUser( res.user )
+
+        } catch ( error: unknown ){
+            console.error( error )
+            if( (error as AxiosError).status === 403 ) {
+                setPasswordError("Credenciales inválidas.")
+            }
+            
+            setPasswordError("Credenciales inválidas.")
+        }
     }
 
     return (
@@ -68,9 +75,10 @@ export default function LoginScreen() {
             }}
         >ReadApp</h1>
 
-        <Form 
-            method='post' 
-            onSubmit={handleLogin as unknown as FormEventHandler<HTMLFormElement>}
+        <Stack 
+            // method='post' 
+            // onSubmit={handleLogin as unknown as FormEventHandler<HTMLFormElement>}
+            onKeyDown={ e => e.key === 'Enter' && handleLogin() }
             style={{
                 width: '80%', 
                 display: 'flex', 
@@ -129,15 +137,16 @@ export default function LoginScreen() {
                     },
                 }}
             />       
-            <Button 
-                    type="submit"
-                    variant="contained"   
-                    sx={{
-                         backgroundColor: 'rgb(242, 93, 11)', 
-                         
-                        }}      
-                >Ingresar</Button>
-            </Form>
+            <Button
+                // type="submit"
+                variant="contained"   
+                sx={{
+                        backgroundColor: 'rgb(242, 93, 11)', 
+                        
+                    }}      
+                onClick={ handleLogin }
+            >Ingresar</Button>
+            </Stack>
     </Stack>
     )
 }

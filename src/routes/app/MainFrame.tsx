@@ -1,23 +1,40 @@
 import { Book, Dashboard, Logout, People } from "@mui/icons-material"
 import { AppBar, Avatar, Box, Button, ButtonGroup, Stack, Toolbar, Typography } from "@mui/material"
-import { Form, Link, Outlet, redirect, useLocation, useOutletContext } from "react-router-dom"
-import { User } from "../../model/User"
+import { Link, Outlet, useLocation } from "react-router-dom"
+import { loginService } from "../../services/loginService"
+import { createContext, useContext, useState } from "react"
+import { sessionContext } from "../root/Root"
+import Message from "../../components/Message/Message"
 
 
-export async function action () {
-    await fetch('http://localhost:9000/auth/logout')
+export const msjContext = createContext({} as {setMessage: React.Dispatch<React.SetStateAction<msj>>})
 
-    return redirect( '/login' )
+export type msj = {
+    message: string,
+    statusSeverity: "success" | "error" | "warning"
 }
 
-export default function App() {
+
+export default function MainFrame() {
 
     const location = useLocation()
     
-    const user = useOutletContext() as User
-   
-    return (
+    const [ user, setUser ] = useContext( sessionContext )
 
+    const [message, setMessage] = useState<msj>({message:'', statusSeverity:'success'})
+
+    const handleLogout = async () => {
+
+        try {
+            await loginService.logout()
+            setUser( null )
+        } catch {
+            console.log('Logout fallido')
+        }
+
+    }
+    return (
+        
         <Stack
             height="100%"
             justifyContent="space-between"
@@ -30,7 +47,12 @@ export default function App() {
                     <Avatar src={ user?.avatar } />
                 </Toolbar>
             </AppBar>
-            <Box sx={{marginTop: 10, overflowY: "auto"}}><Outlet /></Box>
+            <Box sx={{marginTop: 10, overflowY: "auto"}}>
+                <Message message={message}/>
+                <msjContext.Provider value={{setMessage}}>
+                    <Outlet />
+                </msjContext.Provider>
+            </Box>
 
             <ButtonGroup
                 fullWidth
@@ -44,33 +66,24 @@ export default function App() {
                     sx={{ borderRadius: 0 }}
                     component={ Link }
                     to='dashboard'
-                    state={{
-                        title: "Dashboard"
-                    }}
                 ><Dashboard /></Button>
                 <Button
                     variant={ location.pathname.includes( 'books' ) ? 'outlined' : 'contained' }
                     component={ Link }
                     to='books'
-                    state={{
-                        title: "Libros"
-                    }}
                 ><Book /></Button>
                 <Button
                     variant={ location.pathname.includes( 'authors' ) ? 'outlined' : 'contained' }
                     component={ Link }
                     to='authors'
-                    state={{
-                        title: "Autores"
-                    }}
                 ><People /></Button>
-                <Form method="post">
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        sx={{ borderRadius: 0 }}
-                    ><Logout /></Button>
-                </Form>
+                
+                <Button
+                    type="submit"
+                    variant="contained"
+                    sx={{ borderRadius: 0 }}
+                    onClick={ handleLogout }
+                ><Logout /></Button>
             </ButtonGroup>
         </Stack>
     )
