@@ -7,7 +7,7 @@ import { sessionContext } from "../root/Root"
 import Message from "../../components/Message/Message"
 
 
-export const msjContext = createContext({} as {setMessage: React.Dispatch<React.SetStateAction<msj>>})
+export const msjContext = createContext({} as {showMessage: (data: msj,refreshData?:()=>void)=>void})
 
 export type msj = {
     message: string,
@@ -33,6 +33,14 @@ export default function MainFrame() {
         }
 
     }
+
+    const showMessage = (data: msj,refreshData?:()=>void) =>{
+        if (refreshData){refreshData()}
+        setMessage(data)
+        setTimeout(()=>{
+            setMessage({message:'', statusSeverity:'success'})
+        },3000)
+      }
     return (
         
         <Stack
@@ -49,7 +57,7 @@ export default function MainFrame() {
             </AppBar>
             <Box sx={{marginTop: 10, overflowY: "auto"}}>
                 <Message message={message}/>
-                <msjContext.Provider value={{setMessage}}>
+                <msjContext.Provider value={{showMessage}}>
                     <Outlet />
                 </msjContext.Provider>
             </Box>
