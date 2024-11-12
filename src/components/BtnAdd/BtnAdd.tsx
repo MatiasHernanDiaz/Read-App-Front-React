@@ -18,7 +18,7 @@ export default function AddButton({ redirectTo }: PropsAddButton) {
             color="primary" 
             aria-label="add" 
             onClick={handleClick}
-            style={{
+            sx={{
                 position: 'fixed',
                 bottom: '50px',
                 right: '20px',

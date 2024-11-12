@@ -1,12 +1,16 @@
+import { Author } from "./Author"
+
 export class Book {
 
     pages: number = 0
     title: string = ""
     imageURL: string = ""
-    autor: string = ""
+    autor: Author
     words: number = 0
     date: Date = new Date(0,0,0)
-    lenguages: string = ""
+    complex: boolean
+    lenguages: string[]
+    editions: number
     sales: number = 0
     id: number = -1
 
@@ -14,10 +18,12 @@ export class Book {
         pages: number,
         title: string,
         imageURL: string,
-        autor: string,
+        autor: Author,
         words: number,
         date: Date,
-        lenguages: string,
+        complex: boolean,
+        lenguages: string[],
+        editions: number,
         sales: number,
         id: number
     ) {
@@ -27,7 +33,9 @@ export class Book {
         this.autor = autor
         this.words = words
         this.date = date
+        this.complex = complex
         this.lenguages = lenguages
+        this.editions = editions
         this.sales = sales
         this.id = id
     }
@@ -44,7 +52,9 @@ export class Book {
         bookToJSON.autor,
         bookToJSON.words,
         bookToJSON.date,
+        bookToJSON.complex,
         bookToJSON.lenguages,
+        bookToJSON.editions,
         bookToJSON.sales,
         bookToJSON.id)
 }
@@ -57,7 +67,9 @@ return {
     autor: this.autor,
     words: this.words,
     date: this.date,
+    complex: this.complex,
     lenguages: this.lenguages,
+    editions: this.editions,
     sales: this.sales,
     id: this.id
 }
@@ -75,10 +87,12 @@ export type  BookToJSON = {
     pages: number
     title: string
     imageURL: string
-    autor: string
+    autor: Author
     words: number
     date: Date
+    complex: boolean
     lenguages: string
+    editions: number
     sales: number
     id: number
 }
