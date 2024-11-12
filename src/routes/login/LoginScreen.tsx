@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { Stack, TextField, Button, IconButton, InputAdornment} from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import fondo from './loginFondo.png';
+import fondo from "../../../src/assets/loginFondo.png";
 import { loginService } from "../../services/loginService";
 import { AxiosError } from "axios";
 import { sessionContext } from "../root/Root";
@@ -10,7 +10,6 @@ import { sessionContext } from "../root/Root";
 export default function LoginScreen() {
 
     const [ user, setUser ] = useContext( sessionContext )
-
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
@@ -77,7 +76,6 @@ export default function LoginScreen() {
 
         <Stack 
             // method='post' 
-            // onSubmit={handleLogin as unknown as FormEventHandler<HTMLFormElement>}
             onKeyDown={ e => e.key === 'Enter' && handleLogin() }
             style={{
                 width: '80%', 
@@ -138,7 +136,6 @@ export default function LoginScreen() {
                 }}
             />       
             <Button
-                // type="submit"
                 variant="contained"   
                 sx={{
                         backgroundColor: 'rgb(242, 93, 11)', 
