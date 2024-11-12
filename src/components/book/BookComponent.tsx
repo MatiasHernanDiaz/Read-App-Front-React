@@ -10,8 +10,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import "./BookComponent.css"
 
 
-export default function BookComponent({book}:{book:Book}) {    
 
+export default function BookComponent({book,onClickAction}:CustomIndicatorPayload) {    
 
     return (
         <Card className="card">
@@ -26,12 +26,12 @@ export default function BookComponent({book}:{book:Book}) {
                         <EditIcon/>
                         </IconButton>
 
-                        <IconButton size="small" color="primary">
+                        <IconButton size="small" color="primary" onClick={onClickAction}>
                         <DeleteOutlinedIcon/>
                         </IconButton>
                     </List>
                 </div>
-                <p font-size="0.9rem">Por {book.autor} </p>
+                <p font-size="0.9rem">Por {book.autor.firstName + " " + book.autor.lastName} </p>
                 <List className='comments'>
                     <ListItem className="comment"><AutoStoriesIcon/>{book.pages} Paginas</ListItem>
                     <ListItem className="comment"><TitleIcon/>{book.words} Palabras</ListItem>
@@ -42,4 +42,9 @@ export default function BookComponent({book}:{book:Book}) {
             </div>
         </Card>
     )
+}
+
+export type CustomIndicatorPayload = {
+    book: Book,
+    onClickAction: () => void
 }
