@@ -20,9 +20,9 @@ export const Router = createBrowserRouter(
           <Route path="/app/authors/:id" element={<AuthorEdit />} />
           <Route path="/app/authors" element={<Authors />} />
           
-          <Route path='books' element={<BookContainer/>}>
+          <Route path='books' element={<BookContainer/>}/>
             <Route path=':bookId' element={ <h2>book X</h2>} />
-          </Route>
+          
         </Route>
       </Route>
   )

@@ -8,6 +8,8 @@ import BookComponent from "../../../components/book/BookComponent"
 import './BookContainer.css'
 import { useContext } from "react"
 import { useInitialize } from '../../../hooks/useInitialize';
+import AddButton from '../../../components/BtnAdd/BtnAdd';
+
 
 export default function BookContainer() { 
     const {showMessage} = useContext(msjContext)
@@ -54,6 +56,7 @@ export default function BookContainer() {
     useInitialize(getBooks)
     return(
         <>
+        <AddButton redirectTo="/app/:books"/>
         <Stack sx={{gap:"1rem", alignItems:"center"}}>
             {books.map((book) => (
                 <BookComponent book={book} onClickAction={() => handleClickOpen(book.id)}/>
