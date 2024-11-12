@@ -7,16 +7,24 @@ import { msjContext } from "../MainFrame"
 import BookComponent from "../../../components/book/BookComponent"
 import './BookContainer.css'
 import { useContext } from "react"
-
-const books: Book[] = await bookService.getBooks({
-    // name: text,
-   })
+import { useInitialize } from '../../../hooks/useInitialize';
 
 export default function BookContainer() { 
     const {showMessage} = useContext(msjContext)
+    const [books, setBooks] = React.useState<Book[]>([])
     const [open, setOpen] = React.useState(false);
+    const [bookid, setBookid] = React.useState(0);
 
-    const handleClickOpen = () => {
+    const getBooks = async () =>  { const books = await bookService.getBooks({
+        // name: text,
+       })
+       setBooks(books)
+    }
+
+
+
+    const handleClickOpen = (bookId: number) => {
+        setBookid(bookId)
         setOpen(true);
     };
 
@@ -24,8 +32,8 @@ export default function BookContainer() {
         setOpen(false);
     };
 
-    const action = (bookId: number) => {
-        deleteBook(bookId)
+    const action = () => {
+        deleteBook(bookid)
         setOpen(false);
     }
 
@@ -37,17 +45,18 @@ export default function BookContainer() {
     const deleteBook = async (bookId: number) => {
         try {
           const data = await bookService.deleteBook(bookId)
-          showMessage(data)
+          showMessage(data, getBooks)
         } catch (error) {
             showMessage({message:(error as {response:{data:{message:string}}})?.response.data.message, statusSeverity:'error'})
         }
     }
 
+    useInitialize(getBooks)
     return(
         <>
         <Stack sx={{gap:"1rem", alignItems:"center"}}>
             {books.map((book) => (
-                <BookComponent book={book} onClickAction={handleClickOpen}/>
+                <BookComponent book={book} onClickAction={() => handleClickOpen(book.id)}/>
             ))}
         </Stack>
         <Dialog

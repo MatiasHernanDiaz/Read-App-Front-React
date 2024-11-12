@@ -12,7 +12,7 @@ class BookService {
 
 
   async deleteBook(bookId: number): Promise<msj> {
-    const res = await axios.delete<msj>(`${URL}/books/${bookId}`)
+    const res = await axios.delete<msj>(`${URL}/books/delete/${bookId}`)
     return res.data
 }
 }

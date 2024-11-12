@@ -19,6 +19,9 @@
     margin-right: 1rem;
 }
 
+.author{
+    font-size: 0.9rem;
+}
 
 .icon-select{
   display: flex;

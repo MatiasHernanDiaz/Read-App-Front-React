@@ -9,7 +9,7 @@ export class Book {
     words: number = 0
     date: Date = new Date(0,0,0)
     complex: boolean
-    lenguages: string = ""
+    lenguages: string[]
     editions: number
     sales: number = 0
     id: number = -1
@@ -22,7 +22,7 @@ export class Book {
         words: number,
         date: Date,
         complex: boolean,
-        lenguages: string,
+        lenguages: string[],
         editions: number,
         sales: number,
         id: number
