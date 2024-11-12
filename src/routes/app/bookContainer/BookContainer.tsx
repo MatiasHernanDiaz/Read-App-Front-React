@@ -36,7 +36,7 @@ export default function BookContainer() {
 
     const deleteBook = async (bookId: number) => {
         try {
-          const data = await bookService.deleteBook(bookId)// Implementa la función de eliminación en authorService
+          const data = await bookService.deleteBook(bookId)
           showMessage(data)
         } catch (error) {
             showMessage({message:(error as {response:{data:{message:string}}})?.response.data.message, statusSeverity:'error'})
@@ -47,7 +47,7 @@ export default function BookContainer() {
         <>
         <Stack sx={{gap:"1rem", alignItems:"center"}}>
             {books.map((book) => (
-                <BookComponent book={book} onClickAction={handleClickOpen} /*deleteBook={deleteBook(book.id)}*//>
+                <BookComponent book={book} onClickAction={handleClickOpen}/>
             ))}
         </Stack>
         <Dialog

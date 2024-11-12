@@ -19,6 +19,7 @@
     margin-right: 1rem;
 }
 
+
 .icon-select{
   display: flex;
   justify-content: center;
@@ -27,11 +28,12 @@
 }
 
 .card-header{
+    width: 14rem;
     display: flex;
     height: 2rem;
     justify-content: space-between;
     align-items: center;
-    font-size: 1rem;
+    font-size: 0.75rem;
     margin: 0;
 }
 

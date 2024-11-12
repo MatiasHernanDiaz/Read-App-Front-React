@@ -20,7 +20,7 @@ export default function BookComponent({book,onClickAction}:CustomIndicatorPayloa
             </div>
             <div className="content">
                 <div className="card-header">
-                    <h2>{book.title}</h2>
+                    <h2 className="title">{book.title}</h2>
                     <List sx={{display: "flex", width: "30%"}}>
                         <IconButton size="small" color="primary">
                         <EditIcon/>
