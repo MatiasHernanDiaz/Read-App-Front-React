@@ -7,9 +7,9 @@ import { sessionContext } from "../root/Root"
 import Message from "../../components/Message/Message"
 
 
-export const msjContext = createContext({} as {showMessage: (data: msj,refreshData?:()=>void)=>void})
+export const msjContext = createContext({} as {showMessage: (data: Msj,refreshData?:()=>void)=>void})
 
-export type msj = {
+export type Msj = {
     message: string,
     statusSeverity: "success" | "error" | "warning"
 }
@@ -21,7 +21,7 @@ export default function MainFrame() {
     
     const [ user, setUser ] = useContext( sessionContext )
 
-    const [message, setMessage] = useState<msj>({message:'', statusSeverity:'success'})
+    const [message, setMessage] = useState<Msj>({message:'', statusSeverity:'success'})
 
     const handleLogout = async () => {
 
@@ -34,7 +34,7 @@ export default function MainFrame() {
 
     }
 
-    const showMessage = (data: msj,refreshData?:()=>void) =>{
+    const showMessage = (data: Msj,refreshData?:()=>void) =>{
         if (refreshData){refreshData()}
         setMessage(data)
         setTimeout(()=>{

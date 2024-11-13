@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom'
 import { msjContext } from "../MainFrame"
 import { AxiosError } from "axios"
 import  AddButton from "../../../components/BtnAdd/BtnAdd"
+import SearchBar from "../../../components/SearchBar/searchBar"
 
 
 
@@ -64,16 +65,8 @@ return (
     <>
     <AddButton redirectTo="/app/authors/:id"/>
     <Typography variant="h4" sx={{margin: '1rem'}}>Autores</Typography>
-    <TextField
-      value={text} onChange={(e) => handleChange(e.target.value)} onKeyDown={handleKeyDown}
-      variant="outlined" sx={{display:'flex', justifyContent:'center', margin:'1rem'}}label="Buscar"
-      InputProps={{
-        endAdornment: (
-          <InputAdornment position="end">
-            <Search />
-          </InputAdornment>
-        ),
-      }} 
+    <SearchBar
+      value={text} onChange={(e) => handleChange(e.target.value)} onKeyDown={handleKeyDown} 
     />
           
       {/* Verifica si el array authors está vacío */}

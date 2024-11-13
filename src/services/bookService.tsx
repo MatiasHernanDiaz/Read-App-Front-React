@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { Book, BookToJSON } from '../model/Book';
-import { msj } from '../routes/app/MainFrame';
+import { Msj } from '../routes/app/MainFrame';
 
 const URL: string = "http://localhost:9000"
 class BookService {
@@ -11,8 +11,8 @@ class BookService {
   }
 
 
-  async deleteBook(bookId: number): Promise<msj> {
-    const res = await axios.delete<msj>(`${URL}/books/delete/${bookId}`)
+  async deleteBook(bookId: number): Promise<Msj> {
+    const res = await axios.delete<Msj>(`${URL}/books/delete/${bookId}`)
     return res.data
 }
 }
