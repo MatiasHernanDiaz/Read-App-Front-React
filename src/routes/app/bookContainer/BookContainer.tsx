@@ -64,7 +64,7 @@ export default function BookContainer() {
     useInitialize(getBooks)
     return(
         <>
-        <AddButton redirectTo="/app/:books"/>
+        <AddButton redirectTo="/app/books/new"/>
 
         <TextField
       value={text} onChange={(e) => handleChange(e.target.value)} onKeyDown={handleKeyDown}

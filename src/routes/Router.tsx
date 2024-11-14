@@ -18,11 +18,14 @@ export const Router = createBrowserRouter(
           <Route path='dashboard' element={ <Dashboard /> } />
 
           <Route path="authors/:id" element={<AuthorEdit />} />
+          <Route path="authors/new" element={<AuthorEdit />} />
           <Route path="authors" element={<Authors />} />
           
           <Route path='books' element={<BookContainer/>}/>
           <Route path=':bookId' element={ <h2>book X</h2>} />
-          
+          <Route path="books/new" element={<h2>NUEVOS LIBROS</h2> } />
+
+
         </Route>
       </Route>
   )

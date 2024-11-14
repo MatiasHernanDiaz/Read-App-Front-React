@@ -63,7 +63,7 @@ useInitialize(getAuthors)
     
 return (
     <>
-    <AddButton redirectTo="/app/authors/:id"/>
+    <AddButton redirectTo="/app/authors/new"/>
     <Typography variant="h4" sx={{margin: '1rem'}}>Autores</Typography>
     <SearchBar
       value={text} onChange={(e) => handleChange(e.target.value)} onKeyDown={handleKeyDown} 
