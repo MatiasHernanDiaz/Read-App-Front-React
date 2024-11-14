@@ -1,5 +1,9 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { TextField, Button, Divider, Stack, FormControlLabel, Checkbox, Typography, Grid, Container } from "@mui/material";
+import { TextField, Button, Divider, Stack, FormControlLabel, Checkbox, Typography, Grid, Container, InputLabel, Select, MenuItem, FormControl, NativeSelect } from "@mui/material";
+import { Author } from "../../model/Author"
+import { authorService } from "../../services/authorService"
+import React, { useState } from 'react';
+import { useInitialize } from '../../hooks/useInitialize';
 
 type FormValues = {
   title: string
@@ -14,6 +18,21 @@ type FormValues = {
 
 export default function BookForm() {
 
+  const [authors, setAuthors] = useState<Author[]>([]) 
+  const [authorId, SetAuthorid] = useState<number>(1);
+
+  async function getAuthors() {
+    const author= await authorService.getAuthors({
+      name: "",
+    })
+    setAuthors(author)
+  }
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    SetAuthorid(event.target.value as unknown as number)
+  }
+
+
   const { register,control, handleSubmit } = useForm<FormValues>({
     defaultValues: {
       lenguage: Array(9).fill(false) // marco los 9 checkboxes como desmarcados
@@ -24,6 +43,7 @@ export default function BookForm() {
   }
 
   const labels = ["Español", "Inglés", "Francés", "Alemán", "Arabe", "Portugués", "Bengali", "Hindi", "Mandarin"]
+  useInitialize(getAuthors)
   return (
     
     <Stack 
@@ -37,11 +57,16 @@ export default function BookForm() {
         margin="dense"
       />
       <TextField
-        label="Autor"
-        {...register("author")}
-        fullWidth
-        margin="dense"
-      />
+      sx={{width:"100%"}}
+      label = 'Autor'
+      select
+      value={authorId}
+      onChange={handleChange}>
+        {authors.map((auth) => (
+          <MenuItem value={auth.id}>{auth.lastName + " " + auth.firstName}</MenuItem>
+        ))}
+
+      </TextField>
       
       <Divider sx={{ margin: '0.5rem 0', backgroundColor:"black"}} />
 
