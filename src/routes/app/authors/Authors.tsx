@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, InputAdornment, List, ListItem, ListItemText, TextField, Typography } from "@mui/material"
+import { Button, Card, CardContent, List, ListItem, ListItemText, Typography } from "@mui/material"
 import { useInitialize } from "../../../hooks/useInitialize"
 import { authorService } from "../../../services/authorService"
 import { useContext, useState } from "react"
@@ -6,10 +6,8 @@ import { Author } from "../../../model/Author"
 import EditIcon from '@mui/icons-material/Edit'
 import BtnDelete from "../../../components/BtnDelete/BtnDelete"
 import DeleteIcon from '@mui/icons-material/Delete'
-import { Search } from "@mui/icons-material"
 import { useNavigate } from 'react-router-dom'
 import { msjContext } from "../MainFrame"
-import { AxiosError } from "axios"
 import  AddButton from "../../../components/BtnAdd/BtnAdd"
 import SearchBar from "../../../components/SearchBar/searchBar"
 
@@ -56,6 +54,9 @@ export default function Authors () {
           getAuthors()
         }
       }
+    const handleSearchClick = () => {
+        getAuthors()
+    }
       const goToAuthorEdit = (id:number) => {
           navigate(`/app/authors/${id}`)
         }
@@ -66,7 +67,7 @@ return (
     <AddButton redirectTo="/app/authors/new"/>
     <Typography variant="h4" sx={{margin: '1rem'}}>Autores</Typography>
     <SearchBar
-      value={text} onChange={(e) => handleChange(e.target.value)} onKeyDown={handleKeyDown} 
+      value={text} onChange={(e) => handleChange(e.target.value)} onKeyDown={handleKeyDown} onSearchClick={handleSearchClick}
     />
           
       {/* Verifica si el array authors está vacío */}
