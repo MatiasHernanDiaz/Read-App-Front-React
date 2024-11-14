@@ -7,6 +7,7 @@ import Dashboard from "./app/dashboard/Dashboard";
 import Authors from "./app/authors/Authors";
 import AuthorEdit from "./app/authors/AuthorEdit";
 import BookContainer from "./app/bookContainer/BookContainer";
+import BookEdit from "../components/EditBook/EditBook";
 
 
 export const Router = createBrowserRouter(
@@ -22,8 +23,8 @@ export const Router = createBrowserRouter(
           <Route path="authors" element={<Authors />} />
           
           <Route path='books' element={<BookContainer/>}/>
-          <Route path=':bookId' element={ <h2>book X</h2>} />
-          <Route path="books/new" element={<h2>NUEVOS LIBROS</h2> } />
+          <Route path=':bookId' element={ <BookEdit />} />
+          <Route path="books/new" element={<BookEdit /> } />
 
 
         </Route>
