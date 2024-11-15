@@ -1,9 +1,12 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { TextField, Button, Divider, Stack, FormControlLabel, Checkbox, Typography, Grid, Container, MenuItem } from "@mui/material";
+import { bookService } from "../../services/bookService"
 import { Author } from "../../model/Author"
 import { authorService } from "../../services/authorService"
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useInitialize } from '../../hooks/useInitialize';
+import { Book, BookToJSON } from '../../model/Book';
+import { msjContext } from "../../routes/app/MainFrame"
 
 type FormValues = {
   title: string
@@ -16,9 +19,9 @@ type FormValues = {
   lenguage: boolean[]
 }
 
-export default function BookForm() {
-
+export default function BookForm({newBook}:{newBook:boolean}) {
   const [authors, setAuthors] = useState<Author[]>([]) 
+  const {showMessage} = useContext(msjContext)
 
   async function getAuthors() {
     const author= await authorService.getAuthors({
@@ -27,14 +30,34 @@ export default function BookForm() {
     setAuthors(author)
   }
 
+  const addBook = async (book: BookToJSON) => {
+    try {
+      const data = await bookService.addBook(book)
+      showMessage(data)
+    } catch (error) {
+        showMessage({message:(error as {response:{data:{message:string}}})?.response.data.message, statusSeverity:'error'})
+    }
+}
 
   const { register,control, handleSubmit } = useForm<FormValues>({
     defaultValues: {
       lenguage: Array(9).fill(false) // marco los 9 checkboxes como desmarcados
     }
   })
-  const onSubmit: SubmitHandler<FormValues> = data => {
+  const onSubmit: SubmitHandler<FormValues> = async data => {
     console.log(data);
+    addBook(new Book(
+      data.cantPag,
+      data.title,
+      "data.imageURL",
+      await authorService.getAuthorById(data.authorId),
+      data.cantPal,
+      new Date(),
+      data.complexReading,
+      [],
+      data.editions,
+      data.ventas,
+      1000).bookToJSON())
   }
 
   const labels = ["Español", "Inglés", "Francés", "Alemán", "Arabe", "Portugués", "Bengali", "Hindi", "Mandarin"]
