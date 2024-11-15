@@ -18,7 +18,7 @@ export default function Authors () {
 
     const [authors, setAuthors] = useState<Author[]>([]) 
     const [text, setText] = useState<string>("")
-    const {showMessage} = useContext(msjContext)
+    const {showMessage} = useContext(msjContext) //para usarlo en muchos componente
 
     const getAuthors= async () => {
         try {
@@ -37,8 +37,10 @@ export default function Authors () {
           showMessage(data,getAuthors)
         } catch (error) {
             showMessage({message:(error as {response:{data:{message:string}}})?.response.data.message, statusSeverity:'error'})
+          }
         }
-    }
+        
+    useInitialize(getAuthors)
 
     const deleteInput = {
         btnTitle: "Eliminar autor",
@@ -57,10 +59,9 @@ export default function Authors () {
     const handleSearchClick = () => {
         getAuthors()
     }
-      const goToAuthorEdit = (id:number) => {
-          navigate(`/app/authors/${id}`)
-        }
-useInitialize(getAuthors)
+    const goToAuthorEdit = (id:number) => {
+        navigate(`/app/authors/${id}`)
+      }
     
 return (
     <>

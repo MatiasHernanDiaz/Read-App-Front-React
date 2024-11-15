@@ -15,14 +15,15 @@ export default function AuthorEdit() {
   const authorId = parseInt(id || "0", 10)
 
   const handleBack = () => {
-    navigate(-1) // Vuelvo a atrás
+    navigate(-1) 
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (author) {
       try {
-        authorService.updateAuthor(authorId, author);
+        authorService.updateAuthor(authorId, author)
+        handleBack()
         showMessage({ message: "Autor actualizado con éxito", statusSeverity: "success" })
       } catch (error) {
         showMessage({ message: (error as Error).message, statusSeverity: "error" })
@@ -42,7 +43,7 @@ export default function AuthorEdit() {
   useInitialize(getAuthor)
 
   const handleChange = (e:  SelectChangeEvent<Language> | React.ChangeEvent<HTMLInputElement | { name?: string | undefined; value: unknown }>) => {
-    const { name, value } = e.target
+    const { name, value } = e.target 
     if (name) {
       setAuthor(prevAuthor => {
         if (prevAuthor) {
@@ -53,15 +54,13 @@ export default function AuthorEdit() {
     }
   }
 
-
-  const isFieldEmpty = (field: string) => field.trim() === ""//devuelve true si esta vacio
-
+  const isFieldEmpty = (field: string) => field.trim() === ""
 
   return (
     <Container sx={{ marginTop: "2rem" }}>
       <Typography variant="h4" gutterBottom>Editar Autor</Typography>
 
-      {author && (
+      {author && ( 
         <form onSubmit={handleSubmit}>
           <TextField
             label="Nombre" name="firstName"

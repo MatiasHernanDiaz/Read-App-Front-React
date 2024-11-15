@@ -1,6 +1,6 @@
-import axios from 'axios';
-import { Author } from '../model/Author';
-import { Msj } from '../routes/app/MainFrame';
+import axios from 'axios'
+import { Author } from '../model/Author'
+import { Msj } from '../routes/app/MainFrame'
 
 const URL: string = "http://localhost:9000"
 class AuthorService {
