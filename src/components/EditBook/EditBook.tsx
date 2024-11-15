@@ -1,17 +1,17 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { TextField, Button, Divider, Stack, FormControlLabel, Checkbox, Typography, Grid, Container, InputLabel, Select, MenuItem, FormControl, NativeSelect } from "@mui/material";
+import { TextField, Button, Divider, Stack, FormControlLabel, Checkbox, Typography, Grid, Container, MenuItem } from "@mui/material";
 import { Author } from "../../model/Author"
 import { authorService } from "../../services/authorService"
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useInitialize } from '../../hooks/useInitialize';
 
 type FormValues = {
   title: string
-  author: string
-  editions: string
-  cantPag: string
-  cantPal: string
-  ventas: string
+  authorId: number
+  editions: number
+  cantPag: number
+  cantPal: number
+  ventas: number
   complexReading: boolean
   lenguage: boolean[]
 }
@@ -19,17 +19,12 @@ type FormValues = {
 export default function BookForm() {
 
   const [authors, setAuthors] = useState<Author[]>([]) 
-  const [authorId, SetAuthorid] = useState<number>(1);
 
   async function getAuthors() {
     const author= await authorService.getAuthors({
       name: "",
     })
     setAuthors(author)
-  }
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    SetAuthorid(event.target.value as unknown as number)
   }
 
 
@@ -60,8 +55,7 @@ export default function BookForm() {
       sx={{width:"100%"}}
       label = 'Autor'
       select
-      value={authorId}
-      onChange={handleChange}>
+      {...register("authorId")}>
         {authors.map((auth) => (
           <MenuItem value={auth.id}>{auth.lastName + " " + auth.firstName}</MenuItem>
         ))}
@@ -72,6 +66,7 @@ export default function BookForm() {
 
       <TextField
         label="Ediciones"
+        inputProps={{ type: 'number'}}
         {...register("editions")}
         fullWidth
         margin="dense"
@@ -79,12 +74,14 @@ export default function BookForm() {
       <Stack display="flex" flexDirection="row" gap={2} >
         <TextField
           label="Cantidad de páginas"
+          inputProps={{ type: 'number'}}
           {...register("cantPag")}
           fullWidth
           margin="dense"
         />
         <TextField
           label="Cantidad de palabras"
+          inputProps={{ type: 'number'}}
           {...register("cantPal")}
           fullWidth
           margin="dense"
@@ -92,6 +89,7 @@ export default function BookForm() {
       </Stack>
       <TextField
           label="Ventas semanales"
+          inputProps={{ type: 'number'}}
           {...register("ventas")}
           fullWidth
           margin="dense"
