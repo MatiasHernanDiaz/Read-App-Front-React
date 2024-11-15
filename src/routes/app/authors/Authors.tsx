@@ -33,7 +33,7 @@ export default function Authors () {
       
       const deleteAuthor = async (authorId: number) => {
         try {
-          const data = await authorService.deleteAuthor(authorId)// Implementa la función de eliminación en authorService
+          const data = await authorService.deleteAuthor(authorId)
           showMessage(data,getAuthors)
         } catch (error) {
             showMessage({message:(error as {response:{data:{message:string}}})?.response.data.message, statusSeverity:'error'})

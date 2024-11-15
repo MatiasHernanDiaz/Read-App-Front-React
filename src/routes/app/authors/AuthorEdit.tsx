@@ -53,6 +53,10 @@ export default function AuthorEdit() {
     }
   }
 
+
+  const isFieldEmpty = (field: string) => field.trim() === ""//devuelve true si esta vacio
+
+
   return (
     <Container sx={{ marginTop: "2rem" }}>
       <Typography variant="h4" gutterBottom>Editar Autor</Typography>
@@ -65,6 +69,8 @@ export default function AuthorEdit() {
             onChange={handleChange}
             variant="outlined"
             sx={{ marginBottom: "1rem", width: "100%" }}
+            error={isFieldEmpty(author.firstName)}
+            helperText={isFieldEmpty(author.firstName) ? 'Complete el campo' : ''}
           />
           <TextField
             label="Apellido"
@@ -73,6 +79,8 @@ export default function AuthorEdit() {
             onChange={handleChange}
             variant="outlined"
             sx={{ marginBottom: "1rem", width: "100%" }}
+            error={isFieldEmpty(author.lastName)}
+            helperText={isFieldEmpty(author.lastName) ? 'Complete el campo' : ''}
           />
 
           <FormControl variant="outlined" sx={{ marginBottom: "1rem", width: "100%" }}>
@@ -96,7 +104,8 @@ export default function AuthorEdit() {
             >Volver
             </Button>
 
-            <Button type="submit" variant="contained" sx={{ marginBottom: "1rem" }}>Guardar Cambios</Button>
+            <Button type="submit" variant="contained" sx={{ marginBottom: "1rem" }}
+            disabled={isFieldEmpty(author.firstName) || isFieldEmpty(author.lastName)}>Guardar Cambios</Button>
           </Container>
         </form>
       )}
