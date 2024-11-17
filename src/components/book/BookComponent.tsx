@@ -1,5 +1,5 @@
 import { Book } from "../../model/Book";
-import { IconButton, List, ListItem, Card } from '@mui/material';
+import { List, ListItem, Card, Button, IconButton } from '@mui/material';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import TranslateIcon from '@mui/icons-material/Translate'
@@ -8,11 +8,27 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import EditIcon from '@mui/icons-material/Edit';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
+import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import "./BookComponent.css"
+import BtnDelete from "../BtnDelete/BtnDelete";
 
 
 export default function BookComponent({book,onClickAction}:CustomIndicatorPayload) {    
 
+    const deleteInput = {
+        btnTitle: "Eliminar autor",
+        title: "¿Seguro que desea eliminar este autor?",
+        description: "Esta acción no se puede deshacer",
+        icon:<DeleteOutlinedIcon></DeleteOutlinedIcon>
+    }
+
+    function complex(){
+        if (book.complex){
+            return "compleja"
+        }
+        else return "sencilla"
+    }
 
     function listToString(strings : string[]){
         let result: string = ""
@@ -24,30 +40,38 @@ export default function BookComponent({book,onClickAction}:CustomIndicatorPayloa
 
     return (
         <Card className="card">
-            <div>
+            <div className="image-center">
                 <img src={book.imageURL} className="img" alt="Portada de libro"/>
             </div>
-            <div className="content">
+            <div>
                 <div className="card-header">
                     <h2 className="title">{book.title}</h2>
-                    <List sx={{display: "flex", width: "30%"}}>
-                        <IconButton size="small" color="primary">
-                            <EditIcon/>
-                        </IconButton>
+                    <IconButton color="primary" /*onClick={handleClickOpen}*/>
+                        <WorkspacePremiumIcon/>
+                    </IconButton>
+                </div>
+                <div className="card-header">
+                    <p className="author">Por {book.autor.firstName + " " + book.autor.lastName} </p>
+                    <List sx={{display: "flex", width: "50%", padding:"0.1rem"}}>
+                            <Button variant="outlined" color="primary" /*onClick={handleClickOpen}*/ sx={{marginRight:"0.25rem"}}>
+                                <EditIcon/>
+                            </Button>
 
-                        <IconButton size="small" color="primary" onClick={() => onClickAction(book.id)}>
-                            <DeleteOutlinedIcon/>
-                        </IconButton>
+                            <BtnDelete
+                                btnTitle={deleteInput.btnTitle} title={deleteInput.title}
+                                description={deleteInput.description} setAction={() => onClickAction(book.id)}
+                                icon={deleteInput.icon}
+                            />
                     </List>
                 </div>
-                <p className="author">Por {book.autor.firstName + " " + book.autor.lastName} </p>
                 <List className='comments'>
-                    <ListItem className="comment"><AutoStoriesIcon/>{book.pages} Paginas</ListItem>
-                    <ListItem className="comment"><TitleIcon/>{book.words} Palabras</ListItem>
-                    <ListItem className="comment"><CalendarMonthIcon/> {"mm/dd/aaaa"}</ListItem>
-                    <ListItem className="comment"><MonetizationOnIcon/>{book.sales} Ventas</ListItem>
-                    <ListItem className="comment"><AutorenewIcon/>{book.editions} Ediciones</ListItem>
-                    <ListItem className="comment" sx={{fontSize:"0.65rem"}}><TranslateIcon/>{listToString(book.lenguages)}</ListItem>
+                    <ListItem className="comment"><AutoStoriesIcon sx={{marginRight:"0.5rem"}}/>{book.pages} Paginas</ListItem>
+                    <ListItem className="comment"><TitleIcon sx={{marginRight:"0.5rem"}}/>{book.words} Palabras</ListItem>
+                    <ListItem className="comment"><CalendarMonthIcon sx={{marginRight:"0.5rem"}}/> {"mm/dd/aaaa"}</ListItem>
+                    <ListItem className="comment"><MonetizationOnIcon sx={{marginRight:"0.5rem"}}/>{book.sales} Ventas</ListItem>
+                    <ListItem className="comment"><AutorenewIcon sx={{marginRight:"0.5rem"}}/>{book.editions} Ediciones</ListItem>
+                    <ListItem className="comment" sx={{fontSize:"0.8rem"}}><TranslateIcon sx={{marginRight:"0.5rem"}}/>{listToString(book.lenguages)}</ListItem>
+                    <ListItem className="comment"><PsychologyAltIcon sx={{marginRight:"0.5rem"}}/>Lectura {complex()}</ListItem>
                 </List>
             </div>
         </Card>
@@ -56,5 +80,5 @@ export default function BookComponent({book,onClickAction}:CustomIndicatorPayloa
 
 export type CustomIndicatorPayload = {
     book: Book,
-    onClickAction: (bookid: number) => void
+    onClickAction: (bookId: number) => Promise<void>
 }
