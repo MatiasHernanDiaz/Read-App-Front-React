@@ -18,13 +18,14 @@ export default function AuthorEdit() {
   const [author, setAuthor] = useState<Author>({
     firstName: "",
     lastName: "",
-    nativeLanguage: Language.SPANISH
+    nativeLanguage: Language.SPANISH,
+    id:-1
   })
 
   const [errors, setErrors] = useState<{ firstName: string; lastName: string }>({
     firstName: "",
     lastName: "",
-  });
+  })
   
   useEffect(() => {
     if (!isNew) {
@@ -35,7 +36,7 @@ export default function AuthorEdit() {
         } catch (error) {
           showMessage({ message: (error as Error).message, statusSeverity: "error" })
         }
-      };
+      }
       fetchAuthor()
     }
   }, [isNew, authorId, showMessage])
@@ -52,12 +53,15 @@ export default function AuthorEdit() {
         if (isNew) {
           const newAuthor = await authorService.createAuthor(author)
           setAuthor(newAuthor)
+          navigate(-1)
+          
         } else {
           const updatedAuthor = await authorService.updateAuthor(authorId, author)
           setAuthor(updatedAuthor)
+          navigate(-1)
         }
         showMessage({ message: isNew ? "Autor creado" : "Autor actualizado", statusSeverity: "success" })
-        navigate(-1)
+        
       } catch (error) {
         showMessage({ message: (error as Error).message, statusSeverity: "error" })
       }
@@ -75,7 +79,7 @@ export default function AuthorEdit() {
 
   const initializeAuthor = async () => {
     if (isNew) {
-      setAuthor({ firstName: "", lastName: "" , nativeLanguage: Language.SPANISH})
+      setAuthor({ firstName: "", lastName: "" , nativeLanguage: Language.SPANISH, id:-1})
     } else {
       try {
         const authorData = await authorService.getAuthorById(authorId)
@@ -104,17 +108,17 @@ export default function AuthorEdit() {
     const newErrors = {
       firstName: author.firstName ? "" : "Complete el campo",
       lastName: author.lastName ? "" : "Complete el campo",
-    };
-    setErrors(newErrors);
+    }
+    setErrors(newErrors)
     return newErrors.firstName === "" && newErrors.lastName === "";
   }
-  const isFieldEmpty = (field: string) => field.trim() === ""
+  // const isFieldEmpty = (field: string) => field.trim() === ""
 
   return (
     <Container sx={{ marginTop: "2rem" }}>
       <Typography variant="h4" gutterBottom> {isNew ? "Agregar Autor" : "Editar Autor"}</Typography>
 
-      
+        
         <form onSubmit={handleSubmit}>
           <TextField
             label="Nombre" 
@@ -138,8 +142,8 @@ export default function AuthorEdit() {
             // Sirve manejo de errores? cuando se supone que va a saltar el error? para mi nunca.
             // error={isFieldEmpty(author.lastName)}
             // helperText={isFieldEmpty(author.lastName) ? 'Complete el campo' : ''}
-            // error={!!errors.lastName}
-            // helperText={errors.lastName}
+            error={!!errors.lastName}
+            helperText={errors.lastName}
           />
 
           <FormControl variant="outlined" sx={{ marginBottom: "1rem", width: "100%" }}>
@@ -164,7 +168,8 @@ export default function AuthorEdit() {
             </Button>
 
             <Button type="submit" variant="contained" sx={{ marginBottom: "1rem" }}
-            disabled={isFieldEmpty(author.firstName) || isFieldEmpty(author.lastName)}>Guardar Cambios</Button>
+           // disabled={isFieldEmpty(author.firstName) || isFieldEmpty(author.lastName)}
+            >Guardar Cambios</Button>
           </Container>
         </form>
       

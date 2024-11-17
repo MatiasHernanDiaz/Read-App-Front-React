@@ -1,12 +1,13 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { TextField, Button, Divider, Stack, FormControlLabel, Checkbox, Typography, Grid, Container, MenuItem } from "@mui/material";
-import { bookService } from "../../services/bookService"
-import { Author } from "../../model/Author"
-import { authorService } from "../../services/authorService"
+import { bookService } from '../../../services/bookService';
+import { Author } from '../../../model/Author';
+import { authorService } from '../../../services/authorService';
 import { useState, useContext } from 'react';
-import { useInitialize } from '../../hooks/useInitialize';
-import { Book, BookToJSON } from '../../model/Book';
-import { msjContext } from "../../routes/app/MainFrame"
+import { useInitialize } from '../../../hooks/useInitialize';
+import { BookToJSON,Book } from '../../../model/Book';
+import { msjContext } from '../MainFrame';
+import { useNavigate } from 'react-router-dom';
 
 type FormValues = {
   title: string
@@ -22,6 +23,8 @@ type FormValues = {
 export default function BookForm({newBook}:{newBook:boolean}) {
   const [authors, setAuthors] = useState<Author[]>([]) 
   const {showMessage} = useContext(msjContext)
+  const navigate = useNavigate()
+
 
   async function getAuthors() {
     const author= await authorService.getAuthors({
@@ -60,6 +63,9 @@ export default function BookForm({newBook}:{newBook:boolean}) {
       1000).bookToJSON())
   }
 
+  const handleBack = () => {
+    navigate(-1) 
+  }
   const labels = ["Español", "Inglés", "Francés", "Alemán", "Arabe", "Portugués", "Bengali", "Hindi", "Mandarin"]
   useInitialize(getAuthors)
   return (
@@ -151,6 +157,7 @@ export default function BookForm({newBook}:{newBook:boolean}) {
       <Container sx={{ marginTop: "2rem", display: "flex",justifyContent: "space-between" }}>
         <Button
           variant="outlined" sx={{ marginBottom: "1rem" }}
+          onClick={handleBack}
         >Volver</Button>
 
         <Button type="submit" variant="contained" sx={{ marginBottom: "1rem" }}>Guardar Cambios</Button>

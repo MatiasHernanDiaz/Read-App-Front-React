@@ -32,9 +32,9 @@ class AuthorService {
     return Author.fromJSON(authorJSON$.data)
   }
   async createAuthor(newAuthor: Author) {
-    const response = await axios.post<AuthorNew>(`${URL}/app/authors/new`, newAuthor);
+    const response = await axios.post<AuthorNew>(`${URL}/authors/new`, newAuthor);
     return response.data;  
-}
+  }
 
 }
 
