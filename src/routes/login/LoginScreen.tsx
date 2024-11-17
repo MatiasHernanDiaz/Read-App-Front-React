@@ -5,55 +5,36 @@ import fondo from "../../../src/assets/loginFondo.png";
 import { loginService } from "../../services/loginService";
 import { AxiosError } from "axios";
 import { sessionContext } from "../root/Root";
+import { SubmitHandler, useForm } from 'react-hook-form';
 
+interface LoginFormInputs{
+    email: string
+    password: string
+}
 
 export default function LoginScreen() {
-
+    /* REACT HOOK FORM */
     const [ user, setUser ] = useContext( sessionContext )
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
     const [showPassword, setShowPassword] = useState(false)
-    const [emailError, setEmailError] = useState("")
-    const [passwordError, setPasswordError] = useState("")
+    const { register, handleSubmit, setError, formState: {errors}} = useForm<LoginFormInputs>()
     const handleClickShowPassword = () => setShowPassword(!showPassword)
     
 
-    const handleLogin = async () => {
+    const handleLogin: SubmitHandler<LoginFormInputs> = async (data) => {
     
-        let hasError = false
-
-        setEmailError("")
-        setPasswordError("")
-
-        if (!email) {
-            setEmailError("El usuario es obligatorio.")
-            hasError = true
-        }
-        if (!password) {
-            setPasswordError("La contraseña es obligatoria.")
-            hasError = true
-        }
-
-        if (hasError) return
-
         try {
-            const res = await loginService.login( email, password )
-
-            if( !res.login ) {
-                setPasswordError("Credenciales inválidas.")
-                hasError = true
-            }
-
+            const res = await loginService.login( data.email, data.password )
             setUser( res.user )
-
+            
         } catch ( error: unknown ){
             console.error( error )
             if( (error as AxiosError).status === 403 ) {
-                setPasswordError("Credenciales inválidas.")
+                setError("password", {message: "Credenciales Invalidas"})
             }
-            
-            setPasswordError("Credenciales inválidas.")
-        }
+            if((error as AxiosError).code === "ERR_NETWORK"){
+                setError("password", {message: "Error de conexion"})
+            }
+        }        
     }
 
     return (
@@ -73,12 +54,10 @@ export default function LoginScreen() {
                 fontSize: "4rem" 
             }}
         >ReadApp</h1>
-
+        <form onSubmit={handleSubmit(handleLogin)}>
         <Stack 
-            // method='post' 
-            onKeyDown={ e => e.key === 'Enter' && handleLogin() }
             style={{
-                width: '80%', 
+                width: "20rem",
                 display: 'flex', 
                 flexDirection: 'column',
                 gap: '50px' 
@@ -87,12 +66,15 @@ export default function LoginScreen() {
             <TextField
                 label="Usuario" 
                 variant="outlined" 
-                type="email"
-                name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                error={!!emailError}
-                helperText={emailError}
+                {...register("email", 
+                    {   required: "El usuario es obligatorio.",
+                        pattern: {
+                            value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                            message: "Debe tener formato de correo electrónico."
+                        }
+                    })}
+                error={!!errors.email}
+                helperText={errors.email?.message}
                 sx={{
                      '& .MuiOutlinedInput-root': {
                         '&.Mui-focused fieldset': {
@@ -109,12 +91,11 @@ export default function LoginScreen() {
                 label="Contraseña" 
                 variant="outlined" 
                 type={showPassword ? "text" : "password"}
-                    name="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                {...register("password", { required: "La contraseña es obligatoria." , minLength: {value :5 , message: "La contraseña debe tener minimo 5 carcateres."}})}
+
                     fullWidth
-                    error={!!passwordError}
-                    helperText={passwordError}
+                    error={!!errors.password}
+                    helperText={errors.password?.message}
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position="end">
@@ -136,14 +117,15 @@ export default function LoginScreen() {
                 }}
             />       
             <Button
+                type="submit"
                 variant="contained"   
                 sx={{
                         backgroundColor: 'rgb(242, 93, 11)', 
                         
                     }}      
-                onClick={ handleLogin }
             >Ingresar</Button>
             </Stack>
+            </form>
     </Stack>
     )
 }

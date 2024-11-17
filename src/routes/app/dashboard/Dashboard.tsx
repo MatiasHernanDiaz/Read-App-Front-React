@@ -83,10 +83,11 @@ export default function Dashboard () {
                     Acciones
                 </Typography>
                 <BtnDelete 
-                btnTitle={inputBtnUser.btnTitle} 
-                title={inputBtnUser.title} 
-                description={inputBtnUser.description} 
-                setAction={() => deleteUser()}/>
+                    btnTitle='Borrar usuarios inactivos' 
+                    title={inputBtnUser.title} 
+                    description={inputBtnUser.description} 
+                    setAction={deleteUser}
+                />
                 <BtnDelete 
                 btnTitle={inputBtnCenter.btnTitle} 
                 title={inputBtnCenter.title} 

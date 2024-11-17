@@ -1,4 +1,4 @@
-import { Button, Card, CardContent, InputAdornment, List, ListItem, ListItemText, TextField, Typography } from "@mui/material"
+import { Button, Card, CardContent, List, ListItem, ListItemText, Typography } from "@mui/material"
 import { useInitialize } from "../../../hooks/useInitialize"
 import { authorService } from "../../../services/authorService"
 import { useContext, useState } from "react"
@@ -6,11 +6,10 @@ import { Author } from "../../../model/Author"
 import EditIcon from '@mui/icons-material/Edit'
 import BtnDelete from "../../../components/BtnDelete/BtnDelete"
 import DeleteIcon from '@mui/icons-material/Delete'
-import { Search } from "@mui/icons-material"
 import { useNavigate } from 'react-router-dom'
 import { msjContext } from "../MainFrame"
-import { AxiosError } from "axios"
 import  AddButton from "../../../components/BtnAdd/BtnAdd"
+import SearchBar from "../../../components/SearchBar/searchBar"
 
 
 
@@ -19,7 +18,7 @@ export default function Authors () {
 
     const [authors, setAuthors] = useState<Author[]>([]) 
     const [text, setText] = useState<string>("")
-    const {showMessage} = useContext(msjContext)
+    const {showMessage} = useContext(msjContext) //para usarlo en muchos componente
 
     const getAuthors= async () => {
         try {
@@ -34,12 +33,14 @@ export default function Authors () {
       
       const deleteAuthor = async (authorId: number) => {
         try {
-          const data = await authorService.deleteAuthor(authorId)// Implementa la función de eliminación en authorService
+          const data = await authorService.deleteAuthor(authorId)
           showMessage(data,getAuthors)
         } catch (error) {
             showMessage({message:(error as {response:{data:{message:string}}})?.response.data.message, statusSeverity:'error'})
+          }
         }
-    }
+        
+    useInitialize(getAuthors)
 
     const deleteInput = {
         btnTitle: "Eliminar autor",
@@ -55,25 +56,19 @@ export default function Authors () {
           getAuthors()
         }
       }
-      const goToAuthorEdit = (id:number) => {
-          navigate(`/app/authors/${id}`)
-        }
-useInitialize(getAuthors)
+    const handleSearchClick = () => {
+        getAuthors()
+    }
+    const goToAuthorEdit = (id:number) => {
+        navigate(`/app/authors/${id}`)
+      }
     
 return (
     <>
-    <AddButton redirectTo="/app/authors/:id"/>
+    <AddButton redirectTo="/app/authors/new"/>
     <Typography variant="h4" sx={{margin: '1rem'}}>Autores</Typography>
-    <TextField
-      value={text} onChange={(e) => handleChange(e.target.value)} onKeyDown={handleKeyDown}
-      variant="outlined" sx={{display:'flex', justifyContent:'center', margin:'1rem'}}label="Buscar"
-      InputProps={{
-        endAdornment: (
-          <InputAdornment position="end">
-            <Search />
-          </InputAdornment>
-        ),
-      }} 
+    <SearchBar
+      value={text} onChange={(e) => handleChange(e.target.value)} onKeyDown={handleKeyDown} onSearchClick={handleSearchClick}
     />
           
       {/* Verifica si el array authors está vacío */}

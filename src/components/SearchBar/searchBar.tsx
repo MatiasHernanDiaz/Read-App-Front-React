@@ -1,15 +1,16 @@
-import { ChangeEvent, KeyboardEvent } from 'react'; // Solo importa lo necesario
-import { TextField, InputAdornment } from '@mui/material';
+import { ChangeEvent, KeyboardEvent, MouseEventHandler } from 'react'; // Solo importa lo necesario
+import { TextField, Button } from '@mui/material';
 import { Search } from '@mui/icons-material';
 
 interface SearchBarProps {
   value: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void
   onKeyDown: (event: KeyboardEvent) => void
+  onSearchClick: MouseEventHandler 
   label?: string
 }
 
-const SearchBar = ({ value, onChange, onKeyDown, label = "Buscar" }: SearchBarProps) => {
+const SearchBar = ({ value, onChange, onKeyDown, label = "Buscar" ,onSearchClick}: SearchBarProps) => {
   return (
     <TextField
       value={value}
@@ -20,9 +21,9 @@ const SearchBar = ({ value, onChange, onKeyDown, label = "Buscar" }: SearchBarPr
       label={label}
       InputProps={{
         endAdornment: (
-          <InputAdornment position="end">
-            <Search/>
-          </InputAdornment>
+          <Button onClick={onSearchClick}> 
+            <Search />
+          </Button>
         ),
       }}
     />

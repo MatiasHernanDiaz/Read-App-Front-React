@@ -15,7 +15,7 @@ export default function BookComponent({book,onClickAction}:CustomIndicatorPayloa
 
 
     function listToString(strings : string[]){
-        var result: string = ""
+        let result: string = ""
         strings.map(word => {
             result = result + " " + word
         })
@@ -32,11 +32,11 @@ export default function BookComponent({book,onClickAction}:CustomIndicatorPayloa
                     <h2 className="title">{book.title}</h2>
                     <List sx={{display: "flex", width: "30%"}}>
                         <IconButton size="small" color="primary">
-                        <EditIcon/>
+                            <EditIcon/>
                         </IconButton>
 
                         <IconButton size="small" color="primary" onClick={() => onClickAction(book.id)}>
-                        <DeleteOutlinedIcon/>
+                            <DeleteOutlinedIcon/>
                         </IconButton>
                     </List>
                 </div>

@@ -1,9 +1,9 @@
 import { Alert, AlertTitle } from "@mui/material";
-import { msj } from "../../routes/app/MainFrame";
+import { Msj } from "../../routes/app/MainFrame";
 
 
 
-export default function Message({message} : {message:msj}){
+export default function Message({message} : {message:Msj}){
     //severity = success, error, warnings
     
 
