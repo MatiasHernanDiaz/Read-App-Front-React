@@ -1,8 +1,17 @@
 import axios from 'axios'
 import { Author } from '../model/Author'
 import { Msj } from '../routes/app/MainFrame'
+import { Language } from '../model/User';
 
 const URL: string = "http://localhost:9000"
+
+
+interface AuthorNew {
+  id: number;
+  firstName: string;
+  lastName: string;
+  nativeLanguage: Language;
+}
 class AuthorService {
   async getAuthors({ name }: { name?: string }): Promise<Author[]> {
     const authorJSON$ = await axios.get<Author[]>(`${URL}/authors?text=${name || ''}`)
@@ -22,6 +31,10 @@ class AuthorService {
     const authorJSON$ = await axios.put<Author>(`${URL}/authors/${id}`, updatedAuthor)
     return Author.fromJSON(authorJSON$.data)
   }
+  async createAuthor(newAuthor: Author) {
+    const response = await axios.post<AuthorNew>(`${URL}/app/authors/new`, newAuthor);
+    return response.data;  
+}
 
 }
 
