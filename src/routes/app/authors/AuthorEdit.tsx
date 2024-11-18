@@ -14,8 +14,6 @@ export default function AuthorEdit() {
   const { id } = useParams() 
   const authorId = parseInt(id || "0", 10)
   const isNew = !id
-  // [name, setName] = useState("")
-
 
   const [author, setAuthor] = useState<Author>({
     firstName: "",
@@ -47,7 +45,7 @@ export default function AuthorEdit() {
   }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault()//envia al back sin refrescar pagina
     if (validate()) {
       try {
         if (isNew) {
@@ -68,6 +66,15 @@ export default function AuthorEdit() {
     }
   }
 
+  const validate = () => {
+    const newErrors = {
+      lastName: author.lastName ? "" : "Complete el campo",
+      firstName: author.firstName ? "" : "Complete el campo"
+    }
+    setErrors(newErrors)
+    return newErrors.firstName === "" && newErrors.lastName === ""
+  }
+
   const handleChange = (e:  SelectChangeEvent<Language> | React.ChangeEvent<HTMLInputElement | { name?: string | undefined; value: unknown }>) => {
     const { name, value } = e.target 
     if (name) {
@@ -78,15 +85,6 @@ export default function AuthorEdit() {
         return prevAuthor
       })
     }
-  }
-
-  const validate = () => {
-    const newErrors = {
-      lastName: author.lastName ? "" : "Complete el campo",
-      firstName: author.firstName ? "" : "Complete el campo"
-    }
-    setErrors(newErrors)
-    return newErrors.firstName === "" && newErrors.lastName === ""
   }
 
   return (
@@ -133,8 +131,7 @@ export default function AuthorEdit() {
             <Button
               variant="outlined" startIcon={<ArrowBackIcon />}
               onClick={handleBack} sx={{ marginBottom: "1rem" }}
-            >Volver
-            </Button>
+            >Volver</Button>
 
             <Button type="submit" variant="contained" sx={{ marginBottom: "1rem" }}
             >Guardar Cambios</Button>

@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { Author } from '../model/Author'
 import { Msj } from '../routes/app/MainFrame'
-import { Language } from '../model/User';
+import { Language } from '../model/User'
 
 const URL: string = "http://localhost:9000"
 

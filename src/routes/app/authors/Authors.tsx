@@ -70,8 +70,6 @@ return (
     <SearchBar
       value={text} onChange={(e) => handleChange(e.target.value)} onKeyDown={handleKeyDown} onSearchClick={handleSearchClick}
     />
-          
-      {/* Verifica si el array authors está vacío */}
       {authors.length === 0 ? (
         <Typography variant="h6" sx={{ margin: "1rem", textAlign: "center" }}>
           No hay autores disponibles</Typography>
@@ -80,9 +78,7 @@ return (
           {authors.map((author) => (
             <Card
               key={author.id} variant="outlined"
-              sx={{marginBottom: "1rem",borderRadius: "1rem",boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                borderColor: "rgba(0, 0, 0, 0.1)",
-              }}
+              sx={{marginBottom: "1rem",borderRadius: "1rem",boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",borderColor: "rgba(0, 0, 0, 0.1)" }}
             >
               <CardContent>
                 <ListItem>
@@ -96,8 +92,7 @@ return (
 
                   <BtnDelete
                     btnTitle={deleteInput.btnTitle} title={deleteInput.title}
-                    description={deleteInput.description} setAction={() => deleteAuthor(author.id)}
-                    icon={deleteInput.icon}
+                    description={deleteInput.description} setAction={() => deleteAuthor(author.id)} icon={deleteInput.icon}
                   />
                 </ListItem>
               </CardContent>
