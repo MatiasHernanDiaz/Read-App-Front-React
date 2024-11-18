@@ -5,14 +5,10 @@ import { loginService } from "../../services/loginService"
 import { createContext, useContext, useState } from "react"
 import { sessionContext } from "../root/Root"
 import Message from "../../components/Message/Message"
+import { AxiosResponse } from "axios"
 
 
-export const msjContext = createContext({} as {showMessage: (data: Msj,refreshData?:()=>void)=>void})
-
-export type Msj = {
-    message: string,
-    statusSeverity: "success" | "error" | "warning"
-}
+export const msjContext = createContext({} as {showMessage: (data: AxiosResponse,refreshData?:()=>void)=>void})
 
 
 export default function MainFrame() {
@@ -21,7 +17,7 @@ export default function MainFrame() {
     
     const [ user, setUser ] = useContext( sessionContext )
 
-    const [message, setMessage] = useState<Msj>({message:'', statusSeverity:'success'})
+    const [message, setMessage] = useState<AxiosResponse>({status:0, data:''} as AxiosResponse)
 
     const handleLogout = async () => {
 
@@ -34,13 +30,13 @@ export default function MainFrame() {
 
     }
 
-    const showMessage = (data: Msj,refreshData?:()=>void) =>{
+    const showMessage = (res: AxiosResponse,refreshData?:()=>void) =>{
         if (refreshData){refreshData()}
-        setMessage(data)
+        setMessage(res)
         setTimeout(()=>{
-            setMessage({message:'', statusSeverity:'success'})
+            setMessage({status:0, data:''} as AxiosResponse)
         },3000)
-      }
+    }
     return (
         
         <Stack
@@ -56,7 +52,7 @@ export default function MainFrame() {
                 </Toolbar>
             </AppBar>
             <Box sx={{marginTop: 10, overflowY: "auto"}}>
-                <Message message={message}/>
+                <Message res={message}/>
                 <msjContext.Provider value={{showMessage}}>
                     <Outlet />
                 </msjContext.Provider>

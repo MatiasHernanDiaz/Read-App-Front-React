@@ -10,8 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import { msjContext } from "../MainFrame"
 import  AddButton from "../../../components/BtnAdd/BtnAdd"
 import SearchBar from "../../../components/SearchBar/searchBar"
-
-
+import { AxiosError } from "axios"
 
 export default function Authors () {
     const navigate = useNavigate()
@@ -26,28 +25,22 @@ export default function Authors () {
             name: text,
           })
           setAuthors(author)
-        } catch (error) {
-            showMessage({message:(error as Error).message, statusSeverity:'error'})
-        }
+        }catch(e : unknown){
+          showMessage((e as AxiosError<unknown>).response!)
+      }
       }
       
       const deleteAuthor = async (authorId: number) => {
         try {
           const data = await authorService.deleteAuthor(authorId)
           showMessage(data,getAuthors)
-        } catch (error) {
-            showMessage({message:(error as {response:{data:{message:string}}})?.response.data.message, statusSeverity:'error'})
-          }
+        }catch(e : unknown){
+          showMessage((e as AxiosError<unknown>).response!, getAuthors)
+      }
         }
         
     useInitialize(getAuthors)
-
-    const deleteInput = {
-        btnTitle: "Eliminar autor",
-        title: "¿Seguro que desea eliminar este autor?",
-        description: "Esta acción no se puede deshacer",
-        icon:<DeleteIcon></DeleteIcon>
-    }
+  
     const handleChange = (text: string) =>{
         setText(text)
     } 
@@ -89,10 +82,11 @@ return (
                   <Button onClick={() => goToAuthorEdit(author.id)}>
                     <EditIcon />
                   </Button>
-
                   <BtnDelete
-                    btnTitle={deleteInput.btnTitle} title={deleteInput.title}
-                    description={deleteInput.description} setAction={() => deleteAuthor(author.id)} icon={deleteInput.icon}
+                    btnTitle="Eliminar autor" 
+                    title="¿Seguro que desea eliminar este autor?"
+                    description="Esta acción no se puede deshacer" 
+                    setAction={() => deleteAuthor(author.id)} icon={<DeleteIcon></DeleteIcon>}
                   />
                 </ListItem>
               </CardContent>

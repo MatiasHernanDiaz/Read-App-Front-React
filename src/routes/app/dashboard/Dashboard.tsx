@@ -9,6 +9,7 @@ import { useContext, useState } from "react"
 import BtnDelete from "../../../components/BtnDelete/BtnDelete"
 import { useInitialize } from "../../../hooks/useInitialize"
 import { msjContext } from "../MainFrame"
+import { AxiosError } from "axios"
 
 
 export type DashboardData = Record<string, {amount:number}>
@@ -18,53 +19,37 @@ export default function Dashboard () {
     
     const [indicators, setIndicators] = useState<DashboardData>()
     const {showMessage} = useContext(msjContext)
-    
-    const inputBtnUser = {
-        btnTitle : "Borrar usuarios inactivos",
-        title: "¿Seguro que desea eliminar usuarios inactivos?",
-        description: "Se eliminaran todos los usuarios inactivos sin posibilidad de revertir los cambios"
-    }
-
-    const inputBtnCenter = {
-        btnTitle : "Borrar centros inactivos",
-        title: "¿Seguro que desea eliminar centros inactivos?",
-        description: "Se eliminaran todos los centros inactivos sin posibilidad de revertir los cambios"
-    }
 
     const getDash = async() => {
         try{
-            const data = await dashService.getDataDash()
-            setIndicators(data)
-        }
-        catch(error){
-            showMessage({message:(error as Error).message, statusSeverity:'error'})
+            const res = await dashService.getDataDash()
+            setIndicators(res)
+        }catch(e : unknown){
+            showMessage((e as AxiosError<unknown>).response!)
         }
     }
 
     const deleteUser = async () => {
-                try{
-                    const data = await dashService.deleteUser()
-                    showMessage(data,getDash)
-                }
-                catch(error){
-                    showMessage({message:(error as Error).message, statusSeverity:'error'})
-                }
+        try{
+            const res = await dashService.deleteUser()
+            showMessage(res, getDash)    
+        }catch(e : unknown){
+            showMessage((e as AxiosError<unknown>).response!, getDash)
+        }
     }
     
     const deleteCenter = async () =>{
-            try{
-                const data = await dashService.delteCenter()
-                showMessage(data,getDash)
-            }
-            catch(error){
-                showMessage({message:(error as Error).message, statusSeverity:'error'})
-            }
+        try{
+            const res = await dashService.delteCenter()
+            showMessage(res,getDash)
+        }catch(e : unknown){
+            showMessage((e as AxiosError<unknown>).response!, getDash)
+        }
     }
 
     useInitialize(getDash)
     
     return (
-        
         <Stack  alignItems={"center"} >
             <Typography variant="h4" marginBottom={2} >
                     Indicadores
@@ -84,15 +69,16 @@ export default function Dashboard () {
                 </Typography>
                 <BtnDelete 
                     btnTitle='Borrar usuarios inactivos' 
-                    title={inputBtnUser.title} 
-                    description={inputBtnUser.description} 
+                    title="¿Seguro que desea eliminar usuarios inactivos?" 
+                    description="Se eliminaran todos los usuarios inactivos sin posibilidad de revertir los cambios"
                     setAction={deleteUser}
                 />
                 <BtnDelete 
-                btnTitle={inputBtnCenter.btnTitle} 
-                title={inputBtnCenter.title} 
-                description={inputBtnCenter.description} 
-                setAction={() => deleteCenter()}/>
+                    btnTitle="Borrar centros inactivos"
+                    title="¿Seguro que desea eliminar centros inactivos?"
+                    description="Se eliminaran todos los centros inactivos sin posibilidad de revertir los cambios"
+                    setAction={() => deleteCenter()}
+                />
             </Stack>
         </Stack>
     )

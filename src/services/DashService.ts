@@ -1,6 +1,5 @@
-import axios from "axios"
+import axios, { AxiosResponse } from "axios"
 import { DashboardData } from "../routes/app/dashboard/Dashboard"
-import { Msj } from "../routes/app/MainFrame"
 
 const REST_SERVER_URL = 'http://localhost:9000/'
 
@@ -14,13 +13,12 @@ class DashService{
     }
 
     async deleteUser(){
-        const msgJSON$ = await axios.get<Msj>(REST_SERVER_URL + 'usersclean')
-        return msgJSON$.data
+        return await axios.get(REST_SERVER_URL + 'usersclean')
     }
 
     async delteCenter(){
-        const msgJSON$ = await axios.get<Msj>(REST_SERVER_URL + 'readcenterclean')
-        return msgJSON$.data
+        return await axios.get<AxiosResponse>(REST_SERVER_URL + 'readcenterclean')
+        //return msgJSON$.data
     }
 }
 
