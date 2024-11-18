@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {InputAdornment, TextField, Typography} from '@mui/material';
+import { Typography} from '@mui/material';
 import { Stack } from "@mui/material"
 import { Book } from "../../../model/Book"
 import { bookService } from "../../../services/bookService"
@@ -9,7 +9,8 @@ import './BookContainer.css'
 import { useContext } from "react"
 import { useInitialize } from '../../../hooks/useInitialize';
 import AddButton from '../../../components/BtnAdd/BtnAdd';
-import { Search } from '@mui/icons-material';
+import { AxiosError } from 'axios';
+import SearchBar from '../../../components/SearchBar/searchBar';
 
 
 export default function BookContainer() { 
@@ -27,14 +28,18 @@ export default function BookContainer() {
         try {
           const data = await bookService.deleteBook(bookId)
           showMessage(data, getBooks)
-        } catch (error) {
-            showMessage({message:(error as {response:{data:{message:string}}})?.response.data.message, statusSeverity:'error'})
-        }
+        } catch(e : unknown){
+          showMessage((e as AxiosError<unknown>).response!, getBooks)
+      }
     }
 
     const handleChange = (text: string) =>{
         setText(text)
-    } 
+    }
+    
+    const handleSearchClick = () => {
+      getBooks()
+  }
     const handleKeyDown = (event: React.KeyboardEvent) => {
         if (event.key == "Enter") {
           getBooks()
@@ -45,22 +50,19 @@ export default function BookContainer() {
         <>
         <AddButton redirectTo="/app/books/new"/>
         <Typography variant="h4" sx={{margin: '1rem'}}>Libros</Typography>
-        <TextField
-      value={text} onChange={(e) => handleChange(e.target.value)} onKeyDown={handleKeyDown}
-      variant="outlined" sx={{display:'flex', justifyContent:'center', margin:'1rem'}}label="Buscar"
-      InputProps={{
-        endAdornment: (
-          <InputAdornment position="end">
-            <Search/>
-          </InputAdornment>
-        ),
-      }} ></TextField>
+        <SearchBar
+      value={text} onChange={(e) => handleChange(e.target.value)} onKeyDown={handleKeyDown} onSearchClick={handleSearchClick}
+    />
+      {books.length === 0 ? (
+        <Typography variant="h6" sx={{ margin: "1rem", textAlign: "center" }}>
+          No hay libros disponibles</Typography>
+      ) : (
 
         <Stack sx={{gap:"1rem", alignItems:"center"}}>
             {books.map((book) => (
                 <BookComponent key={book.id} book={book} onClickAction={() => deleteBook(book.id)}/>
             ))}
-        </Stack>
+        </Stack>)}
         </>
     )
 }
