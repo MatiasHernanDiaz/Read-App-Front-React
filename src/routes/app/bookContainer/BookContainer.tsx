@@ -49,7 +49,6 @@ export default function BookContainer() {
     return(
         <>
         <AddButton redirectTo="/app/books/new"/>
-        <Typography variant="h4" sx={{margin: '1rem'}}>Libros</Typography>
         <SearchBar
       value={text} onChange={(e) => handleChange(e.target.value)} onKeyDown={handleKeyDown} onSearchClick={handleSearchClick}
     />

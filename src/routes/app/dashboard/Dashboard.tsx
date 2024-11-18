@@ -51,9 +51,6 @@ export default function Dashboard () {
     
     return (
         <Stack  alignItems={"center"} >
-            <Typography variant="h4" marginBottom={2} >
-                    Indicadores
-                </Typography>
                 {indicators && 
                     <Stack spacing={2}>
                             <Inicator title={"Recomendaciones"} icon={<WorkspacePremiumIcon fontSize="large"/>} value={indicators.recoms.amount} ></Inicator>

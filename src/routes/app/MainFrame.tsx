@@ -11,23 +11,33 @@ import { AxiosResponse } from "axios"
 export const msjContext = createContext({} as {showMessage: (data: AxiosResponse,refreshData?:()=>void)=>void})
 
 
+const pageTitles = [
+    { routePattern: /app\/dashboard/i, title: 'Indicadores' },
+    { routePattern: /app\/authors$/i, title: 'Autores' },
+    { routePattern: /app\/authors\/new$/i, title: 'Nuevo autor' },
+    { routePattern: /app\/authors\/[0-9]+$/i, title: 'Editar autor' },
+    { routePattern: /app\/books$/i, title: 'Libros' },
+    { routePattern: /app\/books\/new$/i, title: 'Nuevo libro' },
+    { routePattern: /app\/books\/[0-9]+$/i, title: 'Editar libro' },
+]
+
 export default function MainFrame() {
 
     const location = useLocation()
+
+    const pageTitle = pageTitles.find( page => page.routePattern.test( location.pathname ) )?.title
     
     const [ user, setUser ] = useContext( sessionContext )
 
     const [message, setMessage] = useState<AxiosResponse>({status:0, data:''} as AxiosResponse)
 
     const handleLogout = async () => {
-
         try {
             await loginService.logout()
             setUser( null )
         } catch {
             console.log('Logout fallido')
         }
-
     }
 
     const showMessage = (res: AxiosResponse,refreshData?:()=>void) =>{
@@ -47,11 +57,11 @@ export default function MainFrame() {
                 sx={{ padding: '10px' }}
             >
                 <Toolbar sx={{ justifyContent: "space-between", padding: 0 }}>
-                    <Typography variant="h5">ReadApp</Typography>
+                    <Typography variant="h5">ReadApp - { pageTitle }</Typography>
                     <Avatar src={ user?.avatar } />
                 </Toolbar>
             </AppBar>
-            <Box sx={{marginTop: 10, overflowY: "auto"}}>
+            <Box sx={{marginTop: 12, overflowY: "auto"}}>
                 <Message res={message}/>
                 <msjContext.Provider value={{showMessage}}>
                     <Outlet />

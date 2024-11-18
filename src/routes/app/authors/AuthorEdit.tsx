@@ -90,8 +90,6 @@ export default function AuthorEdit() {
 
   return (
     <Container sx={{ marginTop: "2rem" }}>
-      <Typography variant="h4" gutterBottom> {isNew ? "Agregar Autor" : "Editar Autor"}</Typography>
-
         <form onSubmit={handleSubmit}>
           <TextField
             label="Nombre" 
