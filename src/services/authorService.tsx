@@ -5,12 +5,11 @@ import { Language } from '../model/User';
 
 const URL: string = "http://localhost:9000"
 
-
 interface AuthorNew {
-  id: number;
-  firstName: string;
-  lastName: string;
-  nativeLanguage: Language;
+  id: number
+  firstName: string
+  lastName: string
+  nativeLanguage: Language
 }
 class AuthorService {
   async getAuthors({ name }: { name?: string }): Promise<Author[]> {
@@ -32,8 +31,8 @@ class AuthorService {
     return Author.fromJSON(authorJSON$.data)
   }
   async createAuthor(newAuthor: Author) {
-    const response = await axios.post<AuthorNew>(`${URL}/authors/new`, newAuthor);
-    return response.data;  
+    const response = await axios.post<AuthorNew>(`${URL}/authors/new`, newAuthor)
+    return response.data 
   }
 
 }
