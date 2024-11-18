@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {InputAdornment, TextField} from '@mui/material';
+import {InputAdornment, TextField, Typography} from '@mui/material';
 import { Stack } from "@mui/material"
 import { Book } from "../../../model/Book"
 import { bookService } from "../../../services/bookService"
@@ -44,7 +44,7 @@ export default function BookContainer() {
     return(
         <>
         <AddButton redirectTo="/app/books/new"/>
-
+        <Typography variant="h4" sx={{margin: '1rem'}}>Libros</Typography>
         <TextField
       value={text} onChange={(e) => handleChange(e.target.value)} onKeyDown={handleKeyDown}
       variant="outlined" sx={{display:'flex', justifyContent:'center', margin:'1rem'}}label="Buscar"

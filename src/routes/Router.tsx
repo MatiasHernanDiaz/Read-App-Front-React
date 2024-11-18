@@ -7,7 +7,7 @@ import Dashboard from "./app/dashboard/Dashboard";
 import Authors from "./app/authors/Authors";
 import AuthorEdit from "./app/authors/AuthorEdit";
 import BookContainer from "./app/bookContainer/BookContainer";
-import BookEdit from "../components/EditBook/EditBook";
+import BookEdit from "./app/bookContainer/EditBook"
 
 
 export const Router = createBrowserRouter(
