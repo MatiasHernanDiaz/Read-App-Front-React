@@ -6,6 +6,7 @@ import { Author, Language } from "../../../model/Author"
 import { useContext, useState } from "react"
 import { msjContext } from "../MainFrame"
 import { useInitialize } from "../../../hooks/useInitialize"
+import { AxiosError } from "axios"
 
 
 export default function AuthorEdit() {
@@ -32,9 +33,9 @@ export default function AuthorEdit() {
       try {
         const authorData = await authorService.getAuthorById(authorId)
         setAuthor(authorData)
-      } catch (error) {
-        showMessage({ message: (error as Error).message, statusSeverity: 'error' })
-      }
+      } catch(e : unknown){
+        showMessage((e as AxiosError<unknown>).response!)
+    }
     }
   }
 
@@ -49,20 +50,20 @@ export default function AuthorEdit() {
     if (validate()) {
       try {
         if (isNew) {
-          const newAuthor = await authorService.createAuthor(author)
-          setAuthor(newAuthor)
+          // const newAuthor = await authorService.createAuthor(author)
+          // setAuthor(newAuthor)
+          const res = await authorService.createAuthor(author)
+          showMessage(res)
           handleBack()
-          
         } else {
-          const updatedAuthor = await authorService.updateAuthor(authorId, author)
-          setAuthor(updatedAuthor)
+          const res = await authorService.updateAuthor(authorId, author)
+          // setAuthor(updatedAuthor)
+          showMessage(res)
           handleBack()
-        }
-        showMessage({ message: isNew ? "Autor creado" : "Autor actualizado", statusSeverity: "success" })
-        
-      } catch (error) {
-        showMessage({ message: (error as Error).message, statusSeverity: "error" })
-      }
+        }        
+      }catch(e : unknown){
+        showMessage((e as AxiosError<unknown>).response!, getAuthor)
+    }
     }
   }
 
