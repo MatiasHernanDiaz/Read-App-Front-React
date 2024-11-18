@@ -16,12 +16,7 @@ import BtnDelete from "../BtnDelete/BtnDelete";
 
 export default function BookComponent({book,onClickAction}:CustomIndicatorPayload) {    
 
-    const deleteInput = {
-        btnTitle: "Eliminar autor",
-        title: "¿Seguro que desea eliminar este autor?",
-        description: "Esta acción no se puede deshacer",
-        icon:<DeleteOutlinedIcon></DeleteOutlinedIcon>
-    }
+    
 
     function complex(){
         if (book.complex){
@@ -56,11 +51,10 @@ export default function BookComponent({book,onClickAction}:CustomIndicatorPayloa
                             <Button variant="outlined" color="primary" /*onClick={handleClickOpen}*/ sx={{marginRight:"0.25rem"}}>
                                 <EditIcon/>
                             </Button>
-
                             <BtnDelete
-                                btnTitle={deleteInput.btnTitle} title={deleteInput.title}
-                                description={deleteInput.description} setAction={() => onClickAction(book.id)}
-                                icon={deleteInput.icon}
+                                btnTitle="Eliminar autor" title="¿Seguro que desea eliminar este autor?"
+                                description="Esta acción no se puede deshacer" setAction={() => onClickAction(book.id)}
+                                icon={<DeleteOutlinedIcon></DeleteOutlinedIcon>}
                             />
                     </List>
                 </div>
