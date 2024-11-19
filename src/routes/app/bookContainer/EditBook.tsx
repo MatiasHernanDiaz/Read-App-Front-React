@@ -72,7 +72,6 @@ export default function BookForm({newBook}:{newBook:boolean}) {
     
     <Stack 
         sx={{width:"90%", margin:"auto"}}>
-    <Typography variant="h4" >Libros</Typography>
     <form onSubmit={handleSubmit(onSubmit)}>
       <TextField
         label="Titulo"
