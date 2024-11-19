@@ -12,11 +12,12 @@ import PsychologyAltIcon from '@mui/icons-material/PsychologyAlt';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import "./BookComponent.css"
 import BtnDelete from "../BtnDelete/BtnDelete";
+import { useNavigate } from "react-router-dom";
 
 
 export default function BookComponent({book,onClickAction}:CustomIndicatorPayload) {    
 
-    
+    const navigate = useNavigate()
 
     function complex(){
         if (book.complex){
@@ -31,6 +32,10 @@ export default function BookComponent({book,onClickAction}:CustomIndicatorPayloa
             result = result + " " + word
         })
         return result
+    }
+
+    const goToEditBook = (id: number) => {
+        navigate(`/app/books/${id}`)
     }
 
     return (
@@ -48,7 +53,7 @@ export default function BookComponent({book,onClickAction}:CustomIndicatorPayloa
                 <div className="card-header">
                     <p className="author">Por {book.autor.firstName + " " + book.autor.lastName} </p>
                     <List sx={{display: "flex", width: "50%", padding:"0.1rem"}}>
-                            <Button variant="outlined" color="primary" /*onClick={handleClickOpen}*/ sx={{marginRight:"0.25rem"}}>
+                            <Button variant="outlined" color="primary" onClick={() => goToEditBook(book.id)} sx={{marginRight:"0.25rem"}}>
                                 <EditIcon/>
                             </Button>
                             <BtnDelete

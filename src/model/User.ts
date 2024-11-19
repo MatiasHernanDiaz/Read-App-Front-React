@@ -62,16 +62,16 @@ export class User {
 
 
 export enum Language {
-    SPANISH = "SPANISH",
-    ENGLISH = "ENGLISH",
-    GERMAN = "GERMAN",
-    PORTUGUESE = "PORTUGUESE",
-    RUSSIAN = "RUSSIAN",
-    ITALIAN = "ITALIAN",
-    MANDARIN = "MANDARIN",
-    ARAB = "ARAB",
-    HINDI = "HINDI",
-    FRENCH = "FRENCH",
-    BENGALI = "BENGALI",
-    JAPANESE = "JAPANESE"
+    SPANISH = "Español",
+    ENGLISH = "Ingles",
+    GERMAN = "Aleman",
+    PORTUGUESE = "Portugues",
+    RUSSIAN = "Ruso",
+    ITALIAN = "Italiano",
+    MANDARIN = "Mandarin",
+    ARAB = "Arabe",
+    HINDI = "Indio",
+    FRENCH = "Frances",
+    BENGALI = "Bengali",
+    JAPANESE = "Japones"
 }

@@ -1,157 +1,181 @@
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { TextField, Button, Divider, Stack, FormControlLabel, Checkbox, Typography, Grid, Container, MenuItem } from "@mui/material";
+import { TextField, Button, Divider, Stack, FormControlLabel, Checkbox, Typography, Container, MenuItem, Grid2 } from "@mui/material";
 import { bookService } from '../../../services/bookService';
 import { Author } from '../../../model/Author';
 import { authorService } from '../../../services/authorService';
-import { useState, useContext } from 'react';
+import { useState, useContext, ChangeEvent } from 'react';
 import { useInitialize } from '../../../hooks/useInitialize';
-import { BookToJSON,Book } from '../../../model/Book';
+import { BookToJSON } from '../../../model/Book';
 import { msjContext } from '../MainFrame';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { AxiosError } from 'axios';
+import { authorInit } from '../authors/AuthorEdit';
+import { Language } from '../../../model/User';
 
-type FormValues = {
-  title: string
-  authorId: number
-  editions: number
-  cantPag: number
-  cantPal: number
-  ventas: number
-  complexReading: boolean
-  lenguage: boolean[]
+const bookInit = {
+    pages: 0,
+    title: '',
+    imageURL: '',
+    autor: authorInit,
+    words: 0,
+    date: new Date(),
+    complex: false,
+    lenguages: [],
+    editions: 0,
+    sales: 0,
+    id: -1
 }
 
-export default function BookForm({newBook}:{newBook:boolean}) {
+export default function BookForm() {
   const [authors, setAuthors] = useState<Author[]>([]) 
+  const [book, setBook] = useState<BookToJSON>(bookInit)
   const {showMessage} = useContext(msjContext)
+  const { id } = useParams() 
   const navigate = useNavigate()
+  const isNew = !id
+  
 
 
-  async function getAuthors() {
-    const author= await authorService.getAuthors({
-      name: "",
-    })
-    setAuthors(author)
+  async function getData() {
+    console.log('var new', isNew)
+    if(!isNew){
+      console.log('true')
+      const authorRes = authorService.getAuthors({
+        name: "",
+      })
+      const bookRes = bookService.getBookById(+id!)
+      const [authors, book] = await Promise.all([authorRes, bookRes])
+      setAuthors(authors)
+      setBook(book)
+    }
+    else{
+      console.log('false')
+      const authors = await authorService.getAuthors({
+        name: "",
+      })
+      setAuthors(authors)
+      setBook(bookInit)
+    }
+    
   }
 
-  const addBook = async (book: BookToJSON) => {
-    try {
-      const data = await bookService.addBook(book)
-      showMessage(data)
-    } catch (error) {
-        showMessage({message:(error as {response:{data:{message:string}}})?.response.data.message, statusSeverity:'error'})
+  const validate = () => {return true}
+  
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()//envia al back sin refrescar pagina
+    if (validate()) {
+      try {
+        if (isNew) {
+          const res = await bookService.addBook(book)
+          showMessage(res)
+          handleBack()
+        } else {
+          const res = await bookService.updateBook(book.id, book)
+          showMessage(res)
+          handleBack()
+        }        
+      }catch(e : unknown){
+        showMessage((e as AxiosError<unknown>).response!, getData)
     }
-}
-
-  const { register,control, handleSubmit } = useForm<FormValues>({
-    defaultValues: {
-      lenguage: Array(9).fill(false) // marco los 9 checkboxes como desmarcados
     }
-  })
-  const onSubmit: SubmitHandler<FormValues> = async data => {
-    console.log(data);
-    addBook(new Book(
-      data.cantPag,
-      data.title,
-      "data.imageURL",
-      await authorService.getAuthorById(data.authorId),
-      data.cantPal,
-      new Date(),
-      data.complexReading,
-      [],
-      data.editions,
-      data.ventas,
-      1000).bookToJSON())
   }
 
   const handleBack = () => {
     navigate(-1) 
   }
-  const labels = ["Español", "Inglés", "Francés", "Alemán", "Arabe", "Portugués", "Bengali", "Hindi", "Mandarin"]
-  useInitialize(getAuthors)
+
+  useInitialize(getData)
+  
   return (
     
     <Stack 
         sx={{width:"90%", margin:"auto"}}>
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={(e) => handleSubmit(e)}>
       <TextField
         label="Titulo"
-        {...register("title")}
+        // {...register("title")}
         fullWidth
         margin="dense"
+        value = {book.title}
+        onChange={e => setBook({...book, title: ((e as ChangeEvent).target as HTMLInputElement).value})}
       />
       <TextField
       sx={{width:"100%"}}
       label = 'Autor'
+      value={book.autor.id}
+      onChange={e => setBook({...book, autor: authors.find(aut => aut.id === +((e as ChangeEvent).target as HTMLInputElement).value)!})}
       select
-      {...register("authorId")}>
+      >
         {authors.map((auth) => (
           <MenuItem value={auth.id}>{auth.lastName + " " + auth.firstName}</MenuItem>
         ))}
-
+        
       </TextField>
-      
+
       <Divider sx={{ margin: '0.5rem 0', backgroundColor:"black"}} />
 
       <TextField
         label="Ediciones"
-        inputProps={{ type: 'number'}}
-        {...register("editions")}
+        value={ book.editions}
         fullWidth
         margin="dense"
+        onChange={e => setBook({...book, editions: +((e as ChangeEvent).target as HTMLInputElement).value})}
+
       />
       <Stack display="flex" flexDirection="row" gap={2} >
         <TextField
           label="Cantidad de páginas"
-          inputProps={{ type: 'number'}}
-          {...register("cantPag")}
           fullWidth
           margin="dense"
+          value={book.pages}
+          onChange={e => setBook({...book, pages: +((e as ChangeEvent).target as HTMLInputElement).value})}
         />
+
         <TextField
           label="Cantidad de palabras"
-          inputProps={{ type: 'number'}}
-          {...register("cantPal")}
           fullWidth
           margin="dense"
+          value={book.words}
+          onChange={e => setBook({...book, words: +((e as ChangeEvent).target as HTMLInputElement).value})}
         />
+
       </Stack>
+
       <TextField
           label="Ventas semanales"
-          inputProps={{ type: 'number'}}
-          {...register("ventas")}
           fullWidth
           margin="dense"
+          value={book.sales}
+          onChange={e => setBook({...book, sales: +((e as ChangeEvent).target as HTMLInputElement).value})}
         />
 
-      {/* Checkbox */}
-    <FormControlLabel
-        control={<Checkbox {...register("complexReading")} />}
-        label="Lectura compleja"
-    />
-
+      <FormControlLabel 
+      control={<Checkbox 
+        checked={book.complex} 
+        onChange={e => setBook({...book, complex: ((e as ChangeEvent).target as HTMLInputElement).checked})}
+            />} 
+      label="Lectura compleja" />
+    
     <Divider sx={{ margin: '0.5rem 0', backgroundColor:"black"}} />
 
     <Typography variant="body2"  sx={{ fontWeight: 'bold' }}>Lenguaje Original</Typography>
     <Typography variant="body2"  sx={{ fontWeight: 'bold' }}>Otros Idiomas</Typography>
 
-
-      <Grid container spacing={2}>
-        {labels.map((labels, index) => (
-          <Grid item xs={4} key={index}>
-            <Controller
-              name={`lenguage.${index}`}
-              control={control}
-              render={({ field }) => (
-                <FormControlLabel
-                  control={<Checkbox {...field} />}
-                  label={labels}
-                />
-              )}
-            />
-          </Grid>
-        ))}
-      </Grid>
-      
+      <Grid2 >
+        {
+          Object.entries(Language).map(
+            ([key, val]) => <FormControlLabel
+                              control={<Checkbox 
+                                checked={book.lenguages.includes(key)}
+                                value={key} 
+                                onChange={e => setBook({...book, lenguages: 
+                                  ((e as ChangeEvent).target as HTMLInputElement).checked ? 
+                                    [...book.lenguages, key] : book.lenguages.filter(lan => lan !== key)
+                                })}
+                                    />} 
+                              label={val} />                
+          )
+        }
+      </Grid2>
 
       <Container sx={{ marginTop: "2rem", display: "flex",justifyContent: "space-between" }}>
         <Button

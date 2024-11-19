@@ -8,20 +8,17 @@ import { msjContext } from "../MainFrame"
 import { useInitialize } from "../../../hooks/useInitialize"
 import { AxiosError } from "axios"
 
+export const authorInit = new Author(-1,'','',Language.ARAB)
 
 export default function AuthorEdit() {
+  
   const { showMessage } = useContext(msjContext)
   const navigate = useNavigate()
   const { id } = useParams() 
   const authorId = parseInt(id || "0", 10)
   const isNew = !id
 
-  const [author, setAuthor] = useState<Author>({
-    firstName: "",
-    lastName: "",
-    nativeLanguage: Language.SPANISH,
-    id:-1
-  })
+  const [author, setAuthor] = useState<Author>(authorInit)
 
   const [errors, setErrors] = useState<{ firstName: string; lastName: string }>({
     firstName: "",
@@ -50,14 +47,11 @@ export default function AuthorEdit() {
     if (validate()) {
       try {
         if (isNew) {
-          // const newAuthor = await authorService.createAuthor(author)
-          // setAuthor(newAuthor)
           const res = await authorService.createAuthor(author)
           showMessage(res)
           handleBack()
         } else {
           const res = await authorService.updateAuthor(authorId, author)
-          // setAuthor(updatedAuthor)
           showMessage(res)
           handleBack()
         }        
