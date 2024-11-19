@@ -17,6 +17,7 @@ class AuthorService {
     const authorJSON$ = await axios.get<Author>(`${URL}/authors/${id}`)
     return Author.fromJSON(authorJSON$.data)
   }
+  
   async updateAuthor(id: number, updatedAuthor: Author): Promise<AxiosResponse> {
     return await axios.put<AxiosResponse>(`${URL}/authors/${id}`, updatedAuthor)
   }

@@ -1,4 +1,5 @@
 import { Author } from "./Author"
+import { Language } from "./User"
 
 export class Book {
 
@@ -9,7 +10,7 @@ export class Book {
     words: number = 0
     date: Date = new Date(0,0,0)
     complex: boolean
-    lenguages: string[]
+    lenguages: Language[]
     editions: number
     sales: number = 0
     id: number = -1
@@ -22,7 +23,7 @@ export class Book {
         words: number,
         date: Date,
         complex: boolean,
-        lenguages: string[],
+        lenguages: Language[],
         editions: number,
         sales: number,
         id: number
@@ -53,7 +54,7 @@ export class Book {
         bookToJSON.words,
         bookToJSON.date,
         bookToJSON.complex,
-        bookToJSON.lenguages,
+        bookToJSON.lenguages as Language[],
         bookToJSON.editions,
         bookToJSON.sales,
         bookToJSON.id)
@@ -68,7 +69,7 @@ return {
     words: this.words,
     date: this.date,
     complex: this.complex,
-    lenguages: this.lenguages,
+    lenguages: this.lenguages.map(lan => Language[lan]),
     editions: this.editions,
     sales: this.sales,
     id: this.id
@@ -91,7 +92,7 @@ export type  BookToJSON = {
     words: number
     date: Date
     complex: boolean
-    lenguages: string
+    lenguages: string[]
     editions: number
     sales: number
     id: number

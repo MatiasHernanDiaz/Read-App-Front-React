@@ -26,6 +26,21 @@ export class Author {
     }
 }
 
+// export enum Language {
+//     SPANISH = "SPANISH",
+//     ENGLISH = "ENGLISH",
+//     GERMAN = "GERMAN",
+//     PORTUGUESE = "PORTUGUESE",
+//     RUSSIAN = "RUSSIAN",
+//     ITALIAN = "ITALIAN",
+//     MANDARIN = "MANDARIN",
+//     ARAB = "ARAB",
+//     HINDI = "HINDI",
+//     FRENCH = "FRENCH",
+//     BENGALI = "BENGALI",
+//     JAPANESE = "JAPANESE"
+// }
+
 export enum Language {
     SPANISH = "SPANISH",
     ENGLISH = "ENGLISH",
