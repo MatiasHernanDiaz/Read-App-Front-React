@@ -10,19 +10,17 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 interface LoginFormInputs{
     email: string
     password: string
-    global?: string
 }
 
 export default function LoginScreen() {
     /* REACT HOOK FORM */
     const [ user, setUser ] = useContext( sessionContext )
     const [showPassword, setShowPassword] = useState(false)
-    const { register, handleSubmit, setError, clearErrors, formState: {errors}} = useForm<LoginFormInputs>()
+    const { register, handleSubmit, setError, formState: {errors}} = useForm<LoginFormInputs>()
     const handleClickShowPassword = () => setShowPassword(!showPassword)
     
 
     const handleLogin: SubmitHandler<LoginFormInputs> = async (data) => {
-        clearErrors("global")
         try {
             const res = await loginService.login( data.email, data.password )
             setUser( res.user )
@@ -30,10 +28,10 @@ export default function LoginScreen() {
         } catch ( error: unknown ){
             console.error( error )
             if( (error as AxiosError).status === 403 ) {
-                setError("global", {message: "Credenciales Invalidas"})
+                setError("password", {message: "Credenciales Invalidas"})
             }
             if((error as AxiosError).code === "ERR_NETWORK"){
-                setError("global", {message: "Error de conexion"})
+                setError("password", {message: "Error de conexion"})
             }
         }        
     }
@@ -125,15 +123,7 @@ export default function LoginScreen() {
                         
                     }}      
             >Ingresar</Button>
-            {errors.global && (
-                        <Typography
-                            variant="body2"
-                            color="error"
-                            style={{ textAlign: "center" }}
-                        >
-                            {errors.global.message}
-                        </Typography>
-                    )}
+            
             </Stack>
             </form>
     </Stack>
