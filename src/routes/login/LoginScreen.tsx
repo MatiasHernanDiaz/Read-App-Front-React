@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { Stack, TextField, Button, IconButton, InputAdornment} from '@mui/material';
+import { Stack, TextField, Button, IconButton, InputAdornment, Typography} from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import fondo from "../../../src/assets/loginFondo.png";
 import { loginService } from "../../services/loginService";
@@ -10,29 +10,30 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 interface LoginFormInputs{
     email: string
     password: string
+    global?: string
 }
 
 export default function LoginScreen() {
     /* REACT HOOK FORM */
     const [ user, setUser ] = useContext( sessionContext )
     const [showPassword, setShowPassword] = useState(false)
-    const { register, handleSubmit, setError, formState: {errors}} = useForm<LoginFormInputs>()
+    const { register, handleSubmit, setError, clearErrors, formState: {errors}} = useForm<LoginFormInputs>()
     const handleClickShowPassword = () => setShowPassword(!showPassword)
     
 
     const handleLogin: SubmitHandler<LoginFormInputs> = async (data) => {
-    
+        clearErrors("global")
         try {
             const res = await loginService.login( data.email, data.password )
             setUser( res.user )
-            
+            localStorage.setItem('user', JSON.stringify(res.user))
         } catch ( error: unknown ){
             console.error( error )
             if( (error as AxiosError).status === 403 ) {
-                setError("password", {message: "Credenciales Invalidas"})
+                setError("global", {message: "Credenciales Invalidas"})
             }
             if((error as AxiosError).code === "ERR_NETWORK"){
-                setError("password", {message: "Error de conexion"})
+                setError("global", {message: "Error de conexion"})
             }
         }        
     }
@@ -124,6 +125,15 @@ export default function LoginScreen() {
                         
                     }}      
             >Ingresar</Button>
+            {errors.global && (
+                        <Typography
+                            variant="body2"
+                            color="error"
+                            style={{ textAlign: "center" }}
+                        >
+                            {errors.global.message}
+                        </Typography>
+                    )}
             </Stack>
             </form>
     </Stack>

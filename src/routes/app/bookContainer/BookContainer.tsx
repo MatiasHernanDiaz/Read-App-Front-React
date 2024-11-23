@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Typography} from '@mui/material';
 import { Stack } from "@mui/material"
 import { Book } from "../../../model/Book"
@@ -16,12 +16,16 @@ import SearchBar from '../../../components/SearchBar/searchBar';
 export default function BookContainer() { 
     const {showMessage} = useContext(msjContext)
     const [books, setBooks] = React.useState<Book[]>([])
-    const [text, setText] = useState<string>("")
 
-    const getBooks = async () =>  { const books = await bookService.getBooks({
-        name: text,
-       })
-       setBooks(books)
+    const getBooks = async (text:string = '') =>  { 
+      try{
+        const books = await bookService.getBooks({
+          name: text,
+         })
+         setBooks(books)
+      }catch(e: unknown){
+        showMessage((e as AxiosError<unknown>).response!)
+      }
     }
 
     const deleteBook = async (bookId: number) => {
@@ -33,25 +37,11 @@ export default function BookContainer() {
       }
     }
 
-    const handleChange = (text: string) =>{
-        setText(text)
-    }
-    
-    const handleSearchClick = () => {
-      getBooks()
-  }
-    const handleKeyDown = (event: React.KeyboardEvent) => {
-        if (event.key == "Enter") {
-          getBooks()
-        }
-      }
     useInitialize(getBooks)
     return(
         <>
         <AddButton redirectTo="/app/books/new"/>
-        <SearchBar
-      value={text} onChange={(e) => handleChange(e.target.value)} onKeyDown={handleKeyDown} onSearchClick={handleSearchClick}
-    />
+        <SearchBar searchCallBack={getBooks}/> 
       {books.length === 0 ? (
         <Typography variant="h6" sx={{ margin: "1rem", textAlign: "center" }}>
           No hay libros disponibles</Typography>

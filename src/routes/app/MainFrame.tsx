@@ -35,6 +35,7 @@ export default function MainFrame() {
         try {
             await loginService.logout()
             setUser( null )
+            localStorage.removeItem('user')
         } catch {
             console.log('Logout fallido')
         }
@@ -42,7 +43,7 @@ export default function MainFrame() {
 
     const showMessage = (res: AxiosResponse,refreshData?:()=>void) =>{
         if (refreshData){refreshData()}
-        setMessage(res)
+        setMessage(res ? res : {status:500, data:{message:'Error de conexión'}} as AxiosResponse)
         setTimeout(()=>{
             setMessage({status:0, data:''} as AxiosResponse)
         },3000)

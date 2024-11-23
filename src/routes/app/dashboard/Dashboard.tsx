@@ -67,13 +67,13 @@ export default function Dashboard () {
                 <BtnDelete 
                     btnTitle='Borrar usuarios inactivos' 
                     title="¿Seguro que desea eliminar usuarios inactivos?" 
-                    description="Se eliminaran todos los usuarios inactivos sin posibilidad de revertir los cambios"
+                    description="Los cambios no se podrán deshacer"
                     setAction={deleteUser}
                 />
                 <BtnDelete 
                     btnTitle="Borrar centros inactivos"
                     title="¿Seguro que desea eliminar centros inactivos?"
-                    description="Se eliminaran todos los centros inactivos sin posibilidad de revertir los cambios"
+                    description="Los cambios no se podrán deshacer"
                     setAction={() => deleteCenter()}
                 />
             </Stack>

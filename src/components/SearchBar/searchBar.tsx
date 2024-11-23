@@ -1,27 +1,31 @@
-import { ChangeEvent, KeyboardEvent, MouseEventHandler } from 'react'; // Solo importa lo necesario
+import {  useState } from 'react'; // Solo importa lo necesario
 import { TextField, Button } from '@mui/material';
 import { Search } from '@mui/icons-material';
 
 interface SearchBarProps {
-  value: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void
-  onKeyDown: (event: KeyboardEvent) => void
-  onSearchClick: MouseEventHandler 
+  searchCallBack: (text:string) => void
   label?: string
 }
 
-const SearchBar = ({ value, onChange, onKeyDown, label = "Buscar" ,onSearchClick}: SearchBarProps) => {
+const SearchBar = ({searchCallBack, label = "Buscar" }: SearchBarProps) => {
+  const [searchText, setSearchText] = useState('')
   return (
     <TextField
-      value={value}
-      onChange={onChange}
-      onKeyDown={onKeyDown}
+      value={searchText}
+      onChange={(e) => {
+        setSearchText(e.target.value)
+      }}
+      onKeyDown={(e) => {
+        if(e.key === 'Enter'){
+          searchCallBack(searchText)
+        }
+      }}
       variant="outlined"
       sx={{ display: 'flex', justifyContent: 'center', margin: '1rem' }}
       label={label}
       InputProps={{
         endAdornment: (
-          <Button onClick={onSearchClick}> 
+          <Button onClick={() =>{ searchCallBack(searchText) }}> 
             <Search />
           </Button>
         ),

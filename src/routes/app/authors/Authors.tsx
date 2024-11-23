@@ -16,10 +16,9 @@ export default function Authors () {
     const navigate = useNavigate()
 
     const [authors, setAuthors] = useState<Author[]>([]) 
-    const [text, setText] = useState<string>("")
     const {showMessage} = useContext(msjContext) //para usarlo en muchos componente
 
-    const getAuthors= async () => {
+    const getAuthors= async (text: string = '' ) => {
         try {
           const author= await authorService.getAuthors({
             name: text,
@@ -41,17 +40,6 @@ export default function Authors () {
         
     useInitialize(getAuthors)
   
-    const handleChange = (text: string) =>{
-        setText(text)
-    } 
-    const handleKeyDown = (event: React.KeyboardEvent) => {
-        if (event.key == "Enter") {
-          getAuthors()
-        }
-      }
-    const handleSearchClick = () => {
-        getAuthors()
-    }
     const goToAuthorEdit = (id:number) => {
         navigate(`/app/authors/${id}`)
       }
@@ -59,9 +47,7 @@ export default function Authors () {
 return (
     <>
     <AddButton redirectTo="/app/authors/new"/>
-    <SearchBar
-      value={text} onChange={(e) => handleChange(e.target.value)} onKeyDown={handleKeyDown} onSearchClick={handleSearchClick}
-    />
+    <SearchBar searchCallBack={getAuthors}/>
       {authors.length === 0 ? (
         <Typography variant="h6" sx={{ margin: "1rem", textAlign: "center" }}>
           No hay autores disponibles</Typography>
@@ -78,7 +64,7 @@ return (
                     primary={<Typography variant="h6">{author.firstName + " " + author.lastName}</Typography>}
                     secondary={author.nativeLanguage}
                   />
-                  <Button onClick={() => goToAuthorEdit(author.id)}>
+                  <Button variant="outlined" color="primary" onClick={() => goToAuthorEdit(author.id)} sx={{marginRight:"0.25rem"}}>
                     <EditIcon />
                   </Button>
                   <BtnDelete

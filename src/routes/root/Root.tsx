@@ -16,9 +16,9 @@ export default function Root() {
 
 
     useInitialize( async () => {
-        const newUser = await loginService.getSignedUser()
-
-        setUser( newUser )
+        // const newUser = await loginService.getSignedUser()
+        const newUser = JSON.parse(localStorage.getItem('user')!) as User | null
+        setUser( newUser  )
     })
 
 

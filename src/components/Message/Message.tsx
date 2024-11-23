@@ -12,14 +12,12 @@ export default function Message({res} : {res:AxiosResponse}){
         }
         return "error"
     }
-
-
+    
     return(
         <>
             { res.data && 
                 <Alert  variant="filled" severity={setStatus()} sx={{position:"absolute", width:"80%", marginLeft:"5%",zIndex:50}}>
-                        <AlertTitle>{res.status}</AlertTitle>
-                        <strong>{message}</strong> 
+                        <AlertTitle>{message}</AlertTitle>
                 </Alert>
             }
         </>

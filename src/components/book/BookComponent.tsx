@@ -1,6 +1,6 @@
 import { Book } from "../../model/Book";
 import { List, ListItem, Card, Button, IconButton } from '@mui/material';
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import DeleteIcon from '@mui/icons-material/Delete'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import TranslateIcon from '@mui/icons-material/Translate'
 import TitleIcon from '@mui/icons-material/Title';
@@ -28,9 +28,12 @@ export default function BookComponent({book,onClickAction}:CustomIndicatorPayloa
 
     function listToString(strings : string[]){
         let result: string = ""
-        strings.map(word => {
-            result = result + " " + word
-        })
+        for(let i = 0; i < Math.min(2,strings.length); i++){
+            result = result + " " + strings[i]
+            if(i === 1 && strings.length>2){
+                result += ` +${strings.length - i - 1}`                
+            }
+        }
         return result
     }
 
@@ -59,7 +62,7 @@ export default function BookComponent({book,onClickAction}:CustomIndicatorPayloa
                             <BtnDelete
                                 btnTitle="Eliminar autor" title="¿Seguro que desea eliminar este autor?"
                                 description="Esta acción no se puede deshacer" setAction={() => onClickAction(book.id)}
-                                icon={<DeleteOutlinedIcon></DeleteOutlinedIcon>}
+                                icon={<DeleteIcon></DeleteIcon>}
                             />
                     </List>
                 </div>
@@ -69,7 +72,7 @@ export default function BookComponent({book,onClickAction}:CustomIndicatorPayloa
                     <ListItem className="comment"><CalendarMonthIcon sx={{marginRight:"0.5rem"}}/> {"mm/dd/aaaa"}</ListItem>
                     <ListItem className="comment"><MonetizationOnIcon sx={{marginRight:"0.5rem"}}/>{book.sales} Ventas</ListItem>
                     <ListItem className="comment"><AutorenewIcon sx={{marginRight:"0.5rem"}}/>{book.editions} Ediciones</ListItem>
-                    <ListItem className="comment" sx={{fontSize:"0.8rem"}}><TranslateIcon sx={{marginRight:"0.5rem"}}/>{listToString(book.lenguages)}</ListItem>
+                    <ListItem className="comment" sx={{fontSize:"0.8rem", marginTop:1}}><TranslateIcon sx={{marginRight:"0.5rem"}}/>{listToString(book.lenguages)}</ListItem>
                     <ListItem className="comment"><PsychologyAltIcon sx={{marginRight:"0.5rem"}}/>Lectura {complex()}</ListItem>
                 </List>
             </div>

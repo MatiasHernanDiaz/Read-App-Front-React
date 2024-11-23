@@ -10,6 +10,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { authorInit } from '../authors/AuthorEdit';
 import { Language } from '../../../model/User';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack"
 
 const bookInit = {
     pages: 0,
@@ -32,7 +33,15 @@ export default function BookForm() {
   const { id } = useParams() 
   const navigate = useNavigate()
   const isNew = !id
-  
+  const [errors, setErrors] = useState<{ title: string; pages: string; authorId: string; words: string; editions: string; sales: string; lenguages: string }>({
+    title: "",
+    pages: "",
+    authorId: "",
+    words: "",
+    editions: "",
+    sales: "",
+    lenguages: ""
+  })
 
 
   async function getData() {
@@ -57,8 +66,6 @@ export default function BookForm() {
     }
     
   }
-
-  const validate = () => {return true}
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()//envia al back sin refrescar pagina
@@ -83,6 +90,27 @@ export default function BookForm() {
     navigate(-1) 
   }
 
+  function valNum(i: number): string{
+    if (i > 0){
+      return "true"
+    }
+    else return ""
+  }
+
+  const validate = () => {
+    const newErrors = {
+      title: book.title ? "" : "Complete el campo",
+      pages: valNum(book.pages) ? "" : "Complete el campo",
+      authorId: book.autor.lastName ? "" : "Complete el campo",
+      words: valNum(book.words) ? "" : "Complete el campo",
+      editions: valNum(book.editions) ? "" : "Complete el campo",
+      sales: valNum(book.sales) ? "" : "Complete el campo",
+      lenguages: book.lenguages.toString() ? "" : "Complete el campo"
+    }
+    setErrors(newErrors)
+    return newErrors.title === "" && newErrors.pages === "" && newErrors.authorId === "" && newErrors.words === "" && newErrors.editions === "" && newErrors.sales === ""
+  }
+
   useInitialize(getData)
   
   return (
@@ -97,12 +125,23 @@ export default function BookForm() {
         margin="dense"
         value = {book.title}
         onChange={e => setBook({...book, title: ((e as ChangeEvent).target as HTMLInputElement).value})}
+        error={!!errors.title}
+        helperText={errors.title}
       />
       <TextField
       sx={{width:"100%"}}
       label = 'Autor'
       value={book.autor.id}
-      onChange={e => setBook({...book, autor: authors.find(aut => aut.id === +((e as ChangeEvent).target as HTMLInputElement).value)!})}
+      onChange={e => {
+        const autor = authors.find(aut => aut.id === +((e as ChangeEvent).target as HTMLInputElement).value)! 
+        setBook({
+          ...book, 
+            autor,
+            lenguages: [autor.nativeLanguage]
+          })
+      }}
+      error={!!errors.authorId}
+      helperText={errors.authorId}
       select
       >
         {authors.map((auth) => (
@@ -118,8 +157,11 @@ export default function BookForm() {
         value={ book.editions}
         fullWidth
         margin="dense"
-        onChange={e => setBook({...book, editions: +((e as ChangeEvent).target as HTMLInputElement).value})}
-
+        onChange={e => 
+          /^[0-9]*$/.test(((e as ChangeEvent).target as HTMLInputElement).value) && 
+          setBook({...book, editions:  +((e as ChangeEvent).target as HTMLInputElement).value })}
+        error={!!errors.editions}
+        helperText={errors.editions}
       />
       <Stack display="flex" flexDirection="row" gap={2} >
         <TextField
@@ -127,7 +169,10 @@ export default function BookForm() {
           fullWidth
           margin="dense"
           value={book.pages}
-          onChange={e => setBook({...book, pages: +((e as ChangeEvent).target as HTMLInputElement).value})}
+          onChange={e => /^[0-9]*$/.test(((e as ChangeEvent).target as HTMLInputElement).value) && 
+          setBook({...book, pages:  +((e as ChangeEvent).target as HTMLInputElement).value })}
+          error={!!errors.pages}
+          helperText={errors.pages}
         />
 
         <TextField
@@ -135,7 +180,10 @@ export default function BookForm() {
           fullWidth
           margin="dense"
           value={book.words}
-          onChange={e => setBook({...book, words: +((e as ChangeEvent).target as HTMLInputElement).value})}
+          onChange={e => /^[0-9]*$/.test(((e as ChangeEvent).target as HTMLInputElement).value) && 
+          setBook({...book, words:  +((e as ChangeEvent).target as HTMLInputElement).value })}
+          error={!!errors.words}
+          helperText={errors.words}
         />
 
       </Stack>
@@ -145,7 +193,10 @@ export default function BookForm() {
           fullWidth
           margin="dense"
           value={book.sales}
-          onChange={e => setBook({...book, sales: +((e as ChangeEvent).target as HTMLInputElement).value})}
+          onChange={e => /^[0-9]*$/.test(((e as ChangeEvent).target as HTMLInputElement).value) && 
+          setBook({...book, sales:  +((e as ChangeEvent).target as HTMLInputElement).value })}
+          error={!!errors.sales}
+          helperText={errors.sales}
         />
 
       <FormControlLabel 
@@ -178,10 +229,10 @@ export default function BookForm() {
       </Grid2>
 
       <Container sx={{ marginTop: "2rem", display: "flex",justifyContent: "space-between" }}>
-        <Button
-          variant="outlined" sx={{ marginBottom: "1rem" }}
-          onClick={handleBack}
-        >Volver</Button>
+          <Button
+              variant="outlined" startIcon={<ArrowBackIcon />}
+              onClick={handleBack} sx={{ marginBottom: "1rem" }}
+            >Volver</Button>
 
         <Button type="submit" variant="contained" sx={{ marginBottom: "1rem" }}>Guardar Cambios</Button>
       </Container>

@@ -27,7 +27,7 @@ export default function AlertDialog(input : propsBtnDelete) {
 
     return (
         <div>
-            <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+            <Button variant="outlined" color="error" onClick={handleClickOpen}>
                 {input.icon || input.btnTitle} {/* Muestra icono sise define , sino texto */}
             </Button>
             <Dialog
@@ -43,10 +43,10 @@ export default function AlertDialog(input : propsBtnDelete) {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} color="primary">
+                    <Button onClick={handleClose} variant='outlined'>
                         Cancelar
                     </Button>
-                    <Button onClick={action} color="primary" autoFocus>
+                    <Button onClick={action} variant='contained' autoFocus>
                         Aceptar
                     </Button>
                 </DialogActions>
