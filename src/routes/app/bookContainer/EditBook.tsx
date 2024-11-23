@@ -145,7 +145,7 @@ export default function BookForm() {
       select
       >
         {authors.map((auth) => (
-          <MenuItem value={auth.id}>{auth.lastName + " " + auth.firstName}</MenuItem>
+          <MenuItem key={ auth.id } value={auth.id}>{auth.lastName + " " + auth.firstName}</MenuItem>
         ))}
         
       </TextField>
@@ -215,6 +215,7 @@ export default function BookForm() {
         {
           Object.entries(Language).map(
             ([key, val]) => <FormControlLabel
+                              key={ key }
                               control={<Checkbox 
                                 checked={book.lenguages.includes(key)}
                                 value={key} 
