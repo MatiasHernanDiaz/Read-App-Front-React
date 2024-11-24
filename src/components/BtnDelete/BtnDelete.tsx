@@ -43,10 +43,12 @@ export default function AlertDialog(input : propsBtnDelete) {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose} variant='outlined'>
+                    <Button onClick={handleClose} variant='outlined'
+                    sx={{backgroundColor:'#aaa',color:'white', borderBlockColor:'#aaa'}}>
                         Cancelar
                     </Button>
-                    <Button onClick={action} variant='contained' autoFocus>
+                    <Button onClick={action} variant='contained' autoFocus 
+                    sx={{backgroundColor:'#F25D0B'}}>
                         Aceptar
                     </Button>
                 </DialogActions>

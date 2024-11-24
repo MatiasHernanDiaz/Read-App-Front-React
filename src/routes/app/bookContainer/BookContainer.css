@@ -21,3 +21,11 @@
   align-items: center;
   height: 50rem;
 }
+
+/*Es el uso de important ó poner el sx en cada input y agregar 50 lineas de codigo */
+.MuiOutlinedInput-root.Mui-focused fieldset {
+  border-color: rgb(242, 93, 11) !important;
+}
+.MuiInputLabel-root.Mui-focused {
+  color: black !important; 
+}

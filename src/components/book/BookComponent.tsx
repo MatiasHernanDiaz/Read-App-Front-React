@@ -1,5 +1,5 @@
 import { Book } from "../../model/Book";
-import { List, ListItem, Card, Button, IconButton } from '@mui/material';
+import { List, ListItem, Card, Button, IconButton, CardContent } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete'
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import TranslateIcon from '@mui/icons-material/Translate'
@@ -42,14 +42,14 @@ export default function BookComponent({book,onClickAction}:CustomIndicatorPayloa
     }
 
     return (
-        <Card className="card">
+        <CardContent className="card" sx={{borderRadius:'2rem', backgroundColor:'#fde7c1'}}>
             <div className="image-center">
                 <img src={book.imageURL} className="img" alt="Portada de libro"/>
             </div>
             <div>
                 <div className="card-header">
                     <h2 className="title">{book.title}</h2>
-                    <IconButton color="primary" /*onClick={handleClickOpen}*/>
+                    <IconButton color="default" /*onClick={handleClickOpen}*/>
                         <WorkspacePremiumIcon/>
                     </IconButton>
                 </div>
@@ -76,7 +76,7 @@ export default function BookComponent({book,onClickAction}:CustomIndicatorPayloa
                     <ListItem className="comment"><PsychologyAltIcon sx={{marginRight:"0.5rem"}}/>Lectura {complex()}</ListItem>
                 </List>
             </div>
-        </Card>
+        </CardContent>
     )
 }
 
