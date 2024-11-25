@@ -114,6 +114,7 @@ export default function LoginScreen() {
                      },
                      '& .MuiInputLabel-root.Mui-focused': {
                         color: 'black'
+                        
                     },
                 }}
             />       
