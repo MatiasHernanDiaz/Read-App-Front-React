@@ -14,6 +14,16 @@ describe( "LoginScreen", () => {
         }
     })
 
+    vi.mock( import( 'react'), async ( importOriginal ) => {
+        const mod = await importOriginal()
+
+        return { 
+            ...mod, 
+            useContext: vi.fn( () => [
+                null, () => true
+            ]) 
+        }
+    })
 
     let renderResult: RenderResult
 
