@@ -11,14 +11,15 @@ export default function AddButton({ redirectTo }: PropsAddButton) {
 
     const handleClick = () => {
         navigate(redirectTo);
-    };
+    }
 
     return (
         <Fab 
-            color="primary" 
             aria-label="add" 
             onClick={handleClick}
             sx={{
+                backgroundColor:'#F25D0B',
+                color:'white',
                 position: 'fixed',
                 bottom: '50px',
                 right: '20px',
@@ -27,5 +28,5 @@ export default function AddButton({ redirectTo }: PropsAddButton) {
         >
             <AddIcon />
         </Fab>
-    );
+    )
 }

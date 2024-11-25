@@ -10,7 +10,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { AxiosError } from 'axios';
 import { authorInit } from '../authors/AuthorEdit';
 import { Language } from '../../../model/User';
-import ArrowBackIcon from "@mui/icons-material/ArrowBack"
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import './BookContainer.css';
+
 
 const bookInit = {
     pages: 0,
@@ -127,11 +129,13 @@ export default function BookForm() {
         onChange={e => setBook({...book, title: ((e as ChangeEvent).target as HTMLInputElement).value})}
         error={!!errors.title}
         helperText={errors.title}
+    
       />
       <TextField
       sx={{width:"100%"}}
       label = 'Autor'
       value={book.autor.id}
+      margin="dense"
       onChange={e => {
         const autor = authors.find(aut => aut.id === +((e as ChangeEvent).target as HTMLInputElement).value)! 
         setBook({
@@ -202,8 +206,13 @@ export default function BookForm() {
       <FormControlLabel 
       control={<Checkbox 
         checked={book.complex} 
-        onChange={e => setBook({...book, complex: ((e as ChangeEvent).target as HTMLInputElement).checked})}
-            />} 
+        onChange={e => setBook({...book, complex: ((e as ChangeEvent).target as HTMLInputElement).checked})}   
+        sx={{
+          color: '#F25D0B', // Color del checkbox sin marcar
+          '&.Mui-checked': {
+            color: '#F25D0B', // Color del checkbox marcado
+          },
+        }}/>} 
       label="Lectura compleja" />
     
     <Divider sx={{ margin: '0.5rem 0', backgroundColor:"black"}} />
@@ -223,6 +232,12 @@ export default function BookForm() {
                                   ((e as ChangeEvent).target as HTMLInputElement).checked ? 
                                     [...book.lenguages, key] : book.lenguages.filter(lan => lan !== key)
                                 })}
+                                sx={{
+                                  color: '#F25D0B', // Color del checkbox sin marcar
+                                  '&.Mui-checked': {
+                                    color: '#F25D0B', // Color del checkbox marcado
+                                  },
+                                }}    
                                     />} 
                               label={val} />                
           )
@@ -232,10 +247,10 @@ export default function BookForm() {
       <Container sx={{ marginTop: "2rem", display: "flex",justifyContent: "space-between" }}>
           <Button
               variant="outlined" startIcon={<ArrowBackIcon />}
-              onClick={handleBack} sx={{ marginBottom: "1rem" }}
+              onClick={handleBack} sx={{ marginBottom: "1rem",backgroundColor:'#aaa',color:'white', borderColor:'#aaa'}}
             >Volver</Button>
 
-        <Button type="submit" variant="contained" sx={{ marginBottom: "1rem" }}>Guardar Cambios</Button>
+        <Button type="submit" variant="contained" sx={{ marginBottom: "1rem",backgroundColor:'#F25D0B' }}>Guardar Cambios</Button>
       </Container>
     </form>
     </Stack>

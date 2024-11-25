@@ -91,7 +91,19 @@ export default function AuthorEdit() {
             value={author?.firstName || ""}
             onChange={handleChange}
             variant="outlined"
-            sx={{ marginBottom: "1rem", width: "100%" }}
+            sx={{ 
+              marginBottom: "1rem", 
+              width: "100%",
+              '& .MuiOutlinedInput-root': {
+                        '&.Mui-focused fieldset': {
+                            borderColor: 'rgb(242, 93, 11)'
+                        },
+                     },
+                     '& .MuiInputLabel-root.Mui-focused': {
+                        color: 'black'
+                    },
+
+            }}
             error={!!errors.firstName}
             helperText={errors.firstName}
           />
@@ -101,12 +113,37 @@ export default function AuthorEdit() {
             value={author?.lastName || ""}  
             onChange={handleChange}
             variant="outlined"
-            sx={{ marginBottom: "1rem", width: "100%" }}
+            sx={{
+               marginBottom: "1rem", 
+               width: "100%",
+              '& .MuiOutlinedInput-root': {
+                        '&.Mui-focused fieldset': {
+                            borderColor: 'rgb(242, 93, 11)'
+                        },
+                     },
+                     '& .MuiInputLabel-root.Mui-focused': {
+                        color: 'black'
+                    },
+            }}
             error={!!errors.lastName}
             helperText={errors.lastName}
           />
 
-          <FormControl variant="outlined" sx={{ marginBottom: "1rem", width: "100%" }}>
+          <FormControl 
+          variant="outlined" 
+          sx={{
+            marginBottom: "1rem",
+            width: "100%",
+            '& .MuiOutlinedInput-root': {
+                        '&.Mui-focused fieldset': {
+                            borderColor: 'rgb(242, 93, 11)'
+                        },
+                     },
+                     '& .MuiInputLabel-root.Mui-focused': {
+                        color: 'black'
+                    },
+          }}
+          >
             <InputLabel>Idioma Nativo</InputLabel>
             <Select
               name="nativeLanguage"
@@ -123,10 +160,10 @@ export default function AuthorEdit() {
           <Container sx={{ marginTop: "2rem", display: "flex", gap: "1rem" }}>
             <Button
               variant="outlined" startIcon={<ArrowBackIcon />}
-              onClick={handleBack} sx={{ marginBottom: "1rem" }}
+              onClick={handleBack} sx={{ marginBottom: "1rem", backgroundColor:'#aaa', color:'white', borderColor:'#aaa'}}
             >Volver</Button>
 
-            <Button type="submit" variant="contained" sx={{ marginBottom: "1rem" }}
+            <Button type="submit" variant="contained" sx={{ marginBottom: "1rem", backgroundColor:'#F25D0B' }}
             >Guardar Cambios</Button>
           </Container>
         </form>

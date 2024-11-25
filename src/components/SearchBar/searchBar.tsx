@@ -26,12 +26,12 @@ const SearchBar = ({searchCallBack, label = "Buscar" }: SearchBarProps) => {
       InputProps={{
         endAdornment: (
           <Button onClick={() =>{ searchCallBack(searchText) }}> 
-            <Search />
+            <Search sx={{color: '#F25D0B'}} />
           </Button>
         ),
       }}
     />
-  );
-};
+  )
+}
 
 export default SearchBar
