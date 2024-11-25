@@ -1,11 +1,11 @@
-import { useContext, useState } from 'react';
-import { Stack, TextField, Button, IconButton, InputAdornment, Typography} from '@mui/material';
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-import fondo from "../../../src/assets/loginFondo.png";
-import { loginService } from "../../services/loginService";
-import { AxiosError } from "axios";
-import { sessionContext } from "../root/Root";
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useContext, useState } from 'react'
+import { Stack, TextField, Button, IconButton, InputAdornment, Typography} from '@mui/material'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
+import fondo from "../../../src/assets/loginFondo.png"
+import { loginService } from "../../services/loginService"
+import { AxiosError } from "axios"
+import { sessionContext } from "../root/Root"
+import { SubmitHandler, useForm } from 'react-hook-form'
 
 interface LoginFormInputs{
     email: string
@@ -16,11 +16,13 @@ export default function LoginScreen() {
     /* REACT HOOK FORM */
     const [ user, setUser ] = useContext( sessionContext )
     const [showPassword, setShowPassword] = useState(false)
-    const { register, handleSubmit, setError, formState: {errors}} = useForm<LoginFormInputs>()
+    const { register, handleSubmit, formState: {errors}} = useForm<LoginFormInputs>()
+    const [globalError, setGlobalError] = useState<string | null>(null)
     const handleClickShowPassword = () => setShowPassword(!showPassword)
     
 
     const handleLogin: SubmitHandler<LoginFormInputs> = async (data) => {
+        setGlobalError(null)
         try {
             const res = await loginService.login( data.email, data.password )
             setUser( res.user )
@@ -28,10 +30,10 @@ export default function LoginScreen() {
         } catch ( error: unknown ){
             console.error( error )
             if( (error as AxiosError).status === 403 ) {
-                setError("password", {message: "Credenciales Invalidas"})
-            }
+            setGlobalError("Credenciales Invalidas.")            
+        }
             if((error as AxiosError).code === "ERR_NETWORK"){
-                setError("password", {message: "Error de conexion"})
+                setGlobalError("Error de Conexión.")            
             }
         }        
     }
@@ -112,6 +114,7 @@ export default function LoginScreen() {
                      },
                      '& .MuiInputLabel-root.Mui-focused': {
                         color: 'black'
+                        
                     },
                 }}
             />       
@@ -123,8 +126,17 @@ export default function LoginScreen() {
                         
                     }}      
             >Ingresar</Button>
-            
-            </Stack>
+            {globalError?(
+                <Typography
+                    variant="body2"
+                    color="error"
+                    style={{ textAlign: 'center', minHeight: '1.2rem' }} // Reservar espacio
+                    >
+                    {globalError}
+                </Typography>
+                ) : (
+                    <div style={{ minHeight: '1.2rem' }} /> 
+            )}            </Stack>
             </form>
     </Stack>
     )

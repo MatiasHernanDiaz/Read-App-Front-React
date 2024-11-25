@@ -53,9 +53,17 @@ export default function MainFrame() {
         <Stack
             height="100%"
             justifyContent="space-between"
+            sx={{
+                backgroundImage: "url('/assets/loginFondo.png')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                backgroundColor: "yellow",
+                zIndex:"-1",
+                }}
         >
             <AppBar
-                sx={{ padding: '10px' }}
+                sx={{ padding: '10px', backgroundColor:'#F25D0B' }}
             >
                 <Toolbar sx={{ justifyContent: "space-between", padding: 0 }}>
                     <Typography variant="h5">ReadApp - { pageTitle }</Typography>
@@ -78,25 +86,47 @@ export default function MainFrame() {
             >
                 <Button
                     variant={ location.pathname.includes( 'dashboard' ) ? 'outlined' : 'contained' }
-                    sx={{ borderRadius: 0 }}
+                    sx={{ 
+                        borderRadius: 0, 
+                        backgroundColor: '#F25D0B',
+                        color: 'white',
+                        '&:focus': {
+                        color: '#ffbc87'
+                    } }}
                     component={ Link }
                     to='dashboard'
                 ><Dashboard /></Button>
                 <Button
                     variant={ location.pathname.includes( 'books' ) ? 'outlined' : 'contained' }
                     component={ Link }
+                    sx={{
+                        backgroundColor: '#F25D0B',
+                        color: 'white',
+                        '&:focus': {
+                        color: '#ffbc87'
+                    }}}
                     to='books'
                 ><Book /></Button>
                 <Button
                     variant={ location.pathname.includes( 'authors' ) ? 'outlined' : 'contained' }
                     component={ Link }
+                    sx={{
+                        backgroundColor: '#F25D0B', 
+                        color: 'white',
+                        '&:focus': {
+                        color: '#ffbc87'
+                    }}}
                     to='authors'
                 ><People /></Button>
                 
                 <Button
                     type="submit"
                     variant="contained"
-                    sx={{ borderRadius: 0 }}
+                    sx={{ 
+                        borderRadius: 0 ,
+                        backgroundColor: '#F25D0B',
+                        color: 'white'
+                        }}
                     onClick={ handleLogout }
                 ><Logout /></Button>
             </ButtonGroup>

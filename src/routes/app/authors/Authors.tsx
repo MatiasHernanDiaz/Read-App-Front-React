@@ -58,7 +58,7 @@ return (
               key={author.id} variant="outlined"
               sx={{marginBottom: "1rem",borderRadius: "1rem",boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",borderColor: "rgba(0, 0, 0, 0.1)" }}
             >
-              <CardContent>
+              <CardContent sx = {{backgroundColor: '#fde7c1'}}>
                 <ListItem>
                   <ListItemText
                     primary={<Typography variant="h6">{author.firstName + " " + author.lastName}</Typography>}

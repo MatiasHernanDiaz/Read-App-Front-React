@@ -15,7 +15,9 @@ export default function Inicator({title, icon, value}:CustomIndicatorPayload){
                     display: "flex",
                     alignItems: "center",
                     width: "250px",
-                    height: "80px"
+                    height: "80px",
+                    marginTop: "15px",
+                    backgroundColor: "#fde7c1"
             }}
             >
                 <div className="container">
