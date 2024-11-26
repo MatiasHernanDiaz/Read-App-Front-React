@@ -1,14 +1,14 @@
-import { act, cleanup, render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
-import Message from './Message'; // Asegúrate de ajustar la ruta
-import { AxiosResponse } from 'axios';
+import { cleanup, render, screen } from '@testing-library/react'
+import { describe, it, expect } from 'vitest'
+import Message from './Message'
+import { AxiosResponse } from 'axios'
 
 describe('Message Component', () => {
   it('muestra un mensaje de éxito cuando el status es 200', () => {
     const mockResponse = {
       status: 200,
       data: 'Operación exitosa',
-    } as AxiosResponse; // Simula una respuesta de AxiosResponse
+    } as AxiosResponse
 
     render(<Message res={mockResponse} />)
 
