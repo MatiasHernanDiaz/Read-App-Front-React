@@ -48,7 +48,6 @@ export default function Dashboard () {
     }
 
     useInitialize(getDash)
-    console.log('indicator', indicators)
     return (
         <Stack  alignItems={"center"} >
                 {indicators && 

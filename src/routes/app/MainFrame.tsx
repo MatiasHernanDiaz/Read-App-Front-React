@@ -5,7 +5,7 @@ import { loginService } from "../../services/loginService"
 import { createContext, useContext, useState } from "react"
 import { sessionContext } from "../root/Root"
 import Message from "../../components/Message/Message"
-import { AxiosResponse } from "axios"
+import { AxiosError, AxiosResponse } from "axios"
 
 
 export const msjContext = createContext({} as {showMessage: (data: AxiosResponse,refreshData?:()=>void)=>void})
@@ -34,12 +34,15 @@ export default function MainFrame() {
     const handleLogout = async () => {
         try {
             await loginService.logout()
+        } catch(e : unknown){
+            showMessage((e as AxiosError<unknown>).response!)
+        }
+        finally{ 
             setUser( null )
             localStorage.removeItem('user')
-        } catch {
-            console.log('Logout fallido')
         }
     }
+
 
     const showMessage = (res: AxiosResponse,refreshData?:()=>void) =>{
         if (refreshData){refreshData()}

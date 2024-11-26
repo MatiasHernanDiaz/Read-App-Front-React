@@ -47,9 +47,7 @@ export default function BookForm() {
 
 
   async function getData() {
-    console.log('var new', isNew)
     if(!isNew){
-      console.log('true')
       const authorRes = authorService.getAuthors({
         name: "",
       })
@@ -59,7 +57,6 @@ export default function BookForm() {
       setBook(book)
     }
     else{
-      console.log('false')
       const authors = await authorService.getAuthors({
         name: "",
       })
