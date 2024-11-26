@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from '@mui/material';
 
 export type propsBtnDelete = {

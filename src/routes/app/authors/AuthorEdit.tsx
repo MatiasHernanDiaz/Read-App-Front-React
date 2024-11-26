@@ -8,7 +8,7 @@ import { msjContext } from "../MainFrame"
 import { useInitialize } from "../../../hooks/useInitialize"
 import { AxiosError } from "axios"
 
-export const authorInit = new Author(-1,'','',Language.ARAB)
+export const authorInit = new Author(-1,'','',Language.SPANISH)
 
 export default function AuthorEdit() {
   
