@@ -25,8 +25,6 @@ export const Router = createBrowserRouter(
           <Route path='books' element={<BookContainer/>}/>
           <Route path='books/:id' element={ <BookEdit/>} />
           <Route path="books/new" element={<BookEdit/> } />
-
-
         </Route>
       </Route>
   )
